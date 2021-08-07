@@ -1,0 +1,7 @@
+{
+  "name": "fpm",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
