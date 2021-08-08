@@ -95,6 +95,9 @@ const StyledFoodCard = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    &.no-price {
+      margin-top: 8px;
+    }
   }
 
   span {
@@ -104,14 +107,14 @@ const StyledFoodCard = styled.div`
   }
 `;
 
-const FoodCard = ({ label, price = 0, src, onClick }: FoodCardProps) => {
+const FoodCard = ({ label, price, src, onClick }: FoodCardProps) => {
   return (
     <StyledFoodCard onClick={onClick}>
       <Card>
         <img src={src} alt={label}></img>
       </Card>
-      <span>{`PHP ${price.toFixed(2)}`}</span>
-      <h2>{label}</h2>
+      {price && <span>{`PHP ${price.toFixed(2)}`}</span>}
+      <h2 className={price ? '' : 'no-price'}>{label}</h2>
     </StyledFoodCard>
   );
 };
