@@ -1,5 +1,10 @@
 import { IonContent, IonPage } from '@ionic/react';
-import { CategorySlider, FoodSlider, SearchHeader } from '../components';
+import {
+  Button,
+  CategorySlider,
+  FoodSlider,
+  SearchHeader
+} from '../components';
 
 const Home: React.FC = () => {
   return (
@@ -8,6 +13,8 @@ const Home: React.FC = () => {
       <IonContent fullscreen>
         <CategorySlider />
         <FoodSlider />
+        <Button type="primary">Sign In</Button>
+        <Button type="secondary">Sign Up</Button>
       </IonContent>
     </IonPage>
   );
