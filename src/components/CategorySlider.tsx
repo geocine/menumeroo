@@ -5,26 +5,11 @@ import { useState } from 'react';
 
 const slideOpts = {
   // Default parameters
-  slidesPerView: 3.5,
+  slidesPerView: 'auto',
   spaceBetween: 30,
-  // Responsive breakpoints
-  breakpoints: {
-    // when window width is >= 320px
-    320: {
-      slidesPerView: 3.5,
-      spaceBetween: 30
-    },
-    // when window width is >= 480px
-    480: {
-      slidesPerView: 4.5,
-      spaceBetween: 30
-    },
-    // when window width is >= 640px
-    640: {
-      slidesPerView: 5.5,
-      spaceBetween: 30
-    }
-  }
+  autoHeight: true,
+  freeMode: true,
+  freeModeSticky: false
 };
 
 const categories = [
@@ -37,21 +22,35 @@ const categories = [
     icon: <IcnChicken />
   },
   {
-    label: 'Cake',
+    label: 'Dessert',
     icon: <IcnMuffin />
   },
   {
-    label: 'Snacks',
+    label: 'Merienda',
     icon: <IcnFood />
   }
 ];
 
 const Slides = styled(IonSlides)`
-  padding: 10px 30px;
+  padding: 10px 0;
 `;
 
 const Slide = styled(IonSlide)`
-  width: 70px !important;
+  width: 70px;
+  &:first-of-type {
+    width: 100px;
+  }
+  &:last-of-type {
+    width: 100px;
+  }
+  &:first-of-type > div {
+    width: 100px;
+    margin-left: 30px;
+  }
+  &:last-of-type > div {
+    width: 100px;
+    margin-right: 30px;
+  }
 `;
 
 const Card = styled.div<CardProps>`
