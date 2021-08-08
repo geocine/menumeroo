@@ -1,5 +1,5 @@
 import Search from './Search';
-import styled from '@emotion/styled';
+import styled from '@emotion/styled/macro';
 import { IonHeader } from '@ionic/react';
 import { IcnBack, IcnFilter } from './Icon/Icon';
 import LocationHeader from './LocationHeader';

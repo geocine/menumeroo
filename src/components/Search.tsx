@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from '@emotion/styled/macro';
 import { Input as AntInput } from 'antd';
 import { IcnSearch } from './Icon/Icon';
 

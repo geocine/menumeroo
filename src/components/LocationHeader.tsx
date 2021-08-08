@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from '@emotion/styled/macro';
 import { IcnLocation } from './Icon/Icon';
 
 const Location = styled.div`
