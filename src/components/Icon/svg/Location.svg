@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>position-pin</title>
+    <g id="-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Address" transform="translate(-30.000000, -10.000000)" stroke="#2A3B56" stroke-width="2">
+            <g id="position-pin">
+                <g transform="translate(31.000000, 11.000000)">
+                    <path d="M13.0909091,5.09090909 C13.0909091,8.23272727 8,13.3636364 8,13.3636364 C8,13.3636364 2.90909091,8.23272727 2.90909091,5.09090909 C2.90909091,1.86909091 5.53963636,0 8,0 C10.4603636,0 13.0909091,1.86909091 13.0909091,5.09090909 Z" id="Path" stroke-linecap="square"></path>
+                    <circle id="Oval" stroke-linecap="square" cx="8" cy="5.09090909" r="1.45454545"></circle>
+                    <path d="M12.3636364,11.9890909 C14.5527273,12.3781818 16,13.0523636 16,13.8181818 C16,15.0232727 12.4181818,16 8,16 C3.58181818,16 0,15.0232727 0,13.8181818 C0,13.0523636 1.44727273,12.3781818 3.63636364,11.9890909" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

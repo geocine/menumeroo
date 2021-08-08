@@ -28,15 +28,15 @@ const Container = styled.div`
 const ExploreContainer = () => {
   return (
     <Container>
-      <strong>Ready to create an app?</strong>
+      <strong>Ready to eat?</strong>
       <p>
-        Start with Ionic{' '}
+        The #1 Food Marketplace in the Philippines{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://ionicframework.com/docs/components"
+          href="https://menumeroo.com"
         >
-          UI Components
+          Menumeroo
         </a>
       </p>
     </Container>
