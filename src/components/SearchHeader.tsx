@@ -17,9 +17,10 @@ const StyledIonHeader = styled(IonHeader)`
   }
 
   .back-button {
-    width: 13px;
+    width: 12px;
     height: 22px;
     padding: 20px;
+    overflow: visible;
     align-self: center;
     box-sizing: content-box;
     color: var(--ion-color-secondary);
@@ -27,7 +28,7 @@ const StyledIonHeader = styled(IonHeader)`
 
   .filter-button {
     font-size: 22px;
-    width: 29.8px;
+    overflow: visible;
     padding: 20px;
     align-self: center;
     box-sizing: content-box;

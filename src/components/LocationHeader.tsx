@@ -6,6 +6,9 @@ const Location = styled.div`
   display: flex;
   align-items: center;
   padding: 0 30px;
+  svg {
+    overflow: visible;
+  }
   h2 {
     font-size: 14px;
     margin-bottom: 0;
