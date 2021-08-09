@@ -11,6 +11,7 @@ import { ReactComponent as IcnOrder } from './svg/Order.svg';
 import { ReactComponent as IcnMyList } from './svg/MyList.svg';
 import { ReactComponent as IcnProfile } from './svg/Profile.svg';
 import { ReactComponent as IcnClose } from './svg/Close.svg';
+import { ReactComponent as IcnStar } from './svg/Star.svg';
 export {
   IcnBack,
   IcnSearch,
@@ -24,5 +25,6 @@ export {
   IcnOrder,
   IcnMyList,
   IcnProfile,
-  IcnClose
+  IcnClose,
+  IcnStar
 };
