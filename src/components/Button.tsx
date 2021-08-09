@@ -15,7 +15,7 @@ const StyledButton = styled(AntButton)`
   &.ant-btn-secondary {
     border: none;
     background: var(--ion-color-light);
-    color: var(--ion-color-medium);
+    color: var(--ion-color-secondary);
   }
 
   &.ant-btn-primary {
