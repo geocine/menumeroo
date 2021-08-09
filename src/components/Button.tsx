@@ -1,4 +1,3 @@
-// @ts-nocheck
 import styled from '@emotion/styled/macro';
 import { Button as AntButton } from 'antd';
 
@@ -42,7 +41,12 @@ const StyledButton = styled(AntButton)`
   }
 `;
 
-const Button = (props) => {
+interface ButtonProps {
+  [x: string]: any;
+  children: React.ReactNode;
+}
+
+const Button = (props: ButtonProps) => {
   const { children, ...rest } = props;
   return <StyledButton {...{ ...rest }}>{props.children}</StyledButton>;
 };

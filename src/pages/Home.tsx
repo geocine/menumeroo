@@ -6,7 +6,7 @@ import {
   SearchHeader
 } from '../components';
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
     <IonPage>
       <SearchHeader />

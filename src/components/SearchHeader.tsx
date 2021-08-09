@@ -36,7 +36,11 @@ const StyledIonHeader = styled(IonHeader)`
   }
 `;
 
-const SearchHeader = () => {
+interface SearchHeaderProps {
+  showLocation?: boolean;
+}
+
+const SearchHeader = ({ showLocation = true }: SearchHeaderProps) => {
   return (
     <StyledIonHeader>
       <div className="search-header">
@@ -44,9 +48,11 @@ const SearchHeader = () => {
         <Search />
         <IcnFilter className="filter-button" />
       </div>
-      <div className="location-header">
-        <LocationHeader location="San Juan" />
-      </div>
+      {showLocation && (
+        <div className="location-header">
+          <LocationHeader location="San Juan" />
+        </div>
+      )}
     </StyledIonHeader>
   );
 };

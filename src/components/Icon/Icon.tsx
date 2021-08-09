@@ -6,6 +6,10 @@ import { ReactComponent as IcnChicken } from './svg/Chicken.svg';
 import { ReactComponent as IcnCoffee } from './svg/Coffee.svg';
 import { ReactComponent as IcnFood } from './svg/Food.svg';
 import { ReactComponent as IcnMuffin } from './svg/Muffin.svg';
+import { ReactComponent as IcnHome } from './svg/Home.svg';
+import { ReactComponent as IcnOrder } from './svg/Order.svg';
+import { ReactComponent as IcnMyList } from './svg/MyList.svg';
+import { ReactComponent as IcnProfile } from './svg/Profile.svg';
 export {
   IcnBack,
   IcnSearch,
@@ -14,5 +18,9 @@ export {
   IcnChicken,
   IcnCoffee,
   IcnFood,
-  IcnMuffin
+  IcnMuffin,
+  IcnHome,
+  IcnOrder,
+  IcnMyList,
+  IcnProfile
 };

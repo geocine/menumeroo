@@ -60,7 +60,16 @@ const Card = styled.div<CardProps>`
   align-items: center;
   justify-content: center;
   display: flex;
-  background: ${(props) =>
+
+  &:hover {
+    background-color: var(--ion-color-primary);
+
+    svg {
+      color: var(--ion-color-light);
+    }
+  }
+
+  background-color: ${(props) =>
     props.selected ? 'var(--ion-color-primary)' : 'var(--ion-color-light)'};
 
   svg {
@@ -81,6 +90,7 @@ interface CategoryCardProps extends CardProps {
 
 const StyledCategoryCard = styled.div`
   width: 70px;
+  cursor: pointer;
 
   h2 {
     font-family: 'AvenirLTStd-Medium';
