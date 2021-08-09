@@ -8,7 +8,10 @@ const slideOpts = {
   spaceBetween: 20,
   autoHeight: true,
   freeMode: true,
-  freeModeSticky: false
+  freeModeSticky: false,
+  observer: true,
+  observeParents: true,
+  observeSlideChildren: true
 };
 
 const foods = [
@@ -42,18 +45,18 @@ const Slides = styled(IonSlides)`
 const Slide = styled(IonSlide)`
   width: 125px;
   &:first-of-type {
-    width: 145px;
+    width: 155px;
   }
   &:last-of-type {
-    width: 145px;
+    width: 155px;
   }
   &:first-of-type > div {
-    width: 145px;
-    margin-left: 20px;
+    width: 155px;
+    margin-left: 30px;
   }
   &:last-of-type > div {
-    width: 145px;
-    margin-right: 20px;
+    width: 155px;
+    margin-right: 30px;
   }
 `;
 

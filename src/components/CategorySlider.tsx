@@ -9,7 +9,10 @@ const slideOpts = {
   spaceBetween: 30,
   autoHeight: true,
   freeMode: true,
-  freeModeSticky: false
+  freeModeSticky: false,
+  observer: true,
+  observeParents: true,
+  observeSlideChildren: true
 };
 
 const categories = [
