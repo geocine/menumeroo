@@ -1,11 +1,13 @@
 import { IonContent, IonPage } from '@ionic/react';
-import { SearchHeader } from '../components';
+import { FoodSlider, Header } from '../components';
 
 const Order = () => {
   return (
     <IonPage>
-      <SearchHeader showLocation={false} />
-      <IonContent fullscreen></IonContent>
+      <Header title="Order" showButton={true} type="close" />
+      <IonContent fullscreen>
+        <FoodSlider />
+      </IonContent>
     </IonPage>
   );
 };
