@@ -1,26 +1,32 @@
 import styled from '@emotion/styled/macro';
 import { StarRating } from '.';
-import { IcnLocation } from './Icon/Icon';
+import { IcnClock, IcnLocation } from './Icon/Icon';
 
-const Location = styled.div`
+const StoreDetailIcon = styled.div`
   display: flex;
   align-items: center;
+  min-height: 16px;
+  margin-bottom: 5px;
 
   svg {
     overflow: visible;
     color: var(--ion-color-medium);
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
   }
   h2 {
-    font-size: 14px;
+    font-size: 12px;
     margin-bottom: 0;
-    margin-top: 0;
-    font-family: 'AvenirLTStd-Roman';
-    margin-left: 12px;
+    margin-top: 2px;
+    font-family: 'AvenirLTStd';
+    margin-left: 10px;
     color: var(--ion-color-medium);
+    font-weight: 400;
   }
 `;
 
-const Card = styled.div`
+const StoreImage = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 20px;
@@ -39,7 +45,7 @@ const Store = styled.div`
   margin: 10px 30px;
 `;
 
-const Details = styled.div`
+const StoreDetails = styled.div`
   margin-left: 20px;
   display: flex;
   flex-direction: column;
@@ -59,22 +65,38 @@ interface StoreCardProps {
   location?: string;
   name: string;
   src: string;
+  distance?: string;
+  time?: string;
+  rating?: number;
 }
 
-const StoreCard = ({ location, name, src }: StoreCardProps) => {
+const StoreCard = ({
+  location,
+  name,
+  distance,
+  time,
+  rating,
+  src
+}: StoreCardProps) => {
   return (
     <Store>
-      <Card>
+      <StoreImage>
         <img src={src} alt={name}></img>
-      </Card>
-      <Details>
+      </StoreImage>
+      <StoreDetails>
         <h1>{name}</h1>
-        <Location>
+        <StoreDetailIcon>
           <IcnLocation />
           <h2>{location}</h2>
-        </Location>
-        <StarRating className="star-rating" defaultValue={3} disabled />
-      </Details>
+        </StoreDetailIcon>
+        <StoreDetailIcon>
+          <IcnClock />
+          <h2>
+            {time} - {distance}
+          </h2>
+        </StoreDetailIcon>
+        <StarRating className="star-rating" defaultValue={rating} disabled />
+      </StoreDetails>
     </Store>
   );
 };

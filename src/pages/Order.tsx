@@ -11,6 +11,9 @@ const Order = () => {
           src="/assets/images/foods/Food1.jpeg"
           name="My Store"
           location="San Juan"
+          distance="4 km"
+          time="10 mins"
+          rating={3}
         />
       </IonContent>
     </IonPage>
