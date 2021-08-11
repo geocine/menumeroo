@@ -1,5 +1,5 @@
 import { IonContent, IonPage } from '@ionic/react';
-import { FoodSlider, Header } from '../components';
+import { FoodSlider, Header, LoginImage, StoreCard } from '../components';
 
 const Order = () => {
   return (
@@ -7,6 +7,11 @@ const Order = () => {
       <Header title="Order" showButton={true} type="close" />
       <IonContent fullscreen>
         <FoodSlider />
+        <StoreCard
+          src="/assets/images/foods/Food1.jpeg"
+          name="My Store"
+          location="San Juan"
+        />
       </IonContent>
     </IonPage>
   );
