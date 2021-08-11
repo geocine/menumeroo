@@ -1,5 +1,5 @@
 import { IonContent, IonPage } from '@ionic/react';
-import { FoodSlider, Header, LoginImage, StoreCard } from '../components';
+import { FoodSlider, Header, StoreCard } from '../components';
 
 const Order = () => {
   return (
