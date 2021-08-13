@@ -6,10 +6,10 @@ import { useState } from 'react';
 const slideOpts = {
   // Default parameters
   slidesPerView: 'auto',
-  spaceBetween: 30,
   autoHeight: true,
   freeMode: true,
   freeModeSticky: false,
+  freeModeMomentumBounce: false,
   observer: true,
   observeParents: true,
   observeSlideChildren: true
@@ -38,27 +38,27 @@ const Slides = styled(IonSlides)`
   padding: 10px 0;
 `;
 
-const Slide = styled(IonSlide)`
-  width: 70px;
+const Slide = styled(IonSlide)<{ size: number; margin: number }>`
+  width: ${(props) => `${props.size}px`};
   &:first-of-type {
-    width: 100px;
+    width: ${(props) => `${props.size + props.margin}px`};
   }
   &:last-of-type {
-    width: 100px;
+    width: ${(props) => `${props.size + props.margin}px`};
   }
   &:first-of-type > div {
-    width: 100px;
-    margin-left: 30px;
+    width: ${(props) => `${props.size + props.margin}px`};
+    margin-left: ${(props) => `${props.margin}px`};
   }
   &:last-of-type > div {
-    width: 100px;
-    margin-right: 30px;
+    width: ${(props) => `${props.size + props.margin}px`};
+    margin-right: ${(props) => `${props.margin}px`};
   }
 `;
 
 const Card = styled.div<CardProps>`
-  width: 70px;
-  height: 70px;
+  width: ${(props) => `${props.size}px`};
+  height: ${(props) => `${props.size}px`};
   border-radius: 20px;
   align-items: center;
   justify-content: center;
@@ -84,6 +84,7 @@ const Card = styled.div<CardProps>`
 interface CardProps {
   icon?: React.ReactNode;
   selected?: boolean;
+  size: number;
 }
 
 interface CategoryCardProps extends CardProps {
@@ -91,8 +92,8 @@ interface CategoryCardProps extends CardProps {
   onClick: () => void;
 }
 
-const StyledCategoryCard = styled.div`
-  width: 70px;
+const StyledCategoryCard = styled.div<{ size: number }>`
+  width: ${(props) => `${props.size}px`};
   cursor: pointer;
 
   h2 {
@@ -107,17 +108,30 @@ const CategoryCard = ({
   label,
   icon,
   selected = false,
-  onClick
+  onClick,
+  size
 }: CategoryCardProps) => {
   return (
-    <StyledCategoryCard onClick={onClick}>
-      <Card selected={selected}>{icon}</Card>
+    <StyledCategoryCard onClick={onClick} size={size}>
+      <Card selected={selected} size={size}>
+        {icon}
+      </Card>
       <h2>{label}</h2>
     </StyledCategoryCard>
   );
 };
 
-const CategorySlider = () => {
+interface CategorySliderProps {
+  size?: number;
+  spaceBetween?: number;
+  margin?: number;
+}
+
+const CategorySlider = ({
+  size = 70,
+  margin = 30,
+  spaceBetween = 30
+}: CategorySliderProps) => {
   const [categoryList, categoryListSet] = useState(categories);
 
   const selectCategory = (label: string) => () => {
@@ -132,11 +146,12 @@ const CategorySlider = () => {
   };
 
   return (
-    <Slides options={slideOpts}>
+    <Slides options={{ ...slideOpts, spaceBetween }}>
       {categoryList.map((category: any, idx) => {
         return (
-          <Slide key={idx}>
+          <Slide key={idx} size={size} margin={margin}>
             <CategoryCard
+              size={size}
               label={category.label}
               icon={category.icon}
               selected={category.selected}

@@ -5,10 +5,10 @@ import { useState } from 'react';
 const slideOpts = {
   // Default parameters
   slidesPerView: 'auto',
-  spaceBetween: 20,
   autoHeight: true,
   freeMode: true,
   freeModeSticky: false,
+  freeModeMomentumBounce: false,
   observer: true,
   observeParents: true,
   observeSlideChildren: true
@@ -37,32 +37,32 @@ const foods = [
   }
 ];
 
-const Slides = styled(IonSlides)`
+const Slides = styled(IonSlides)<{ size: number }>`
   padding: 10px 0;
-  min-height: 135px;
+  min-height: ${(props) => `${props.size + 10}px`};
 `;
 
-const Slide = styled(IonSlide)`
-  width: 125px;
+const Slide = styled(IonSlide)<{ size: number; margin: number }>`
+  width: ${(props) => `${props.size}px`};
   &:first-of-type {
-    width: 155px;
+    width: ${(props) => `${props.size + props.margin}px`};
   }
   &:last-of-type {
-    width: 155px;
+    width: ${(props) => `${props.size + props.margin}px`};
   }
   &:first-of-type > div {
-    width: 155px;
-    margin-left: 30px;
+    width: ${(props) => `${props.size + props.margin}px`};
+    margin-left: ${(props) => `${props.margin}px`};
   }
   &:last-of-type > div {
-    width: 155px;
-    margin-right: 30px;
+    width: ${(props) => `${props.size + props.margin}px`};
+    margin-right: ${(props) => `${props.margin}px`};
   }
 `;
 
-const Card = styled.div`
-  width: 125px;
-  height: 125px;
+const Card = styled.div<{ size: number }>`
+  width: ${(props) => `${props.size}px`};
+  height: ${(props) => `${props.size}px`};
   border-radius: 20px;
   align-items: center;
   justify-content: center;
@@ -70,8 +70,8 @@ const Card = styled.div`
   background: var(--ion-color-light);
 
   img {
-    width: 125px;
-    height: 125px;
+    width: ${(props) => `${props.size}px`};
+    height: ${(props) => `${props.size}px`};
     object-fit: cover;
     border-radius: 20px;
   }
@@ -81,11 +81,12 @@ interface FoodCardProps {
   src?: string;
   label?: string;
   price?: number;
+  size: number;
   onClick: () => void;
 }
 
-const StyledFoodCard = styled.div`
-  width: 125px;
+const StyledFoodCard = styled.div<{ size: number }>`
+  width: ${(props) => `${props.size}px`};
   text-align: left;
 
   h2 {
@@ -110,10 +111,10 @@ const StyledFoodCard = styled.div`
   }
 `;
 
-const FoodCard = ({ label, price, src, onClick }: FoodCardProps) => {
+const FoodCard = ({ size, label, price, src, onClick }: FoodCardProps) => {
   return (
-    <StyledFoodCard onClick={onClick}>
-      <Card>
+    <StyledFoodCard onClick={onClick} size={size}>
+      <Card size={size}>
         <img src={src} alt={label}></img>
       </Card>
       {price && <span>{`PHP ${price.toFixed(2)}`}</span>}
@@ -122,7 +123,17 @@ const FoodCard = ({ label, price, src, onClick }: FoodCardProps) => {
   );
 };
 
-const FoodSlider = () => {
+interface FoodSliderProps {
+  size?: number;
+  spaceBetween?: number;
+  margin?: number;
+}
+
+const FoodSlider = ({
+  size = 125,
+  margin = 30,
+  spaceBetween = 20
+}: FoodSliderProps) => {
   const [foodList, foodListSet] = useState(foods);
 
   const selectFood = (label: string) => () => {
@@ -137,11 +148,12 @@ const FoodSlider = () => {
   };
 
   return (
-    <Slides options={slideOpts}>
+    <Slides options={{ ...slideOpts, spaceBetween }} size={size}>
       {foodList.map((food: any, idx) => {
         return (
-          <Slide key={idx}>
+          <Slide key={idx} size={size} margin={margin}>
             <FoodCard
+              size={size}
               label={food.label}
               src={food.src}
               price={food.price}
