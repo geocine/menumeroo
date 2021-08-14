@@ -1,6 +1,7 @@
 import { IonSlides, IonSlide } from '@ionic/react';
 import styled from '@emotion/styled/macro';
 import { useState } from 'react';
+import { Food } from '../store/types';
 
 const slideOpts = {
   // Default parameters
@@ -13,29 +14,6 @@ const slideOpts = {
   observeParents: true,
   observeSlideChildren: true
 };
-
-const foods = [
-  {
-    label: 'Crispy Pata',
-    src: '/assets/images/foods/Food1.jpeg',
-    price: 535.99
-  },
-  {
-    label: 'Pork Sisig',
-    src: '/assets/images/foods/Food2.jpeg',
-    price: 185.0
-  },
-  {
-    label: 'Halo-halo',
-    src: '/assets/images/foods/Food3.jpeg',
-    price: 105.25
-  },
-  {
-    label: 'Pancit Lucban',
-    src: '/assets/images/foods/Food4.jpeg',
-    price: 600.2
-  }
-];
 
 const Slides = styled(IonSlides)<{ height: number }>`
   padding: 10px 0;
@@ -146,6 +124,7 @@ interface FoodSliderProps {
   borderRadius?: number;
   spaceBetween?: number;
   margin?: number;
+  foods: Food[];
 }
 
 const FoodSlider = ({
@@ -154,7 +133,8 @@ const FoodSlider = ({
   spaceBetween = 20,
   width,
   height,
-  borderRadius = 20
+  borderRadius = 20,
+  foods = []
 }: FoodSliderProps) => {
   const [foodList, foodListSet] = useState(foods);
   const lWidth = width || size;

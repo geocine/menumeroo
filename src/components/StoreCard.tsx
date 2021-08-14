@@ -26,15 +26,15 @@ const StoreDetailIcon = styled.div`
   }
 `;
 
-const StoreImage = styled.div`
-  width: 100px;
-  height: 100px;
+const StoreImage = styled.div<{ size: number }>`
+  width: ${(props) => `${props.size}px`};
+  height: ${(props) => `${props.size}px`};
   border-radius: 20px;
   background: var(--ion-color-light);
   flex-shrink: 0;
   img {
-    width: 100px;
-    height: 100px;
+    width: ${(props) => `${props.size}px`};
+    height: ${(props) => `${props.size}px`};
     object-fit: cover;
     border-radius: 20px;
   }
@@ -55,6 +55,11 @@ const StoreDetails = styled.div`
     font-size: 16px;
     line-height: 21px;
     font-weight: 800;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .star-rating {
     margin-top: 5px;
@@ -68,6 +73,7 @@ interface StoreCardProps {
   distance?: string;
   time?: string;
   rating?: number;
+  size?: number;
 }
 
 const StoreCard = ({
@@ -76,11 +82,12 @@ const StoreCard = ({
   distance,
   time,
   rating,
-  src
+  src,
+  size = 100
 }: StoreCardProps) => {
   return (
     <Store>
-      <StoreImage>
+      <StoreImage size={size}>
         <img src={src} alt={name}></img>
       </StoreImage>
       <StoreDetails>

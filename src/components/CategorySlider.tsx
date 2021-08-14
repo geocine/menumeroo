@@ -1,7 +1,7 @@
 import { IonSlides, IonSlide } from '@ionic/react';
 import styled from '@emotion/styled/macro';
-import { IcnChicken, IcnCoffee, IcnFood, IcnMuffin } from './Icon/Icon';
 import { useState } from 'react';
+import { Category } from '../store/types';
 
 const slideOpts = {
   // Default parameters
@@ -14,25 +14,6 @@ const slideOpts = {
   observeParents: true,
   observeSlideChildren: true
 };
-
-const categories = [
-  {
-    label: 'Drinks',
-    icon: <IcnCoffee />
-  },
-  {
-    label: 'Food',
-    icon: <IcnChicken />
-  },
-  {
-    label: 'Dessert',
-    icon: <IcnMuffin />
-  },
-  {
-    label: 'Merienda',
-    icon: <IcnFood />
-  }
-];
 
 const Slides = styled(IonSlides)`
   padding: 10px 0;
@@ -137,6 +118,7 @@ interface CategorySliderProps {
   spaceBetween?: number;
   margin?: number;
   borderRadius?: number;
+  categories: Category[];
 }
 
 const CategorySlider = ({
@@ -145,7 +127,8 @@ const CategorySlider = ({
   spaceBetween = 30,
   width,
   height,
-  borderRadius = 20
+  borderRadius = 20,
+  categories = []
 }: CategorySliderProps) => {
   const [categoryList, setCategoryList] = useState(categories);
   const lWidth = width || size;
