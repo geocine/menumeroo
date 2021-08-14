@@ -8,3 +8,4 @@ export { default as Header } from './Header';
 export { default as StarRating } from './StarRating';
 export { default as Input } from './Input';
 export { default as StoreCard } from './StoreCard';
+export { default as StoreCardSlider } from './StoreCardSlider';
