@@ -147,7 +147,7 @@ const CategorySlider = ({
   height,
   borderRadius = 20
 }: CategorySliderProps) => {
-  const [categoryList, categoryListSet] = useState(categories);
+  const [categoryList, setCategoryList] = useState(categories);
   const lWidth = width || size;
   const lHeight = height || size;
 
@@ -159,7 +159,7 @@ const CategorySlider = ({
       }
       return category;
     });
-    categoryListSet(newCategoryList);
+    setCategoryList(newCategoryList);
   };
 
   return (
