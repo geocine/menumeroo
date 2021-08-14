@@ -1,5 +1,6 @@
 import styled from '@emotion/styled/macro';
 import { StarRating } from '.';
+import { Store as StoreType } from '../store/types';
 import { IcnClock, IcnLocation } from './Icon/Icon';
 
 const StoreDetailIcon = styled.div`
@@ -67,26 +68,19 @@ const StoreDetails = styled.div`
 `;
 
 interface StoreCardProps {
-  location?: string;
-  name: string;
-  src: string;
-  distance?: string;
-  time?: string;
-  rating?: number;
+  store: StoreType;
   size?: number;
+  onClick?: (id: number) => void;
 }
 
 const StoreCard = ({
-  location,
-  name,
-  distance,
-  time,
-  rating,
-  src,
-  size = 100
+  store,
+  size = 100,
+  onClick = () => {}
 }: StoreCardProps) => {
+  const { src, name, location, time, distance, id, rating } = store;
   return (
-    <Store>
+    <Store onClick={() => onClick(id)}>
       <StoreImage size={size}>
         <img src={src} alt={name}></img>
       </StoreImage>

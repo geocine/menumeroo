@@ -1,6 +1,7 @@
 import React from 'react';
 
 export interface Store {
+  id: number;
   name: string;
   location: string;
   src: string;

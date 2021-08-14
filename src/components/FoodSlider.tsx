@@ -118,6 +118,7 @@ const FoodCard = ({
 };
 
 interface FoodSliderProps {
+  storeId: number;
   size?: number;
   width?: number;
   height?: number;
@@ -125,35 +126,26 @@ interface FoodSliderProps {
   spaceBetween?: number;
   margin?: number;
   foods: Food[];
+  onClick?: (id: number) => void;
 }
 
 const FoodSlider = ({
+  storeId = 0,
   size = 125,
   margin = 30,
   spaceBetween = 20,
   width,
   height,
   borderRadius = 20,
-  foods = []
+  foods = [],
+  onClick = () => {}
 }: FoodSliderProps) => {
-  const [foodList, foodListSet] = useState(foods);
   const lWidth = width || size;
   const lHeight = height || size;
 
-  const selectFood = (label: string) => () => {
-    const newFoodList = foodList.map((food: any) => {
-      food.selected = false;
-      if (food.label === label) {
-        food.selected = true;
-      }
-      return food;
-    });
-    foodListSet(newFoodList);
-  };
-
   return (
     <Slides options={{ ...slideOpts, spaceBetween }} height={lHeight}>
-      {foodList.map((food: any, idx) => {
+      {foods.map((food: any, idx) => {
         return (
           <Slide key={idx} width={lWidth} margin={margin}>
             <FoodCard
@@ -163,7 +155,7 @@ const FoodSlider = ({
               label={food.label}
               src={food.src}
               price={food.price}
-              onClick={selectFood(food.label)}
+              onClick={() => onClick(storeId)}
             />
           </Slide>
         );

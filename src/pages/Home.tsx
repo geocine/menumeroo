@@ -1,4 +1,5 @@
 import { IonContent, IonPage } from '@ionic/react';
+import { useHistory } from 'react-router';
 import {
   CategorySlider,
   FoodSlider,
@@ -11,23 +12,29 @@ import { HomeData } from '../store/data';
 const { categories, stores } = HomeData;
 
 const Home = () => {
+  let history = useHistory();
+  const openStore = (id: number) => {
+    history.push(`/tabs/store/${id}`);
+  };
+
   return (
     <IonPage>
-      <SearchHeader />
+      <SearchHeader showBack={false} />
       <IonContent fullscreen>
         <CategorySlider categories={categories} />
-        {stores.map((store, idx) => (
-          <StoreCardSlider key={idx}>
+        {stores.map((store) => (
+          <StoreCardSlider key={store.id}>
             <StoreCard
-              src={store.src}
-              name={store.name}
-              location={store.location}
-              distance={store.distance}
-              time={store.time}
-              rating={store.rating}
+              store={store}
               size={125}
+              onClick={(id) => openStore(id)}
             />
-            <FoodSlider foods={store.featuredFoods || []} size={100} />
+            <FoodSlider
+              foods={store.featuredFoods || []}
+              size={100}
+              storeId={store.id}
+              onClick={(id) => openStore(id)}
+            />
           </StoreCardSlider>
         ))}
       </IonContent>

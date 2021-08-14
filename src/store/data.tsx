@@ -9,8 +9,9 @@ import { Category, Store } from './types';
 
 const stores: Store[] = [
   {
+    id: 1,
     src: '/assets/images/foods/Food1.jpeg',
-    name: 'My Store',
+    name: "Cloud's Restaurant",
     location: 'San Juan',
     distance: '4 km',
     time: '10 mins',
