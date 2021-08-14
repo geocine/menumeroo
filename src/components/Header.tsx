@@ -55,15 +55,19 @@ interface HeaderProps {
   title?: string;
   showButton?: boolean;
   type?: ButtonType;
-  children?: React.ReactNode;
 }
 
 const Header = ({
   title,
   showButton = true,
   type = 'back',
-  children
-}: HeaderProps) => {
+  children,
+  style
+}: HeaderProps &
+  React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  >) => {
   const history = useHistory();
 
   const getButton = (type: ButtonType) => {
@@ -77,7 +81,7 @@ const Header = ({
   };
 
   return (
-    <StyledIonHeader className={type}>
+    <StyledIonHeader className={type} style={style}>
       <div className="header">
         {showButton && getButton(type)}
         <h1>{title}</h1>

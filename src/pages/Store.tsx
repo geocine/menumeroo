@@ -11,7 +11,12 @@ const HeaderImage = styled.div`
 const Store = () => {
   return (
     <IonPage>
-      <Header title="Store" showButton={true} type="back" />
+      <Header
+        title="Store"
+        showButton={true}
+        type="back"
+        style={{ background: 'transparent' }}
+      />
       <IonContent fullscreen>
         <HeaderImage />
       </IonContent>
