@@ -37,56 +37,54 @@ const foods = [
   }
 ];
 
-const Slides = styled(IonSlides)<{ size: number }>`
+const Slides = styled(IonSlides)<{ height: number }>`
   padding: 10px 0;
-  min-height: ${(props) => `${props.size + 10}px`};
+  min-height: ${(props) => `${props.height + 10}px`};
 `;
 
-const Slide = styled(IonSlide)<{ size: number; margin: number }>`
-  width: ${(props) => `${props.size}px`};
+const Slide = styled(IonSlide)<{
+  width: number;
+  margin: number;
+}>`
+  width: ${(props) => `${props.width}px`};
   &:first-of-type {
-    width: ${(props) => `${props.size + props.margin}px`};
+    width: ${(props) => `${props.width + props.margin}px`};
   }
   &:last-of-type {
-    width: ${(props) => `${props.size + props.margin}px`};
+    width: ${(props) => `${props.width + props.margin}px`};
   }
   &:first-of-type > div {
-    width: ${(props) => `${props.size + props.margin}px`};
+    width: ${(props) => `${props.width + props.margin}px`};
     margin-left: ${(props) => `${props.margin}px`};
   }
   &:last-of-type > div {
-    width: ${(props) => `${props.size + props.margin}px`};
+    width: ${(props) => `${props.width + props.margin}px`};
     margin-right: ${(props) => `${props.margin}px`};
   }
 `;
 
-const Card = styled.div<{ size: number }>`
-  width: ${(props) => `${props.size}px`};
-  height: ${(props) => `${props.size}px`};
-  border-radius: 20px;
+const Card = styled.div<{
+  width: number;
+  height: number;
+  borderRadius: number;
+}>`
+  width: ${(props) => `${props.width}px`};
+  height: ${(props) => `${props.height}px`};
+  border-radius: ${(props) => `${props.borderRadius}px`};
   align-items: center;
   justify-content: center;
   display: flex;
   background: var(--ion-color-light);
 
   img {
-    width: ${(props) => `${props.size}px`};
-    height: ${(props) => `${props.size}px`};
+    width: ${(props) => `${props.width}px`};
+    height: ${(props) => `${props.height}px`};
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: ${(props) => `${props.borderRadius}px`};
   }
 `;
-
-interface FoodCardProps {
-  src?: string;
-  label?: string;
-  price?: number;
-  size: number;
-  onClick: () => void;
-}
-
-const StyledFoodCard = styled.div<{ size: number }>`
-  width: ${(props) => `${props.size}px`};
+const StyledFoodCard = styled.div<{ width: number }>`
+  width: ${(props) => `${props.width}px`};
   text-align: left;
 
   h2 {
@@ -111,10 +109,28 @@ const StyledFoodCard = styled.div<{ size: number }>`
   }
 `;
 
-const FoodCard = ({ size, label, price, src, onClick }: FoodCardProps) => {
+interface FoodCardProps {
+  src?: string;
+  label?: string;
+  price?: number;
+  width: number;
+  height: number;
+  borderRadius: number;
+  onClick: () => void;
+}
+
+const FoodCard = ({
+  width,
+  height,
+  label,
+  price,
+  src,
+  onClick,
+  borderRadius
+}: FoodCardProps) => {
   return (
-    <StyledFoodCard onClick={onClick} size={size}>
-      <Card size={size}>
+    <StyledFoodCard onClick={onClick} width={width}>
+      <Card width={width} height={height} borderRadius={borderRadius}>
         <img src={src} alt={label}></img>
       </Card>
       {price && <span>{`PHP ${price.toFixed(2)}`}</span>}
@@ -125,6 +141,9 @@ const FoodCard = ({ size, label, price, src, onClick }: FoodCardProps) => {
 
 interface FoodSliderProps {
   size?: number;
+  width?: number;
+  height?: number;
+  borderRadius?: number;
   spaceBetween?: number;
   margin?: number;
 }
@@ -132,9 +151,14 @@ interface FoodSliderProps {
 const FoodSlider = ({
   size = 125,
   margin = 30,
-  spaceBetween = 20
+  spaceBetween = 20,
+  width,
+  height,
+  borderRadius = 20
 }: FoodSliderProps) => {
   const [foodList, foodListSet] = useState(foods);
+  const lWidth = width || size;
+  const lHeight = height || size;
 
   const selectFood = (label: string) => () => {
     const newFoodList = foodList.map((food: any) => {
@@ -148,12 +172,14 @@ const FoodSlider = ({
   };
 
   return (
-    <Slides options={{ ...slideOpts, spaceBetween }} size={size}>
+    <Slides options={{ ...slideOpts, spaceBetween }} height={lHeight}>
       {foodList.map((food: any, idx) => {
         return (
-          <Slide key={idx} size={size} margin={margin}>
+          <Slide key={idx} width={lWidth} margin={margin}>
             <FoodCard
-              size={size}
+              borderRadius={borderRadius}
+              width={lWidth}
+              height={lHeight}
               label={food.label}
               src={food.src}
               price={food.price}

@@ -38,28 +38,36 @@ const Slides = styled(IonSlides)`
   padding: 10px 0;
 `;
 
-const Slide = styled(IonSlide)<{ size: number; margin: number }>`
-  width: ${(props) => `${props.size}px`};
+const Slide = styled(IonSlide)<{ width: number; margin: number }>`
+  width: ${(props) => `${props.width}px`};
   &:first-of-type {
-    width: ${(props) => `${props.size + props.margin}px`};
+    width: ${(props) => `${props.width + props.margin}px`};
   }
   &:last-of-type {
-    width: ${(props) => `${props.size + props.margin}px`};
+    width: ${(props) => `${props.width + props.margin}px`};
   }
   &:first-of-type > div {
-    width: ${(props) => `${props.size + props.margin}px`};
+    width: ${(props) => `${props.width + props.margin}px`};
     margin-left: ${(props) => `${props.margin}px`};
   }
   &:last-of-type > div {
-    width: ${(props) => `${props.size + props.margin}px`};
+    width: ${(props) => `${props.width + props.margin}px`};
     margin-right: ${(props) => `${props.margin}px`};
   }
 `;
 
+interface CardProps {
+  icon?: React.ReactNode;
+  selected?: boolean;
+  width: number;
+  height: number;
+  borderRadius: number;
+}
+
 const Card = styled.div<CardProps>`
-  width: ${(props) => `${props.size}px`};
-  height: ${(props) => `${props.size}px`};
-  border-radius: 20px;
+  width: ${(props) => `${props.width}px`};
+  height: ${(props) => `${props.height}px`};
+  border-radius: ${(props) => `${props.borderRadius}px`};
   align-items: center;
   justify-content: center;
   display: flex;
@@ -81,19 +89,13 @@ const Card = styled.div<CardProps>`
   }
 `;
 
-interface CardProps {
-  icon?: React.ReactNode;
-  selected?: boolean;
-  size: number;
-}
-
 interface CategoryCardProps extends CardProps {
   label: string;
   onClick: () => void;
 }
 
-const StyledCategoryCard = styled.div<{ size: number }>`
-  width: ${(props) => `${props.size}px`};
+const StyledCategoryCard = styled.div<{ width: number }>`
+  width: ${(props) => `${props.width}px`};
   cursor: pointer;
 
   h2 {
@@ -109,11 +111,18 @@ const CategoryCard = ({
   icon,
   selected = false,
   onClick,
-  size
+  width,
+  height,
+  borderRadius
 }: CategoryCardProps) => {
   return (
-    <StyledCategoryCard onClick={onClick} size={size}>
-      <Card selected={selected} size={size}>
+    <StyledCategoryCard onClick={onClick} width={width}>
+      <Card
+        selected={selected}
+        width={width}
+        height={height}
+        borderRadius={borderRadius}
+      >
         {icon}
       </Card>
       <h2>{label}</h2>
@@ -123,16 +132,24 @@ const CategoryCard = ({
 
 interface CategorySliderProps {
   size?: number;
+  width?: number;
+  height?: number;
   spaceBetween?: number;
   margin?: number;
+  borderRadius?: number;
 }
 
 const CategorySlider = ({
   size = 70,
   margin = 30,
-  spaceBetween = 30
+  spaceBetween = 30,
+  width,
+  height,
+  borderRadius = 20
 }: CategorySliderProps) => {
   const [categoryList, categoryListSet] = useState(categories);
+  const lWidth = width || size;
+  const lHeight = height || size;
 
   const selectCategory = (label: string) => () => {
     const newCategoryList = categoryList.map((category: any) => {
@@ -149,9 +166,11 @@ const CategorySlider = ({
     <Slides options={{ ...slideOpts, spaceBetween }}>
       {categoryList.map((category: any, idx) => {
         return (
-          <Slide key={idx} size={size} margin={margin}>
+          <Slide key={idx} width={lWidth} margin={margin}>
             <CategoryCard
-              size={size}
+              borderRadius={borderRadius}
+              width={lWidth}
+              height={lHeight}
               label={category.label}
               icon={category.icon}
               selected={category.selected}
