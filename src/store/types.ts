@@ -22,3 +22,8 @@ export interface Category {
   name: string;
   icon: React.ReactNode;
 }
+
+export interface StoreMenu {
+  group: string;
+  foodItems: Food[];
+}

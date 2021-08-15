@@ -5,7 +5,7 @@ import {
   IcnMuffin,
   IcnFood
 } from '../components/Icon/Icon';
-import { Category, Store } from './types';
+import { Category, Store, StoreMenu } from './types';
 
 const stores: Store[] = [
   {
@@ -67,4 +67,51 @@ const categories: Category[] = [
 export const HomeData = {
   stores,
   categories
+};
+
+// Store Data
+
+const storeMenu: StoreMenu[] = [
+  {
+    group: 'Breakfast',
+    foodItems: [
+      {
+        id: 1,
+        name: 'Pork',
+        description: 'Pork fried in oil',
+        src: '/assets/images/foods/Food1.jpeg',
+        price: 150
+      },
+      {
+        id: 2,
+        name: 'Pork Chop',
+        description: 'Pork fried in olive oil',
+        src: '/assets/images/foods/Food1.jpeg',
+        price: 500
+      }
+    ]
+  },
+  {
+    group: 'Popular',
+    foodItems: [
+      {
+        id: 3,
+        name: 'Sisig Hooray',
+        description: 'Sisig w/ egg',
+        src: '/assets/images/foods/Food2.jpeg',
+        price: 125
+      },
+      {
+        id: 4,
+        name: 'Halo-Halo',
+        description: 'National dessert',
+        src: '/assets/images/foods/Food3.jpeg',
+        price: 70
+      }
+    ]
+  }
+];
+
+export const StoreData = {
+  storeMenu
 };

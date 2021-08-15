@@ -64,7 +64,7 @@ const FoodMenuItem = ({
   food,
   size = 100,
   margin = 20,
-  borderRadius = 5,
+  borderRadius = 20,
   compact = true,
   onClick = () => {}
 }: FoodMenuItemProps) => {
