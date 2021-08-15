@@ -1,6 +1,6 @@
 import styled from '@emotion/styled/macro';
 import { IonContent, IonPage } from '@ionic/react';
-import { Header } from '../components';
+import { Header, FoodMenuCategory, FoodMenuItem } from '../components';
 
 const HeaderImage = styled.div`
   background-color: #eae8e8;
@@ -19,6 +19,52 @@ const Store = () => {
       />
       <IonContent fullscreen>
         <HeaderImage />
+        <FoodMenuCategory title="Breakfast">
+          <FoodMenuItem
+            food={{
+              id: 1,
+              name: 'Chicken',
+              description: 'Chicken fried in oil',
+              src: '/assets/images/foods/Food1.jpeg',
+              price: 200
+            }}
+            size={70}
+            margin={10}
+          />
+          <FoodMenuItem
+            food={{
+              id: 1,
+              name: 'Chicken',
+              src: '/assets/images/foods/Food1.jpeg',
+              price: 200
+            }}
+            size={70}
+            margin={10}
+          />
+        </FoodMenuCategory>
+        <FoodMenuCategory title="Breakfast">
+          <FoodMenuItem
+            food={{
+              id: 1,
+              name: 'Chicken',
+              description: 'Chicken fried in oil',
+              src: '/assets/images/foods/Food1.jpeg',
+              price: 200
+            }}
+            size={70}
+            margin={10}
+          />
+          <FoodMenuItem
+            food={{
+              id: 1,
+              name: 'Chicken',
+              src: '/assets/images/foods/Food1.jpeg',
+              price: 200
+            }}
+            size={70}
+            margin={10}
+          />
+        </FoodMenuCategory>
       </IonContent>
     </IonPage>
   );

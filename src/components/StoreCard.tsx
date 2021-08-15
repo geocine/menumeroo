@@ -27,17 +27,17 @@ const StoreDetailIcon = styled.div`
   }
 `;
 
-const StoreImage = styled.div<{ size: number }>`
+const StoreImage = styled.div<{ size: number; borderRadius: number }>`
   width: ${(props) => `${props.size}px`};
   height: ${(props) => `${props.size}px`};
-  border-radius: 20px;
+  border-radius: ${(props) => `${props.borderRadius}px`};
   background: var(--ion-color-light);
   flex-shrink: 0;
   img {
     width: ${(props) => `${props.size}px`};
     height: ${(props) => `${props.size}px`};
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: ${(props) => `${props.borderRadius}px`};
   }
 `;
 
@@ -46,8 +46,8 @@ const Store = styled.div`
   margin: 10px 30px;
 `;
 
-const StoreDetails = styled.div`
-  margin-left: 20px;
+const StoreDetails = styled.div<{ margin: number }>`
+  margin-left: ${(props) => `${props.margin}px`};
   display: flex;
   flex-direction: column;
 
@@ -70,21 +70,25 @@ const StoreDetails = styled.div`
 interface StoreCardProps {
   store: StoreType;
   size?: number;
+  margin?: number;
+  borderRadius?: number;
   onClick?: (id: number) => void;
 }
 
 const StoreCard = ({
   store,
   size = 100,
+  margin = 20,
+  borderRadius = 20,
   onClick = () => {}
 }: StoreCardProps) => {
   const { src, name, location, time, distance, id, rating } = store;
   return (
     <Store onClick={() => onClick(id)}>
-      <StoreImage size={size}>
+      <StoreImage size={size} borderRadius={borderRadius}>
         <img src={src} alt={name}></img>
       </StoreImage>
-      <StoreDetails>
+      <StoreDetails margin={margin}>
         <h1>{name}</h1>
         <StoreDetailIcon>
           <IcnLocation />

@@ -18,22 +18,26 @@ const stores: Store[] = [
     rating: 3,
     featuredFoods: [
       {
-        label: 'Crispy Pata',
+        id: 1,
+        name: 'Crispy Pata',
         src: '/assets/images/foods/Food1.jpeg',
         price: 535.99
       },
       {
-        label: 'Pork Sisig',
+        id: 2,
+        name: 'Pork Sisig',
         src: '/assets/images/foods/Food2.jpeg',
         price: 185.0
       },
       {
-        label: 'Halo-halo',
+        id: 3,
+        name: 'Halo-halo',
         src: '/assets/images/foods/Food3.jpeg',
         price: 105.25
       },
       {
-        label: 'Pancit Lucban',
+        id: 4,
+        name: 'Pancit Lucban',
         src: '/assets/images/foods/Food4.jpeg',
         price: 600.2
       }
@@ -43,19 +47,19 @@ const stores: Store[] = [
 
 const categories: Category[] = [
   {
-    label: 'Drinks',
+    name: 'Drinks',
     icon: <IcnCoffee />
   },
   {
-    label: 'Food',
+    name: 'Food',
     icon: <IcnChicken />
   },
   {
-    label: 'Dessert',
+    name: 'Dessert',
     icon: <IcnMuffin />
   },
   {
-    label: 'Merienda',
+    name: 'Merienda',
     icon: <IcnFood />
   }
 ];

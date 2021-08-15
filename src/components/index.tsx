@@ -9,3 +9,5 @@ export { default as StarRating } from './StarRating';
 export { default as Input } from './Input';
 export { default as StoreCard } from './StoreCard';
 export { default as StoreCardSlider } from './StoreCardSlider';
+export { default as FoodMenuCategory } from './FoodMenuCategory';
+export { default as FoodMenuItem } from './FoodMenuItem';
