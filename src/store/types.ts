@@ -12,11 +12,18 @@ export interface Store {
 }
 
 export interface Food {
-  label: string;
+  id: number;
+  name: string;
   src: string;
+  description?: string;
   price?: number;
 }
 export interface Category {
-  label: string;
+  name: string;
   icon: React.ReactNode;
+}
+
+export interface StoreMenu {
+  group: string;
+  foodItems: Food[];
 }
