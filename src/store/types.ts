@@ -21,6 +21,7 @@ export interface Food {
 export interface Category {
   name: string;
   icon: React.ReactNode;
+  selected?: boolean;
 }
 
 export interface StoreMenu {
