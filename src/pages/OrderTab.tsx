@@ -1,7 +1,7 @@
 import { IonContent, IonPage } from '@ionic/react';
 import { Header } from '../components';
 
-const Order = () => {
+const OrderTab = () => {
   return (
     <IonPage>
       <Header title="Order" showButton={true} type="close" />
@@ -10,4 +10,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default OrderTab;

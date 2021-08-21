@@ -11,7 +11,7 @@ import { HomeData } from '../store/data';
 
 const { categories, stores } = HomeData;
 
-const Home = () => {
+const HomePage = () => {
   let history = useHistory();
   const openStore = (id: number) => {
     history.push(`/tabs/store/${id}`);
@@ -42,4 +42,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

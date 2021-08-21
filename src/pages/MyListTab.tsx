@@ -1,7 +1,7 @@
 import { IonContent, IonPage } from '@ionic/react';
 import { SearchHeader } from '../components';
 
-const MyList = () => {
+const MyListTab = () => {
   return (
     <IonPage>
       <SearchHeader showLocation={false} />
@@ -10,4 +10,4 @@ const MyList = () => {
   );
 };
 
-export default MyList;
+export default MyListTab;

@@ -11,22 +11,30 @@ import {
   IcnOrder,
   IcnProfile
 } from '../components/Icon/Icon';
-import Home from './Home';
-import Order from './Order';
-import MyList from './MyList';
-import Profile from './Profile';
-import Store from './Store';
+import HomeTab from './HomeTab';
+import OrderTab from './OrderTab';
+import MyListTab from './MyListTab';
+import ProfileTab from './ProfileTab';
+import StorePage from './Store';
 
-const MainTabs = () => {
+const MainPage = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
         <Redirect exact path="/tabs" to="/tabs/home" />
-        <Route path="/tabs/store/:id" render={() => <Store />} exact={true} />
-        <Route path="/tabs/home" render={() => <Home />} exact={true} />
-        <Route path="/tabs/order" render={() => <Order />} exact={true} />
-        <Route path="/tabs/mylist" render={() => <MyList />} exact={true} />
-        <Route path="/tabs/profile" render={() => <Profile />} exact={true} />
+        <Route
+          path="/tabs/store/:id"
+          render={() => <StorePage />}
+          exact={true}
+        />
+        <Route path="/tabs/home" render={() => <HomeTab />} exact={true} />
+        <Route path="/tabs/order" render={() => <OrderTab />} exact={true} />
+        <Route path="/tabs/mylist" render={() => <MyListTab />} exact={true} />
+        <Route
+          path="/tabs/profile"
+          render={() => <ProfileTab />}
+          exact={true}
+        />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="home" href="/tabs/home">
@@ -46,4 +54,4 @@ const MainTabs = () => {
   );
 };
 
-export default MainTabs;
+export default MainPage;
