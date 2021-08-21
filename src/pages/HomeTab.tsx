@@ -1,5 +1,7 @@
 import { IonContent, IonPage } from '@ionic/react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { useSnapshot } from 'valtio';
 import {
   CategorySlider,
   FoodSlider,
@@ -7,22 +9,30 @@ import {
   StoreCard,
   StoreCardSlider
 } from '../components';
-import { HomeData } from '../store/data';
+import { vstore } from '../store/store';
 
-const { categories, stores } = HomeData;
+const HomePage = () => {
+  const data = useSnapshot(vstore);
+  const history = useHistory();
 
-const Home = () => {
-  let history = useHistory();
   const openStore = (id: number) => {
-    history.push(`/tabs/store/${id}`);
+    history.push(`/store/${id}`);
   };
+
+  useEffect(() => {
+    const loadData = async () => {
+      await data.loadStores();
+      await data.loadCategories();
+    };
+    loadData();
+  }, []);
 
   return (
     <IonPage>
       <SearchHeader showBack={false} />
       <IonContent fullscreen>
-        <CategorySlider categories={categories} />
-        {stores.map((store) => (
+        <CategorySlider categories={data.categories} />
+        {data.stores.map((store) => (
           <StoreCardSlider key={store.id}>
             <StoreCard
               store={store}
@@ -30,7 +40,7 @@ const Home = () => {
               onClick={(id) => openStore(id)}
             />
             <FoodSlider
-              foods={store.featuredFoods || []}
+              foods={store.menu || []}
               size={100}
               storeId={store.id}
               onClick={(id) => openStore(id)}
@@ -42,4 +52,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

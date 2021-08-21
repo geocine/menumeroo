@@ -5,6 +5,9 @@ import MainTabs from './pages/MainTabs';
 import WelcomePage from './pages/WelcomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import MainPage from './pages/MainPage';
+import FoodPage from './pages/FoodPage';
+import StorePage from './pages/StorePage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -24,7 +27,6 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Store from './pages/Store';
 
 setupConfig({ mode: 'md' });
 
@@ -41,8 +43,14 @@ const App = () => (
         <Route path="/signup/:code?">
           <SignupPage />
         </Route>
+        <Route path="/store/:id">
+          <StorePage />
+        </Route>
+        <Route path="/food/:id">
+          <FoodPage />
+        </Route>
         <Route path="/tabs">
-          <MainTabs />
+          <MainPage />
         </Route>
         <Route exact path="/">
           <Redirect to="/tabs" />

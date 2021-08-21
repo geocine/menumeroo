@@ -1,7 +1,7 @@
 import { IonContent, IonPage } from '@ionic/react';
 import { SearchHeader } from '../components';
 
-const Profile = () => {
+const ProfileTab = () => {
   return (
     <IonPage>
       <SearchHeader showLocation={false} />
@@ -10,4 +10,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileTab;
