@@ -2,6 +2,8 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupConfig } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import MainPage from './pages/MainPage';
+import FoodPage from './pages/FoodPage';
+import StorePage from './pages/StorePage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -28,6 +30,12 @@ const App = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        <Route path="/store/:id">
+          <StorePage />
+        </Route>
+        <Route path="/food/:id">
+          <FoodPage />
+        </Route>
         <Route path="/tabs">
           <MainPage />
         </Route>

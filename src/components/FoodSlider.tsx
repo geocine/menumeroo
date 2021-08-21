@@ -1,6 +1,5 @@
 import { IonSlides, IonSlide } from '@ionic/react';
 import styled from '@emotion/styled/macro';
-import { useState } from 'react';
 import { Food } from '../store/types';
 
 const slideOpts = {

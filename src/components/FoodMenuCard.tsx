@@ -1,7 +1,7 @@
 import styled from '@emotion/styled/macro';
 import React from 'react';
 
-const StyledFoodMenuGroup = styled.div<{ cols: number }>`
+const StyledFoodMenuCard = styled.div<{ cols: number }>`
   background: #f5f5f561;
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -20,19 +20,19 @@ const StyledFoodMenuGroup = styled.div<{ cols: number }>`
   }
 `;
 
-interface FoodMenuGroupProps {
+interface FoodMenuCardProps {
   title: string;
   cols?: number;
   children: React.ReactNode;
 }
 
-const FoodMenuGroup = ({ children, title, cols = 1 }: FoodMenuGroupProps) => {
+const FoodMenuCard = ({ children, title, cols = 1 }: FoodMenuCardProps) => {
   return (
-    <StyledFoodMenuGroup cols={cols}>
+    <StyledFoodMenuCard cols={cols}>
       <h1>{title}</h1>
       <div className="items">{children}</div>
-    </StyledFoodMenuGroup>
+    </StyledFoodMenuCard>
   );
 };
 
-export default FoodMenuGroup;
+export default FoodMenuCard;

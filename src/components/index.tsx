@@ -9,5 +9,7 @@ export { default as StarRating } from './StarRating';
 export { default as Input } from './Input';
 export { default as StoreCard } from './StoreCard';
 export { default as StoreCardSlider } from './StoreCardSlider';
-export { default as FoodMenuGroup } from './FoodMenuGroup';
+export { default as FoodMenuCard } from './FoodMenuCard';
 export { default as FoodMenuItem } from './FoodMenuItem';
+export { default as FoodVariationCard } from './FoodVariationCard';
+export { default as FoodVariationItem } from './FoodVariationItem';

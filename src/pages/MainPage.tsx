@@ -15,21 +15,15 @@ import HomeTab from './HomeTab';
 import OrderTab from './OrderTab';
 import MyListTab from './MyListTab';
 import ProfileTab from './ProfileTab';
-import StorePage from './Store';
 
 const MainPage = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
         <Redirect exact path="/tabs" to="/tabs/home" />
-        <Route
-          path="/tabs/store/:id"
-          render={() => <StorePage />}
-          exact={true}
-        />
-        <Route path="/tabs/home" render={() => <HomeTab />} exact={true} />
-        <Route path="/tabs/order" render={() => <OrderTab />} exact={true} />
-        <Route path="/tabs/mylist" render={() => <MyListTab />} exact={true} />
+        <Route path="/tabs/home" render={() => <HomeTab />} exact />
+        <Route path="/tabs/order" render={() => <OrderTab />} exact />
+        <Route path="/tabs/mylist" render={() => <MyListTab />} exact />
         <Route
           path="/tabs/profile"
           render={() => <ProfileTab />}

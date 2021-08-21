@@ -1,7 +1,8 @@
 import { IonSlides, IonSlide } from '@ionic/react';
 import styled from '@emotion/styled/macro';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Category } from '../store/types';
+import { IcnCoffee, IcnChicken, IcnMuffin, IcnFood } from './Icon/Icon';
 
 const slideOpts = {
   // Default parameters
@@ -134,6 +135,17 @@ const CategorySlider = ({
   const lWidth = width || size;
   const lHeight = height || size;
 
+  const CategoryIcon = ({ name }: { name: string }) => {
+    const categoryIcon: { [key: string]: React.ReactElement | null } = {
+      cofee: <IcnCoffee />,
+      chicken: <IcnChicken />,
+      muffin: <IcnMuffin />,
+      food: <IcnFood />
+    };
+
+    return categoryIcon[name];
+  };
+
   const selectCategory = (name: string) => () => {
     const newCategoryList = categoryList.map((category: Category) => {
       category.selected = false;
@@ -155,7 +167,7 @@ const CategorySlider = ({
               width={lWidth}
               height={lHeight}
               label={category.name}
-              icon={category.icon}
+              icon={<CategoryIcon name={category.icon} />}
               selected={category.selected}
               onClick={selectCategory(category.name)}
             />
