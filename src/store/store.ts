@@ -1,6 +1,7 @@
 import { proxy } from 'valtio';
 import axios from 'axios';
 import { Category, Food, Menu, Store } from './types';
+import { stores } from '../mocks/data';
 
 export interface VStore {
   stores: Store[];
@@ -14,6 +15,7 @@ export interface VStore {
   loadStore: (id: number) => void;
   loadCategories: () => void;
   loadFood: (id: number) => void;
+  setSelectedCategory: (id: number) => void;
 }
 
 const loadStores = async () => {
@@ -57,6 +59,16 @@ const loadFood = async (id: number) => {
   vstore.currentFood = response.data;
 };
 
+const setSelectedCategory = (id: number) => {
+  vstore.categories = vstore.categories.map((category: Category) => {
+    category.selected = false;
+    if (category.id === id) {
+      category.selected = true;
+    }
+    return category;
+  });
+};
+
 export const vstore = proxy<VStore>({
   stores: [],
   categories: [],
@@ -69,5 +81,6 @@ export const vstore = proxy<VStore>({
   loadStores,
   loadStore,
   loadCategories,
-  loadFood
+  loadFood,
+  setSelectedCategory
 });

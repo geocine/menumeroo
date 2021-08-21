@@ -45,6 +45,7 @@ export interface FoodVariationType {
 }
 
 export interface Category {
+  id: number;
   name: string;
   icon: string;
   selected?: boolean;

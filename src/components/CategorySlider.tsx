@@ -1,6 +1,6 @@
 import { IonSlides, IonSlide } from '@ionic/react';
 import styled from '@emotion/styled/macro';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Category } from '../store/types';
 import { IcnCoffee, IcnChicken, IcnMuffin, IcnFood } from './Icon/Icon';
 
@@ -120,6 +120,7 @@ interface CategorySliderProps {
   margin?: number;
   borderRadius?: number;
   categories: Category[];
+  onSelect: (id: number) => void;
 }
 
 const CategorySlider = ({
@@ -129,15 +130,15 @@ const CategorySlider = ({
   width,
   height,
   borderRadius = 20,
-  categories = []
+  categories = [],
+  onSelect = () => {}
 }: CategorySliderProps) => {
-  const [categoryList, setCategoryList] = useState(categories);
   const lWidth = width || size;
   const lHeight = height || size;
 
   const CategoryIcon = ({ name }: { name: string }) => {
     const categoryIcon: { [key: string]: React.ReactElement | null } = {
-      cofee: <IcnCoffee />,
+      coffee: <IcnCoffee />,
       chicken: <IcnChicken />,
       muffin: <IcnMuffin />,
       food: <IcnFood />
@@ -146,22 +147,11 @@ const CategorySlider = ({
     return categoryIcon[name];
   };
 
-  const selectCategory = (name: string) => () => {
-    const newCategoryList = categoryList.map((category: Category) => {
-      category.selected = false;
-      if (category.name === name) {
-        category.selected = true;
-      }
-      return category;
-    });
-    setCategoryList(newCategoryList);
-  };
-
   return (
     <Slides options={{ ...slideOpts, spaceBetween }}>
-      {categoryList.map((category: Category, idx) => {
+      {categories.map((category: Category) => {
         return (
-          <Slide key={idx} width={lWidth} margin={margin}>
+          <Slide key={category.id} width={lWidth} margin={margin}>
             <CategoryCard
               borderRadius={borderRadius}
               width={lWidth}
@@ -169,7 +159,7 @@ const CategorySlider = ({
               label={category.name}
               icon={<CategoryIcon name={category.icon} />}
               selected={category.selected}
-              onClick={selectCategory(category.name)}
+              onClick={() => onSelect(category.id)}
             />
           </Slide>
         );

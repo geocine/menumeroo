@@ -25,10 +25,10 @@ export const stores: Store[] = [
       },
       {
         id: 2,
-        name: 'Pork Chop',
-        description: 'Pork fried in olive oil',
-        src: '/assets/images/foods/Food1.jpeg',
-        price: 500,
+        name: 'Pancit',
+        description: 'Pancit for long life',
+        src: '/assets/images/foods/Food4.jpeg',
+        price: 120,
         featured: true,
         type: {
           id: 1,
@@ -65,18 +65,22 @@ export const stores: Store[] = [
 
 export const categories: Category[] = [
   {
+    id: 1,
     name: 'Drinks',
     icon: 'coffee'
   },
   {
+    id: 2,
     name: 'Food',
     icon: 'chicken'
   },
   {
+    id: 3,
     name: 'Dessert',
     icon: 'muffin'
   },
   {
+    id: 4,
     name: 'Merienda',
     icon: 'food'
   }

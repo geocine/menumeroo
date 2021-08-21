@@ -1,5 +1,5 @@
 import { IonContent, IonPage } from '@ionic/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useSnapshot } from 'valtio';
 import {
@@ -27,11 +27,18 @@ const HomePage = () => {
     loadData();
   }, []);
 
+  const onSelectCategory = (id: number) => {
+    data.setSelectedCategory(id);
+  };
+
   return (
     <IonPage>
       <SearchHeader showBack={false} />
       <IonContent fullscreen>
-        <CategorySlider categories={data.categories} />
+        <CategorySlider
+          categories={data.categories}
+          onSelect={(id) => onSelectCategory(id)}
+        />
         {data.stores.map((store) => (
           <StoreCardSlider key={store.id}>
             <StoreCard
