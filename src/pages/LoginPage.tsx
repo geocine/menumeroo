@@ -24,8 +24,8 @@ const LoginPage = () => {
       />
       <IonContent fullscreen>
         <StyledLoginPage>
-          <Input className="username" prefix={<IcnProfile/>} placeholder="username" />
-          <Input className="password" prefix={<IcnLock/>} placeholder="password" type="password" />
+          <Input className="username" prefix={<IcnProfile/>} placeholder="Username" />
+          <Input className="password" prefix={<IcnLock/>} placeholder="Password" type="password" />
           <Button type="primary">Sign In</Button>
         </StyledLoginPage>
       </IonContent>
