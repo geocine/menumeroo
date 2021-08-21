@@ -1,11 +1,15 @@
 import styled from '@emotion/styled/macro';
 import { IonContent, IonPage } from '@ionic/react';
 import { Header, Button, Input } from '../components';
-import { IcnProfile } from '../components/Icon/Icon';
+import { IcnLock, IcnProfile } from '../components/Icon/Icon';
 
-const StyledWelcomePage = styled.div`
-  input {
-    margin-top: 10px !important;
+const StyledLoginPage = styled.div`
+  .ant-input-affix-wrapper { 
+    margin-bottom: 20px !important;
+  }
+  .username svg {
+    width: 16px;
+    height: 19px;
   }
 `;
 
@@ -19,11 +23,11 @@ const LoginPage = () => {
         style={{ background: 'transparent' }}
       />
       <IonContent fullscreen>
-        <StyledWelcomePage>
-          <Input prefix={<IcnProfile/>} placeholder="username"/>
-          <Input prefix={<IcnProfile/>} placeholder="password"/>
+        <StyledLoginPage>
+          <Input className="username" prefix={<IcnProfile/>} placeholder="username" />
+          <Input className="password" prefix={<IcnLock/>} placeholder="password" type="password" />
           <Button type="primary">Sign In</Button>
-        </StyledWelcomePage>
+        </StyledLoginPage>
       </IonContent>
     </IonPage>
   );
