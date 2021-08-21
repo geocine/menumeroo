@@ -5,7 +5,6 @@ const Input = styled(AntInput)`
   &.ant-input {
     border-radius: 20px;
     border: 0;
-    background: var(--ion-color-light);
     padding: 4px 20px;
     height: 50px;
     font-size: 16px;
@@ -24,6 +23,7 @@ const Input = styled(AntInput)`
     border-radius: 20px;
     border: 0;
     background: var(--ion-color-light);
+    color: #bdbdbd;
     padding: 4px 20px;
     height: 50px;
     margin: 0 auto;
