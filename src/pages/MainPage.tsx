@@ -5,12 +5,8 @@ import {
   IonTabs
 } from '@ionic/react';
 import { Redirect, Route } from 'react-router';
-import {
-  IcnHome,
-  IcnMyList,
-  IcnOrder,
-  IcnProfile
-} from '../components/Icon/Icon';
+import { IcnHome, IcnOrder, IcnProfile } from '../components/Icon/Icon';
+import { RiShoppingBasketLine } from 'react-icons/ri';
 import HomeTab from './HomeTab';
 import OrderTab from './OrderTab';
 import MyListTab from './MyListTab';
@@ -38,7 +34,7 @@ const MainPage = () => {
           <IcnOrder />
         </IonTabButton>
         <IonTabButton tab="mylist" href="/tabs/mylist">
-          <IcnMyList />
+          <RiShoppingBasketLine size={30} />
         </IonTabButton>
         <IonTabButton tab="profile" href="/tabs/profile">
           <IcnProfile />

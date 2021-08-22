@@ -9,6 +9,7 @@ const StyledFoodVariationCard = styled.div`
   margin-bottom: 10px;
 
   .items {
+    font-family: 'AvenirLTStd';
   }
 
   & > h1 {

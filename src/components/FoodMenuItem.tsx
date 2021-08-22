@@ -77,7 +77,7 @@ const FoodMenuItem = ({
       <FoodDetails margin={margin} compact={compact}>
         <h1>{name}</h1>
         <p>{description}</p>
-        {price && <span>{`PHP ${price.toFixed(2)}`}</span>}
+        {price && <span>{price.toFixed(2)}</span>}
       </FoodDetails>
     </Food>
   );

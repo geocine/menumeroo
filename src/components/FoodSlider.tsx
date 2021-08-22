@@ -110,7 +110,7 @@ const FoodCard = ({
       <Card width={width} height={height} borderRadius={borderRadius}>
         <img src={src} alt={label}></img>
       </Card>
-      {price && <span>{`PHP ${price.toFixed(2)}`}</span>}
+      {price && <span>{price.toFixed(2)}</span>}
       <h2 className={price ? '' : 'no-price'}>{label}</h2>
     </StyledFoodCard>
   );

@@ -33,14 +33,36 @@ export const stores: Store[] = [
         type: {
           id: 1,
           name: 'Breakfast'
-        }
+        },
+        variations: [
+          {
+            id: 1,
+            name: 'Add on Shrimp',
+            price: 20,
+            type: {
+              id: 1,
+              description: 'Optional',
+              name: 'Addons'
+            }
+          },
+          {
+            id: 2,
+            name: 'Add on Pork Cutlet',
+            price: 40,
+            type: {
+              id: 1,
+              description: 'Optional',
+              name: 'Addons'
+            }
+          }
+        ]
       },
       {
         id: 3,
         name: 'Sisig Hooray',
         description: 'Sisig w/ egg',
         src: '/assets/images/foods/Food2.jpeg',
-        price: 125,
+        price: 125.25,
         featured: true,
         type: {
           id: 2,

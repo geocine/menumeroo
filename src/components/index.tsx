@@ -12,4 +12,4 @@ export { default as StoreCardSlider } from './StoreCardSlider';
 export { default as FoodMenuCard } from './FoodMenuCard';
 export { default as FoodMenuItem } from './FoodMenuItem';
 export { default as FoodVariationCard } from './FoodVariationCard';
-export { default as FoodVariationItem } from './FoodVariationItem';
+export { default as FoodVariations } from './FoodVariations';

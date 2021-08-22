@@ -21,8 +21,8 @@ const HomePage = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      await data.loadStores();
-      await data.loadCategories();
+      await vstore.loadStores();
+      await vstore.loadCategories();
     };
     loadData();
   }, []);

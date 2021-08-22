@@ -12,6 +12,8 @@ export interface Store {
 export interface Menu {
   id: number;
   name: string;
+  description?: string;
+  choiceType?: 'multi' | 'single';
   foodItems: Food[];
 }
 
@@ -23,25 +25,20 @@ export interface Food {
   price?: number;
   featured?: boolean;
   type?: FoodType;
-  variations?: FoodVariation;
+  variations?: FoodVariation[];
 }
 
 export interface FoodType {
   id: number;
   name: string;
+  description?: string;
 }
 
 export interface FoodVariation {
   id: number;
   name: string;
   price?: number;
-  type?: FoodVariationType;
-}
-
-export interface FoodVariationType {
-  id: number;
-  name: string;
-  description: string;
+  type?: FoodType;
 }
 
 export interface Category {
