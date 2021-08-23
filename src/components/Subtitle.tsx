@@ -6,7 +6,7 @@ const Container = styled.div`
     font-size: 14px;
     color: #8A94A3;
     width: calc(100% - 60px);
-    margin: 0px auto 30px auto;
+    margin: 0 auto;
   }
 `;
 

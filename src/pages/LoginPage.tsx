@@ -32,6 +32,10 @@ const StyledLoginPage = styled.div`
   }
 `;
 
+const StyleTitleSection = styled.div`
+  margin: 30px auto;
+`;
+
 const LoginPage = () => {
   let history = useHistory();
   const openResetPassword = () => {
@@ -46,7 +50,9 @@ const LoginPage = () => {
       />
       <IonContent fullscreen>
         <StyledLoginPage>
-          <Title text="Sign in"/>
+          <StyleTitleSection>
+            <Title text="Sign in"/>
+          </StyleTitleSection>
           <Input className="username" prefix={<IcnProfile/>} placeholder="Username" />
           <Input className="password" prefix={<IcnLock/>} placeholder="Password" type="password" />
           <Button type="primary">Sign In</Button>

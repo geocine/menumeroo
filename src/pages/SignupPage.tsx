@@ -14,6 +14,10 @@ const StyledSignupPage = styled.div`
   }
 `;
 
+const StyleTitleSection = styled.div`
+  margin: 30px auto;
+`;
+
 interface SignupPageParams {
   code? : string
 }
@@ -29,7 +33,9 @@ const SignupPage = () => {
       />
       <IonContent fullscreen>
         <StyledSignupPage>
-          <Title text="Sign up"/>
+          <StyleTitleSection>
+            <Title text="Sign up"/>
+          </StyleTitleSection>
           <Input className="username" prefix={<IcnProfile/>} placeholder="Enter username" />
           <Input className="password" prefix={<IcnLock/>} placeholder="Enter password" type="password" />
           <Input className="password" prefix={<IcnLock/>} placeholder="Re-enter password" type="password" />

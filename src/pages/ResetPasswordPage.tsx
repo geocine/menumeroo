@@ -13,6 +13,10 @@ const StyledResetPasswordPage = styled.div`
   }
 `;
 
+const StyleTitleSection = styled.div`
+  margin: 30px auto;
+`;
+
 
 const ResetPasswordPage = () => {
   return (
@@ -24,8 +28,10 @@ const ResetPasswordPage = () => {
       />
       <IonContent fullscreen>
         <StyledResetPasswordPage>
-          <Title text="Forgot Password"/>
-          <Subtitle text="Enter your phone"/>
+          <StyleTitleSection>
+            <Title text="Forgot Password"/>
+            <Subtitle text="Enter your phone"/>
+          </StyleTitleSection>
           <Input className="phone" prefix={<IcnPhone/>} placeholder="Phone number" type="number"/>
           <Button type="primary">Next</Button>
         </StyledResetPasswordPage>
