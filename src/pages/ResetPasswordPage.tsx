@@ -1,6 +1,6 @@
 import styled from '@emotion/styled/macro';
 import { IonContent, IonPage } from '@ionic/react';
-import { Header, Button, Input, Title } from '../components';
+import { Header, Button, Input, Title, Subtitle } from '../components';
 import { IcnPhone } from '../components/Icon/Icon';
 
 const StyledResetPasswordPage = styled.div`
@@ -25,6 +25,7 @@ const ResetPasswordPage = () => {
       <IonContent fullscreen>
         <StyledResetPasswordPage>
           <Title text="Forgot Password"/>
+          <Subtitle text="Enter your phone"/>
           <Input className="phone" prefix={<IcnPhone/>} placeholder="Phone number" type="number"/>
           <Button type="primary">Next</Button>
         </StyledResetPasswordPage>

@@ -7,7 +7,7 @@ const Container = styled.div`
     font-weight: 800;
     color: var(--ion-color-secondary);
     width: calc(100% - 60px);
-    margin: 30px auto;
+    margin: 30px auto 10px auto;
   }
 `;
 
