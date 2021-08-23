@@ -14,6 +14,7 @@ import { ReactComponent as IcnClose } from './svg/Close.svg';
 import { ReactComponent as IcnStar } from './svg/Star.svg';
 import { ReactComponent as IcnClock } from './svg/Clock.svg';
 import { ReactComponent as IcnLock } from './svg/Lock.svg';
+import { ReactComponent as IcnPhone } from './svg/Phone.svg';
 export {
   IcnBack,
   IcnSearch,
@@ -30,5 +31,6 @@ export {
   IcnClose,
   IcnStar,
   IcnClock,
-  IcnLock
+  IcnLock,
+  IcnPhone
 };

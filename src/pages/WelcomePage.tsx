@@ -24,7 +24,6 @@ const WelcomePage = () => {
         <StyledWelcomePage>
           <WelcomeImage className="welcome-image" />
           <Button type="primary" onClick={()=> openLogin()}>Sign In</Button>
-          <Button type="secondary">Sign Up</Button>
         </StyledWelcomePage>
       </IonContent>
     </IonPage>
