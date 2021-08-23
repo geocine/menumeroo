@@ -13,7 +13,7 @@ export const handlers = [
       ctx.json(stores.find((store) => store.id === parseInt(storeId)))
     );
   }),
-  rest.get('/api/food/:foodId', (req, res, ctx) => {
+  rest.get('/api/foods/:foodId', (req, res, ctx) => {
     const { foodId } = req.params;
     const foods: Food[] = stores.reduce(
       (foodList: Food[], store) => [...foodList, ...(store.menu || [])],

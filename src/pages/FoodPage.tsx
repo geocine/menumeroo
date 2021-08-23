@@ -1,9 +1,13 @@
-import { IonPage, IonContent, IonTextarea } from '@ionic/react';
-import { useEffect, useState } from 'react';
+import { IonPage, IonContent, IonTextarea, IonFooter } from '@ionic/react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useSnapshot } from 'valtio';
-import { Header, FoodVariationCard } from '../components';
-import { Food } from '../store/types';
+import {
+  Header,
+  FoodVariationCard,
+  Button,
+  FoodVariations
+} from '../components';
 
 import styled from '@emotion/styled/macro';
 import { vstore } from '../store/store';
@@ -15,6 +19,7 @@ const HeaderImage = styled.div`
 
   img {
     object-fit: cover;
+    height: 300px;
   }
 `;
 
@@ -24,7 +29,6 @@ const FoodHeader = styled.div`
   border-bottom: 1px solid #efefef;
   padding: 15px 30px;
   margin-bottom: 10px;
-  margin-top: 5px;
 
   h1 {
     font-family: 'AvenirLTStd-Heavy';
@@ -81,13 +85,17 @@ const TextArea = styled(IonTextarea)`
   font-family: 'AvenirLTStd';
 `;
 
+const AddToCart = styled(IonFooter)`
+  background: white;
+`;
+
 const FoodPage = () => {
   const { id } = useParams<any>();
   const data = useSnapshot(vstore);
 
   useEffect(() => {
     const loadFood = async () => {
-      await data.loadFood(id);
+      await vstore.loadFood(id);
     };
     loadFood();
   }, [id]);
@@ -97,18 +105,33 @@ const FoodPage = () => {
       <Header showButton={true} type="close" />
       <IonContent fullscreen>
         <HeaderImage>
-          <img src={data.currentFood.src} alt={data.currentFood.name}></img>
+          <img
+            src={data.currentFood?.food?.src}
+            alt={data.currentFood?.food?.name}
+          ></img>
         </HeaderImage>
         <FoodHeader>
           <header>
-            <h1>{data.currentFood.name}</h1>
+            <h1>{data.currentFood?.food?.name}</h1>
             <div className="price">
-              <h1>{`PHP ${data.currentFood.price}`}</h1>
+              <h1>{data.currentFood?.food?.price?.toFixed(2)}</h1>
               <label>Base price</label>
             </div>
           </header>
-          <h3>{data.currentFood.description}</h3>
+          <h3>{data.currentFood?.food?.description}</h3>
         </FoodHeader>
+        {data.currentFood?.variations?.map((variation) => (
+          <FoodVariationCard
+            key={variation.id}
+            title={variation.name}
+            sideNote={variation.description}
+          >
+            <FoodVariations
+              variations={variation.foodItems}
+              choiceType={variation.choiceType}
+            />
+          </FoodVariationCard>
+        ))}
         <FoodVariationCard title="Special Instructions" sideNote="Optional">
           <Instructions>
             <p>
@@ -119,6 +142,9 @@ const FoodPage = () => {
           </Instructions>
         </FoodVariationCard>
       </IonContent>
+      <AddToCart>
+        <Button type="primary">Add to Basket</Button>
+      </AddToCart>
     </IonPage>
   );
 };

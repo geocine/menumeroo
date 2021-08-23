@@ -110,7 +110,7 @@ const FoodCard = ({
       <Card width={width} height={height} borderRadius={borderRadius}>
         <img src={src} alt={label}></img>
       </Card>
-      {price && <span>{`PHP ${price.toFixed(2)}`}</span>}
+      {price && <span>{price.toFixed(2)}</span>}
       <h2 className={price ? '' : 'no-price'}>{label}</h2>
     </StyledFoodCard>
   );
@@ -144,14 +144,14 @@ const FoodSlider = ({
 
   return (
     <Slides options={{ ...slideOpts, spaceBetween }} height={lHeight}>
-      {foods.map((food: any, idx) => {
+      {foods.map((food: Food, idx) => {
         return (
           <Slide key={idx} width={lWidth} margin={margin}>
             <FoodCard
               borderRadius={borderRadius}
               width={lWidth}
               height={lHeight}
-              label={food.label}
+              label={food.name}
               src={food.src}
               price={food.price}
               onClick={() => onClick(storeId)}
