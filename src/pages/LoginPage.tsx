@@ -37,13 +37,38 @@ const StyleTitleSection = styled.div`
   margin: 30px auto;
 `;
 
+const login = (username: any) => {
+  // login process
+  console.log(username);
+}
+
+
+
 const LoginPage = () => {
   let history = useHistory();
   const openForgotPassword = () => {
     history.push(`/forgotpassword`);
   }
+  let disabledBtn = true;
   const  [ username, setUsername] = useState<string>();
   const  [ password, setPassword] = useState<string>();
+
+  const updateData = (name: string, value: any) => {
+    console.log("value:",value);
+    switch(name){
+      case 'username': 
+        setUsername(value);
+        console.log("username:",username);
+        break;
+      case 'password': 
+        setPassword(value);
+        console.log("password:",password);
+        break;
+      default: break;
+    }
+    
+    disabledBtn = username && password ? false : true;
+  }
   return (
     <IonPage>
       <Header
@@ -56,9 +81,9 @@ const LoginPage = () => {
           <StyleTitleSection>
             <Title text="Sign in"/>
           </StyleTitleSection>
-          <Input onChange={(e) => setUsername(e.target.value)}  className="username" prefix={<IcnProfile/>} placeholder="Username" />
-          <Input onChange={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock/>} placeholder="Password" type="password" />
-          <Button type="primary" onClick={() => console.log(password)}>Sign In</Button>
+          <Input onChange={(e) => updateData('username', e.target.value)}  className="username" prefix={<IcnProfile/>} placeholder="Username" />
+          <Input onChange={(e) => updateData('password', e.target.value)} className="password" prefix={<IcnLock/>} placeholder="Password" type="password" />
+          <Button type="primary" onClick={() => login(username)} disabled={disabledBtn}>Sign In</Button>
           <a className="link" href="javascript:void(0)" onClick={()=> openForgotPassword()}>Forgot Password?</a>
         </StyledLoginPage>
       </IonContent>
