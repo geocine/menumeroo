@@ -1,9 +1,8 @@
 import styled from '@emotion/styled/macro';
 import { IonContent, IonPage } from '@ionic/react';
-import { Header, Button, Input, Title, Subtitle } from '../components';
-import { IcnPhone } from '../components/Icon/Icon';
+import { Header, Title, Subtitle } from '../components';
 
-const StyledResetPasswordPage = styled.div`
+const StyledCheckEmailPage = styled.div`
   .ant-input-affix-wrapper { 
     margin-bottom: 20px !important;
   }
@@ -18,7 +17,7 @@ const StyleTitleSection = styled.div`
 `;
 
 
-const ResetPasswordPage = () => {
+const CheckEmailPage = () => {
   return (
     <IonPage>
       <Header
@@ -27,17 +26,15 @@ const ResetPasswordPage = () => {
         style={{ background: 'transparent' }}
       />
       <IonContent fullscreen>
-        <StyledResetPasswordPage>
+        <StyledCheckEmailPage>
           <StyleTitleSection>
             <Title text="Forgot Password"/>
-            <Subtitle text="Enter your phone"/>
+            <Subtitle text="Please check your e-mail to reset your password"/>
           </StyleTitleSection>
-          <Input className="phone" prefix={<IcnPhone/>} placeholder="Phone number" type="number"/>
-          <Button type="primary">Next</Button>
-        </StyledResetPasswordPage>
+        </StyledCheckEmailPage>
       </IonContent>
     </IonPage>
   );
 };
 
-export default ResetPasswordPage;
+export default CheckEmailPage;

@@ -7,7 +7,8 @@ import SignupPage from './pages/SignupPage';
 import MainPage from './pages/MainPage';
 import FoodPage from './pages/FoodPage';
 import StorePage from './pages/StorePage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import CheckEmailPage from './pages/CheckEmailPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -43,8 +44,11 @@ const App = () => (
         <Route path="/signup/:code?">
           <SignupPage />
         </Route>
-        <Route path="/resetpassword">
-          <ResetPasswordPage />
+        <Route path="/forgotpassword">
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/checkemail">
+          <CheckEmailPage />
         </Route>
         <Route path="/store/:id">
           <StorePage />

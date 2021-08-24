@@ -3,6 +3,7 @@ import { IonContent, IonPage } from '@ionic/react';
 import { Header, Button, Input, Title } from '../components';
 import { IcnLock, IcnProfile } from '../components/Icon/Icon';
 import { useHistory } from 'react-router';
+import { useState } from 'react';
 
 const StyledLoginPage = styled.div`
   .ant-input-affix-wrapper { 
@@ -38,9 +39,11 @@ const StyleTitleSection = styled.div`
 
 const LoginPage = () => {
   let history = useHistory();
-  const openResetPassword = () => {
-    history.push(`/resetpassword`);
+  const openForgotPassword = () => {
+    history.push(`/forgotpassword`);
   }
+  const  [ username, setUsername] = useState<string>();
+  const  [ password, setPassword] = useState<string>();
   return (
     <IonPage>
       <Header
@@ -53,10 +56,10 @@ const LoginPage = () => {
           <StyleTitleSection>
             <Title text="Sign in"/>
           </StyleTitleSection>
-          <Input className="username" prefix={<IcnProfile/>} placeholder="Username" />
-          <Input className="password" prefix={<IcnLock/>} placeholder="Password" type="password" />
-          <Button type="primary">Sign In</Button>
-          <a className="link" href="javascript:void(0)" onClick={()=> openResetPassword()}>Forgot Password?</a>
+          <Input onChange={(e) => setUsername(e.target.value)}  className="username" prefix={<IcnProfile/>} placeholder="Username" />
+          <Input onChange={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock/>} placeholder="Password" type="password" />
+          <Button type="primary" onClick={() => console.log(password)}>Sign In</Button>
+          <a className="link" href="javascript:void(0)" onClick={()=> openForgotPassword()}>Forgot Password?</a>
         </StyledLoginPage>
       </IonContent>
     </IonPage>
