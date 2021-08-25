@@ -3,7 +3,7 @@ import { IonContent, IonPage } from '@ionic/react';
 import { Header, Button, Input, Title } from '../components';
 import { IcnLock, IcnProfile } from '../components/Icon/Icon';
 import { useHistory } from 'react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const StyledLoginPage = styled.div`
   .ant-input-affix-wrapper { 
@@ -49,26 +49,19 @@ const LoginPage = () => {
   const openForgotPassword = () => {
     history.push(`/forgotpassword`);
   }
-  let disabledBtn = true;
-  const  [ username, setUsername] = useState<string>();
-  const  [ password, setPassword] = useState<string>();
 
-  const updateData = (name: string, value: any) => {
-    console.log("value:",value);
-    switch(name){
-      case 'username': 
-        setUsername(value);
-        console.log("username:",username);
-        break;
-      case 'password': 
-        setPassword(value);
-        console.log("password:",password);
-        break;
-      default: break;
+  const [username, setUsername] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [disabled = true, setDisabled] = useState<boolean | null>();
+
+  useEffect(() => {
+    if (!username && !password) {
+      setDisabled(true)
+    } else {
+      setDisabled(null)
     }
-    
-    disabledBtn = username && password ? false : true;
-  }
+  }, [username, password]);
+
   return (
     <IonPage>
       <Header
@@ -79,12 +72,12 @@ const LoginPage = () => {
       <IonContent fullscreen>
         <StyledLoginPage>
           <StyleTitleSection>
-            <Title text="Sign in"/>
+            <Title text="Sign in" />
           </StyleTitleSection>
-          <Input onChange={(e) => updateData('username', e.target.value)}  className="username" prefix={<IcnProfile/>} placeholder="Username" />
-          <Input onChange={(e) => updateData('password', e.target.value)} className="password" prefix={<IcnLock/>} placeholder="Password" type="password" />
-          <Button type="primary" onClick={() => login(username)} disabled={disabledBtn}>Sign In</Button>
-          <a className="link" href="javascript:void(0)" onClick={()=> openForgotPassword()}>Forgot Password?</a>
+          <Input onChange={(e) => setUsername(e.target.value)} className="username" prefix={<IcnProfile />} placeholder="Username" />
+          <Input onChange={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock />} placeholder="Password" type="password" />
+          <Button type="primary" onClick={() => login(username)} disabled={disabled}>Sign In</Button>
+          <a className="link" href="javascript:void(0)" onClick={() => openForgotPassword()}>Forgot Password?</a>
         </StyledLoginPage>
       </IonContent>
     </IonPage>
