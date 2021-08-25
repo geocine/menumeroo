@@ -9,6 +9,7 @@ import FoodPage from './pages/FoodPage';
 import StorePage from './pages/StorePage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import CheckEmailPage from './pages/CheckEmailPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -49,6 +50,9 @@ const App = () => (
         </Route>
         <Route path="/checkemail">
           <CheckEmailPage />
+        </Route>
+        <Route path="/resetpassword">
+          <ResetPasswordPage />
         </Route>
         <Route path="/store/:id">
           <StorePage />
