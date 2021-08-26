@@ -51,7 +51,7 @@ const App = () => (
         <Route path="/checkemail">
           <CheckEmailPage />
         </Route>
-        <Route path="/resetpassword">
+        <Route path="/resetpassword/:code?">
           <ResetPasswordPage />
         </Route>
         <Route path="/store/:id">

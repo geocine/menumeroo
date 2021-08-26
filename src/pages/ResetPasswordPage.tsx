@@ -3,6 +3,7 @@ import { IonContent, IonPage } from '@ionic/react';
 import { Header, Button, Input, Title } from '../components';
 import { IcnLock } from '../components/Icon/Icon';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 const StyledResetPasswordPage = styled.div`
   .ant-input-affix-wrapper { 
@@ -41,9 +42,13 @@ const submit = (password: any) => {
   console.log(password);
 }
 
-
+interface ResetPasswordPageParams {
+  code? : string
+}
 
 const ResetPasswordPage = () => {
+
+  const { code } = useParams<ResetPasswordPageParams>();
 
   const [password, setPassword] = useState<string>();
   const [password2, setPassword2] = useState<string>();
