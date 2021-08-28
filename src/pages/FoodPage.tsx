@@ -1,16 +1,18 @@
 import { IonPage, IonContent, IonTextarea, IonFooter } from '@ionic/react';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useSnapshot } from 'valtio';
 import {
   Header,
   FoodVariationCard,
   Button,
-  FoodVariations
+  FoodVariations,
+  Counter
 } from '../components';
 
 import styled from '@emotion/styled/macro';
 import { vstore } from '../store/store';
+import { Food, Menu } from '../store/types';
 
 const HeaderImage = styled.div`
   background-color: #eae8e8;
@@ -92,6 +94,7 @@ const AddToCart = styled(IonFooter)`
 const FoodPage = () => {
   const { id } = useParams<any>();
   const data = useSnapshot(vstore);
+  const [totalPrice, setTotalPrice] = useState<number>(1);
 
   useEffect(() => {
     const loadFood = async () => {
@@ -99,6 +102,41 @@ const FoodPage = () => {
     };
     loadFood();
   }, [id]);
+
+  const computeTotal = useCallback(() => {
+    const variationTotal =
+      vstore.currentFood.variations?.reduce<number>(
+        (varTotal: number, currentMenu: Menu) => {
+          const foodItems = currentMenu.foodItems?.filter(
+            (foodItem) => foodItem.chosen
+          );
+          return (
+            varTotal +
+            foodItems.reduce((total: number, food: Food) => {
+              return total + (food?.price || 0);
+            }, 0)
+          );
+        },
+        0
+      ) || 0;
+    setTotalPrice(
+      ((data.currentFood.food?.price || 0) + variationTotal) *
+        (data.currentFood.multiplier || 1)
+    );
+  }, [data.currentFood.food?.price, data.currentFood.multiplier]);
+
+  useEffect(() => {
+    // TODO: dependency on array changes is not working on useEffect but triggers update on devtools for valtio
+    computeTotal();
+  }, [data.currentFood.food?.price, data.currentFood.multiplier, computeTotal]);
+
+  const onChange = () => {
+    computeTotal();
+  };
+
+  const multiplyPrice = (multiplier: number = 1) => {
+    vstore.currentFood.multiplier = multiplier;
+  };
 
   return (
     <IonPage>
@@ -129,6 +167,7 @@ const FoodPage = () => {
             <FoodVariations
               variations={variation.foodItems}
               choiceType={variation.choiceType}
+              onChange={onChange}
             />
           </FoodVariationCard>
         ))}
@@ -141,9 +180,12 @@ const FoodPage = () => {
             <TextArea placeholder="eg. No onions"></TextArea>
           </Instructions>
         </FoodVariationCard>
+        <Counter onChange={multiplyPrice} />
       </IonContent>
       <AddToCart>
-        <Button type="primary">Add to Basket</Button>
+        <Button type="primary">
+          Add to Basket - {(totalPrice || 0).toFixed(2)}
+        </Button>
       </AddToCart>
     </IonPage>
   );

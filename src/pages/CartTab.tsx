@@ -1,13 +1,13 @@
 import { IonContent, IonPage } from '@ionic/react';
 import { Header } from '../components';
 
-const OrderTab = () => {
+const MyListTab = () => {
   return (
     <IonPage>
-      <Header title="Order" showButton={true} type="close" />
+      <Header showButton={true} type="back" title="My Basket" />
       <IonContent fullscreen></IonContent>
     </IonPage>
   );
 };
 
-export default OrderTab;
+export default MyListTab;
