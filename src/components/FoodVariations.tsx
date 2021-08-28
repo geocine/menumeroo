@@ -2,6 +2,8 @@ import { IonItem, IonLabel, IonCheckbox, IonList } from '@ionic/react';
 import styled from '@emotion/styled/macro';
 import React from 'react';
 import { Food } from '../store/types';
+import { CheckboxChangeEventDetail } from '@ionic/core';
+import { vstore } from '../store/store';
 
 const VariationList = styled(IonList)`
   padding: 0;
@@ -28,10 +30,12 @@ const VariationItem = styled(IonItem)`
 
 const FoodVariations = ({
   variations,
-  choiceType = 'single'
+  choiceType = 'single',
+  onChange = () => {}
 }: {
   variations: Food[];
   choiceType?: string;
+  onChange: () => void;
 }) => {
   if (choiceType === 'multi') {
   }
@@ -41,10 +45,17 @@ const FoodVariations = ({
       {variations.map((variation) => (
         // <StyledFoodVariationItem>
         <VariationItem key={variation.id}>
-          <IonCheckbox slot="start" value={variation.id.toString()} />
+          <IonCheckbox
+            slot="start"
+            value={variation.id.toString()}
+            onIonChange={(event: CustomEvent<CheckboxChangeEventDetail>) => {
+              vstore.setSelectedVariation(variation.id, event.detail.checked);
+              onChange();
+            }}
+          />
           <IonLabel>{variation.name}</IonLabel>
           <span slot="end" className="price">
-            {variation.price}
+            {variation.price?.toFixed(2)}
           </span>
         </VariationItem>
         // </StyledFoodVariationItem>

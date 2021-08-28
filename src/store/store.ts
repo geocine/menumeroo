@@ -1,4 +1,5 @@
 import { proxy } from 'valtio';
+import { devtools } from 'valtio/utils';
 import axios from 'axios';
 import { Category, Food, Menu, Store } from './types';
 
@@ -12,12 +13,14 @@ export interface VStore {
   currentFood: {
     food?: Food;
     variations?: Menu[];
+    multiplier?: number;
   };
   loadStores: () => Promise<void>;
   loadStore: (id: number) => Promise<void>;
   loadCategories: () => Promise<void>;
   loadFood: (id: number) => Promise<void>;
   setSelectedCategory: (id: number) => void;
+  setSelectedVariation: (id: number, select: boolean) => void;
 }
 
 const loadStores = async () => {
@@ -82,6 +85,20 @@ const setSelectedCategory = (id: number) => {
   });
 };
 
+function setSelectedVariation(id: number, selected: boolean) {
+  vstore.currentFood.variations = vstore.currentFood.variations?.map(
+    (currentMenu: Menu) => {
+      currentMenu.foodItems = currentMenu.foodItems?.map((foodItem) => {
+        if (foodItem.id === id) {
+          foodItem.chosen = selected;
+        }
+        return foodItem;
+      });
+      return currentMenu;
+    }
+  );
+}
+
 export const vstore = proxy<VStore>({
   stores: [],
   categories: [],
@@ -91,5 +108,8 @@ export const vstore = proxy<VStore>({
   loadStore,
   loadCategories,
   loadFood,
-  setSelectedCategory
+  setSelectedCategory,
+  setSelectedVariation
 });
+
+devtools(vstore, 'vstore');

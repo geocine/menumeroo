@@ -25,6 +25,7 @@ export interface Food {
   price?: number;
   featured?: boolean;
   type?: FoodType;
+  chosen?: boolean;
   variations?: FoodVariation[];
 }
 
