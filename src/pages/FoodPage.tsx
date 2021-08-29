@@ -103,37 +103,6 @@ const FoodPage = () => {
     loadFood();
   }, [id]);
 
-  const computeTotal = useCallback(() => {
-    const variationTotal =
-      vstore.currentFood.variations?.reduce<number>(
-        (varTotal: number, currentMenu: Menu) => {
-          const foodItems = currentMenu.foodItems?.filter(
-            (foodItem) => foodItem.chosen
-          );
-          return (
-            varTotal +
-            foodItems.reduce((total: number, food: Food) => {
-              return total + (food?.price || 0);
-            }, 0)
-          );
-        },
-        0
-      ) || 0;
-    setTotalPrice(
-      ((data.currentFood.food?.price || 0) + variationTotal) *
-        (data.currentFood.multiplier || 1)
-    );
-  }, [data.currentFood.food?.price, data.currentFood.multiplier]);
-
-  useEffect(() => {
-    // TODO: dependency on array changes is not working on useEffect but triggers update on devtools for valtio
-    computeTotal();
-  }, [data.currentFood.food?.price, data.currentFood.multiplier, computeTotal]);
-
-  const onChange = () => {
-    computeTotal();
-  };
-
   const multiplyPrice = (multiplier: number = 1) => {
     vstore.currentFood.multiplier = multiplier;
   };
@@ -167,7 +136,6 @@ const FoodPage = () => {
             <FoodVariations
               variations={variation.foodItems}
               choiceType={variation.choiceType}
-              onChange={onChange}
             />
           </FoodVariationCard>
         ))}
@@ -184,7 +152,7 @@ const FoodPage = () => {
       </IonContent>
       <AddToCart>
         <Button type="primary">
-          Add to Basket - {(totalPrice || 0).toFixed(2)}
+          Add to Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
         </Button>
       </AddToCart>
     </IonPage>

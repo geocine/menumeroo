@@ -1,5 +1,5 @@
 import { proxy } from 'valtio';
-import { devtools } from 'valtio/utils';
+import { derive, devtools } from 'valtio/utils';
 import axios from 'axios';
 import { Category, Food, Menu, Store } from './types';
 
@@ -14,6 +14,7 @@ export interface VStore {
     food?: Food;
     variations?: Menu[];
     multiplier?: number;
+    totalPrice?: number;
   };
   loadStores: () => Promise<void>;
   loadStore: (id: number) => Promise<void>;
@@ -112,5 +113,35 @@ export const vstore = proxy<VStore>({
   setSelectedCategory,
   setSelectedVariation
 });
+
+derive(
+  {
+    totalPrice: (get) => {
+      const currentFood = get(vstore.currentFood);
+      const variationTotal =
+        currentFood.variations?.reduce<number>(
+          (varTotal: number, currentMenu: Menu) => {
+            const foodItems = currentMenu.foodItems?.filter(
+              (foodItem) => foodItem.chosen
+            );
+            return (
+              varTotal +
+              foodItems.reduce((total: number, food: Food) => {
+                return total + (food?.price || 0);
+              }, 0)
+            );
+          },
+          0
+        ) || 0;
+      return (
+        ((currentFood.food?.price || 0) + variationTotal) *
+        (currentFood.multiplier || 1)
+      );
+    }
+  },
+  {
+    proxy: vstore.currentFood
+  }
+);
 
 devtools(vstore, 'vstore');

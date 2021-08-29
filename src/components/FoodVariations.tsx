@@ -7,11 +7,13 @@ import { vstore } from '../store/store';
 
 const VariationList = styled(IonList)`
   padding: 0;
+  background: #f5f5f561;
 `;
 const VariationItem = styled(IonItem)`
   /* font-family: 'AvenirLTStd'; */
   --padding-start: 0;
   --inner-padding-end: 0;
+  --ripple-color: transparent;
   border-bottom: 1px solid #efefef;
   ion-checkbox {
     --size: 14px;
@@ -26,16 +28,17 @@ const VariationItem = styled(IonItem)`
   ion-label {
     margin-top: 11px;
   }
+  &.item-checkbox-checked ion-label {
+    font-weight: bold;
+  }
 `;
 
 const FoodVariations = ({
   variations,
-  choiceType = 'single',
-  onChange = () => {}
+  choiceType = 'single'
 }: {
   variations: Food[];
   choiceType?: string;
-  onChange: () => void;
 }) => {
   if (choiceType === 'multi') {
   }
@@ -50,7 +53,6 @@ const FoodVariations = ({
             value={variation.id.toString()}
             onIonChange={(event: CustomEvent<CheckboxChangeEventDetail>) => {
               vstore.setSelectedVariation(variation.id, event.detail.checked);
-              onChange();
             }}
           />
           <IonLabel>{variation.name}</IonLabel>
