@@ -71,6 +71,7 @@ const loadFood = async (id: number) => {
   const response = await axios.get(`/api/foods/${id}`);
   const { variations = [], ...food } = response.data;
   vstore.currentFood.food = food;
+  vstore.currentFood.multiplier = 1;
   const menuVariations: Menu[] = variations.reduce(groupByType, []) || [];
   vstore.currentFood.variations = menuVariations;
 };
