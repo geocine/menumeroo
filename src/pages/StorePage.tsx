@@ -1,9 +1,9 @@
 import styled from '@emotion/styled/macro';
-import { IonContent, IonPage } from '@ionic/react';
+import { IonContent, IonFooter, IonPage } from '@ionic/react';
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useSnapshot } from 'valtio';
-import { Header, FoodMenuCard, FoodMenuItem } from '../components';
+import { Header, FoodMenuCard, FoodMenuItem, Button } from '../components';
 import { vstore } from '../store/store';
 
 const HeaderImage = styled.div`
@@ -16,6 +16,10 @@ interface StorePageParams {
   id?: string;
 }
 
+const Basket = styled(IonFooter)`
+  background: white;
+`;
+
 const StorePage = () => {
   const { id } = useParams<StorePageParams>();
   const data = useSnapshot(vstore);
@@ -24,7 +28,7 @@ const StorePage = () => {
   useEffect(() => {
     const loadStore = async () => {
       if (id) {
-        await data.loadStore(parseInt(id));
+        await vstore.loadStore(parseInt(id));
       }
     };
     loadStore();
@@ -56,6 +60,14 @@ const StorePage = () => {
           </FoodMenuCard>
         ))}
       </IonContent>
+      {data.currentStoreBasket.orders.length > 0 && (
+        <Basket>
+          <Button type="primary">
+            Basket - {data.currentStoreBasket.orders.length} items -{' '}
+            {data.currentStoreBasket.totalPrice?.toFixed(2)}
+          </Button>
+        </Basket>
+      )}
     </IonPage>
   );
 };

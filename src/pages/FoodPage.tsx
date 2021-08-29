@@ -1,6 +1,6 @@
 import { IonPage, IonContent, IonTextarea, IonFooter } from '@ionic/react';
-import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
 import { useSnapshot } from 'valtio';
 import {
   Header,
@@ -12,7 +12,6 @@ import {
 
 import styled from '@emotion/styled/macro';
 import { vstore } from '../store/store';
-import { Food, Menu } from '../store/types';
 
 const HeaderImage = styled.div`
   background-color: #eae8e8;
@@ -91,20 +90,34 @@ const AddToCart = styled(IonFooter)`
   background: white;
 `;
 
+interface FoodParams {
+  id: string;
+}
+
 const FoodPage = () => {
-  const { id } = useParams<any>();
+  const { id = '0' } = useParams<FoodParams>();
+  const history = useHistory();
   const data = useSnapshot(vstore);
-  const [totalPrice, setTotalPrice] = useState<number>(1);
 
   useEffect(() => {
     const loadFood = async () => {
-      await vstore.loadFood(id);
+      await vstore.loadFood(parseInt(id));
     };
     loadFood();
   }, [id]);
 
   const multiplyPrice = (multiplier: number = 1) => {
     vstore.currentFood.multiplier = multiplier;
+  };
+
+  const updateBasket = () => {
+    vstore.addUpdateBasket(data.currentFood);
+    history.goBack();
+  };
+
+  const removeFromBasket = () => {
+    vstore.removeFromBasket(data.currentFood);
+    history.goBack();
   };
 
   return (
@@ -148,12 +161,28 @@ const FoodPage = () => {
             <TextArea placeholder="eg. No onions"></TextArea>
           </Instructions>
         </FoodVariationCard>
-        <Counter onChange={multiplyPrice} />
+        <Counter
+          onChange={multiplyPrice}
+          value={data.currentFood.multiplier || 1}
+          min={data.currentFood.inBasket ? 0 : 1}
+        />
       </IonContent>
       <AddToCart>
-        <Button type="primary">
-          Add to Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
-        </Button>
+        {(data.currentFood.multiplier || 0) > 0 && !data.currentFood.inBasket && (
+          <Button type="primary" onClick={updateBasket}>
+            Add to Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
+          </Button>
+        )}
+        {(data.currentFood.multiplier || 0) > 0 && data.currentFood.inBasket && (
+          <Button type="primary" onClick={updateBasket}>
+            Update Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
+          </Button>
+        )}
+        {(data.currentFood.multiplier || 0) === 0 && (
+          <Button type="primary" onClick={removeFromBasket}>
+            Remove From Basket
+          </Button>
+        )}
       </AddToCart>
     </IonPage>
   );

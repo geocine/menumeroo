@@ -54,6 +54,7 @@ const FoodVariations = ({
             onIonChange={(event: CustomEvent<CheckboxChangeEventDetail>) => {
               vstore.setSelectedVariation(variation.id, event.detail.checked);
             }}
+            checked={variation.chosen}
           />
           <IonLabel>{variation.name}</IonLabel>
           <span slot="end" className="price">

@@ -1,8 +1,8 @@
 import styled from '@emotion/styled/macro';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GoDash, GoPlus } from 'react-icons/go';
 
-const CounterButton = styled.button<{ count: number }>`
+const CounterButton = styled.button<{ count: number; min?: number }>`
   background: transparent;
   border: 1px solid #efefef;
   border-radius: 5px;
@@ -15,7 +15,9 @@ const CounterButton = styled.button<{ count: number }>`
 
   &.dec {
     color: ${(prop) =>
-      prop.count > 1 ? 'var(--ion-color-primary)' : 'var(--ion-color-medium)'};
+      prop.count > (prop.min || 0)
+        ? 'var(--ion-color-primary)'
+        : 'var(--ion-color-medium)'};
   }
 `;
 
@@ -35,15 +37,21 @@ const CounterNumber = styled.span`
 
 interface CounterProps {
   onChange?: (count: number) => void;
+  value: number;
+  min: number;
 }
 
-const Counter = ({ onChange }: CounterProps) => {
-  const [counter, setCounter] = useState<number>(1);
+const Counter = ({ onChange, value, min = 0 }: CounterProps) => {
+  const [counter, setCounter] = useState<number>(value);
+
+  useEffect(() => {
+    setCounter(value);
+  }, [value]);
 
   const count = (isAdd: boolean = true) => {
     let newCount = counter + 1 * (isAdd ? 1 : -1);
-    if (newCount < 1) {
-      newCount = 1;
+    if (newCount < min) {
+      newCount = min;
     }
     setCounter(newCount);
     onChange?.(newCount);
@@ -55,6 +63,7 @@ const Counter = ({ onChange }: CounterProps) => {
         onClick={() => count(false)}
         className="dec"
         count={counter}
+        min={min}
       >
         <GoDash size={20} />
       </CounterButton>
