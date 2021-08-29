@@ -1,5 +1,5 @@
 import { IonPage, IonContent, IonTextarea, IonFooter } from '@ionic/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useSnapshot } from 'valtio';
 import {
@@ -98,6 +98,31 @@ const FoodPage = () => {
   const { id = '0' } = useParams<FoodParams>();
   const history = useHistory();
   const data = useSnapshot(vstore);
+  const [buttonState, setButtonState] = useState(1);
+
+  const buttonStates = {
+    ADD: 1,
+    REMOVE: 2,
+    UPDATE: 3
+  };
+
+  useEffect(() => {
+    if ((data.currentFood.multiplier || 0) > 0 && !data.currentFood.inBasket) {
+      setButtonState(buttonStates.ADD);
+    }
+    if ((data.currentFood.multiplier || 0) > 0 && data.currentFood.inBasket) {
+      setButtonState(buttonStates.UPDATE);
+    }
+    if ((data.currentFood.multiplier || 0) === 0) {
+      setButtonState(buttonStates.REMOVE);
+    }
+  }, [
+    data.currentFood.multiplier,
+    data.currentFood.inBasket,
+    buttonStates.ADD,
+    buttonStates.UPDATE,
+    buttonStates.REMOVE
+  ]);
 
   useEffect(() => {
     const loadFood = async () => {
@@ -168,17 +193,17 @@ const FoodPage = () => {
         />
       </IonContent>
       <AddToCart>
-        {(data.currentFood.multiplier || 0) > 0 && !data.currentFood.inBasket && (
+        {buttonState === buttonStates.ADD && (
           <Button type="primary" onClick={updateBasket}>
             Add to Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
           </Button>
         )}
-        {(data.currentFood.multiplier || 0) > 0 && data.currentFood.inBasket && (
+        {buttonState === buttonStates.UPDATE && (
           <Button type="primary" onClick={updateBasket}>
             Update Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
           </Button>
         )}
-        {(data.currentFood.multiplier || 0) === 0 && (
+        {buttonState === buttonStates.REMOVE && (
           <Button type="primary" onClick={removeFromBasket}>
             Remove From Basket
           </Button>
