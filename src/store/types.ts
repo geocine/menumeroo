@@ -1,3 +1,4 @@
+// TODO: separate API types vs App types
 export interface Store {
   id: number;
   name: string;
@@ -7,6 +8,24 @@ export interface Store {
   time?: string;
   rating?: number;
   menu?: Food[];
+}
+
+export interface StoreBasket {
+  id: number;
+  name: string;
+  location: string;
+  src: string;
+  distance?: string;
+  time?: string;
+  orders?: StoreBasketItem[];
+}
+
+export interface StoreBasketItem {
+  food?: Food;
+  variations?: Menu[];
+  multiplier?: number;
+  totalPrice?: number; // derived
+  inBasket?: boolean; // derived
 }
 
 export interface Menu {
@@ -26,7 +45,9 @@ export interface Food {
   featured?: boolean;
   type?: FoodType;
   chosen?: boolean;
-  variations?: FoodVariation[];
+  multiplier?: number; // there is another multipler on top level for viewing
+  storeId?: number; // property coming from API
+  variations?: FoodVariation[]; // property coming from API
 }
 
 export interface FoodType {

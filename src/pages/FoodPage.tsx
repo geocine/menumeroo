@@ -1,6 +1,6 @@
 import { IonPage, IonContent, IonTextarea, IonFooter } from '@ionic/react';
-import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router';
 import { useSnapshot } from 'valtio';
 import {
   Header,
@@ -12,7 +12,6 @@ import {
 
 import styled from '@emotion/styled/macro';
 import { vstore } from '../store/store';
-import { Food, Menu } from '../store/types';
 
 const HeaderImage = styled.div`
   background-color: #eae8e8;
@@ -91,51 +90,59 @@ const AddToCart = styled(IonFooter)`
   background: white;
 `;
 
+interface FoodParams {
+  id: string;
+}
+
 const FoodPage = () => {
-  const { id } = useParams<any>();
+  const { id = '0' } = useParams<FoodParams>();
+  const history = useHistory();
   const data = useSnapshot(vstore);
-  const [totalPrice, setTotalPrice] = useState<number>(1);
+  const [buttonState, setButtonState] = useState(1);
+
+  const buttonStates = {
+    ADD: 1,
+    REMOVE: 2,
+    UPDATE: 3
+  };
+
+  useEffect(() => {
+    if ((data.currentFood.multiplier || 0) > 0 && !data.currentFood.inBasket) {
+      setButtonState(buttonStates.ADD);
+    }
+    if ((data.currentFood.multiplier || 0) > 0 && data.currentFood.inBasket) {
+      setButtonState(buttonStates.UPDATE);
+    }
+    if ((data.currentFood.multiplier || 0) === 0) {
+      setButtonState(buttonStates.REMOVE);
+    }
+  }, [
+    data.currentFood.multiplier,
+    data.currentFood.inBasket,
+    buttonStates.ADD,
+    buttonStates.UPDATE,
+    buttonStates.REMOVE
+  ]);
 
   useEffect(() => {
     const loadFood = async () => {
-      await vstore.loadFood(id);
+      await vstore.loadFood(parseInt(id));
     };
     loadFood();
   }, [id]);
 
-  const computeTotal = useCallback(() => {
-    const variationTotal =
-      vstore.currentFood.variations?.reduce<number>(
-        (varTotal: number, currentMenu: Menu) => {
-          const foodItems = currentMenu.foodItems?.filter(
-            (foodItem) => foodItem.chosen
-          );
-          return (
-            varTotal +
-            foodItems.reduce((total: number, food: Food) => {
-              return total + (food?.price || 0);
-            }, 0)
-          );
-        },
-        0
-      ) || 0;
-    setTotalPrice(
-      ((data.currentFood.food?.price || 0) + variationTotal) *
-        (data.currentFood.multiplier || 1)
-    );
-  }, [data.currentFood.food?.price, data.currentFood.multiplier]);
-
-  useEffect(() => {
-    // TODO: dependency on array changes is not working on useEffect but triggers update on devtools for valtio
-    computeTotal();
-  }, [data.currentFood.food?.price, data.currentFood.multiplier, computeTotal]);
-
-  const onChange = () => {
-    computeTotal();
-  };
-
   const multiplyPrice = (multiplier: number = 1) => {
     vstore.currentFood.multiplier = multiplier;
+  };
+
+  const updateBasket = () => {
+    vstore.addUpdateBasket(data.currentFood);
+    history.goBack();
+  };
+
+  const removeFromBasket = () => {
+    vstore.removeFromBasket(data.currentFood);
+    history.goBack();
   };
 
   return (
@@ -167,7 +174,6 @@ const FoodPage = () => {
             <FoodVariations
               variations={variation.foodItems}
               choiceType={variation.choiceType}
-              onChange={onChange}
             />
           </FoodVariationCard>
         ))}
@@ -180,12 +186,28 @@ const FoodPage = () => {
             <TextArea placeholder="eg. No onions"></TextArea>
           </Instructions>
         </FoodVariationCard>
-        <Counter onChange={multiplyPrice} />
+        <Counter
+          onChange={multiplyPrice}
+          value={data.currentFood.multiplier || 1}
+          min={data.currentFood.inBasket ? 0 : 1}
+        />
       </IonContent>
       <AddToCart>
-        <Button type="primary">
-          Add to Basket - {(totalPrice || 0).toFixed(2)}
-        </Button>
+        {buttonState === buttonStates.ADD && (
+          <Button type="primary" onClick={updateBasket}>
+            Add to Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
+          </Button>
+        )}
+        {buttonState === buttonStates.UPDATE && (
+          <Button type="primary" onClick={updateBasket}>
+            Update Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
+          </Button>
+        )}
+        {buttonState === buttonStates.REMOVE && (
+          <Button type="primary" onClick={removeFromBasket}>
+            Remove From Basket
+          </Button>
+        )}
       </AddToCart>
     </IonPage>
   );

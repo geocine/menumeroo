@@ -9,7 +9,7 @@ import { IcnHome, IcnMyList, IcnProfile } from '../components/Icon/Icon';
 import { IoBasketOutline } from 'react-icons/io5';
 import HomeTab from './HomeTab';
 import MyListTab from './MyListTab';
-import CartTab from './CartTab';
+import BasketTab from './BasketTab';
 import ProfileTab from './ProfileTab';
 
 const MainPage = () => {
@@ -19,7 +19,7 @@ const MainPage = () => {
         <Redirect exact path="/tabs" to="/tabs/home" />
         <Route path="/tabs/home" render={() => <HomeTab />} exact />
         <Route path="/tabs/mylist" render={() => <MyListTab />} exact />
-        <Route path="/tabs/cart" render={() => <CartTab />} exact />
+        <Route path="/tabs/basket" render={() => <BasketTab />} exact />
         <Route
           path="/tabs/profile"
           render={() => <ProfileTab />}
@@ -33,7 +33,7 @@ const MainPage = () => {
         <IonTabButton tab="order" href="/tabs/mylist">
           <IcnMyList />
         </IonTabButton>
-        <IonTabButton tab="cart" href="/tabs/cart">
+        <IonTabButton tab="basket" href="/tabs/basket">
           <IoBasketOutline size={30} />
         </IonTabButton>
         <IonTabButton tab="profile" href="/tabs/profile">

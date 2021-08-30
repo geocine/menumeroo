@@ -1,4 +1,5 @@
 import styled from '@emotion/styled/macro';
+import { IonBadge } from '@ionic/react';
 import { Food as FoodType } from '../store/types';
 
 const FoodImage = styled.div<{ size: number; borderRadius: number }>`
@@ -13,6 +14,7 @@ const FoodImage = styled.div<{ size: number; borderRadius: number }>`
     object-fit: cover;
     border-radius: ${(props) => `${props.borderRadius}px`};
   }
+  position: relative;
 `;
 
 const Food = styled.div<{ compact: boolean }>`
@@ -60,6 +62,18 @@ interface FoodMenuItemProps {
   onClick?: (id: number) => void;
 }
 
+const Badge = styled(IonBadge)`
+  width: 22px;
+  border-radius: 50%;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+`;
+
 const FoodMenuItem = ({
   food,
   size = 100,
@@ -68,11 +82,12 @@ const FoodMenuItem = ({
   compact = true,
   onClick = () => {}
 }: FoodMenuItemProps) => {
-  const { src, name, description, price, id } = food;
+  const { src, name, description, price, id, multiplier } = food;
   return (
     <Food onClick={() => onClick(id)} compact={compact}>
       <FoodImage size={size} borderRadius={borderRadius}>
         <img src={src} alt={name}></img>
+        {multiplier && <Badge color="primary">{multiplier}</Badge>}
       </FoodImage>
       <FoodDetails margin={margin} compact={compact}>
         <h1>{name}</h1>

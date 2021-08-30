@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { Food } from '../store/types';
+import { Food, Store } from '../store/types';
 import { categories, stores } from './data';
 
 export const handlers = [
@@ -15,10 +15,14 @@ export const handlers = [
   }),
   rest.get('/api/foods/:foodId', (req, res, ctx) => {
     const { foodId } = req.params;
-    const foods: Food[] = stores.reduce(
-      (foodList: Food[], store) => [...foodList, ...(store.menu || [])],
-      []
-    );
+    const foods: Food[] = stores.reduce((foodList: Food[], store: Store) => {
+      let storeMenu = store.menu || [];
+      storeMenu = storeMenu.map((menu) => {
+        menu.storeId = store.id;
+        return menu;
+      });
+      return [...foodList, ...storeMenu];
+    }, []);
     const result = foods.find((food) => food.id === parseInt(foodId));
     return res(ctx.status(200), ctx.json(result));
   }),

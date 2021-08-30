@@ -15,5 +15,6 @@ export { default as FoodMenuItem } from './FoodMenuItem';
 export { default as FoodVariationCard } from './FoodVariationCard';
 export { default as FoodVariations } from './FoodVariations';
 export { default as Counter } from './Counter';
+export { default as BasketItem } from './BasketItem';
 export { default as Title } from './Title';
 export { default as Subtitle } from './Subtitle';
