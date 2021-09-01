@@ -42,8 +42,6 @@ const login = (username: any) => {
   console.log(username);
 }
 
-
-
 const LoginPage = () => {
   let history = useHistory();
   const openForgotPassword = () => {
@@ -77,7 +75,7 @@ const LoginPage = () => {
           <Input onChange={(e) => setUsername(e.target.value)} className="username" prefix={<IcnProfile />} placeholder="Username" />
           <Input onChange={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock />} placeholder="Password" type="password" />
           <Button type="primary" onClick={() => login(username)} disabled={disabled}>Sign In</Button>
-          <a className="link" href="javascript:void(0)" onClick={() => openForgotPassword()}>Forgot Password?</a>
+          <span className="link" onClick={() => openForgotPassword()}>Forgot Password?</span>
         </StyledLoginPage>
       </IonContent>
     </IonPage>

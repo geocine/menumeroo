@@ -11,6 +11,7 @@ import HomeTab from './HomeTab';
 import MyListTab from './MyListTab';
 import BasketTab from './BasketTab';
 import ProfileTab from './ProfileTab';
+import MyProfilePage from './MyProfilePage';
 
 const MainPage = () => {
   return (
@@ -23,6 +24,11 @@ const MainPage = () => {
         <Route
           path="/tabs/profile"
           render={() => <ProfileTab />}
+          exact={true}
+        />
+        <Route
+          path="/tabs/profile/edit"
+          render={() => <MyProfilePage />}
           exact={true}
         />
       </IonRouterOutlet>
