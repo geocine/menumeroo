@@ -1,4 +1,5 @@
 import {
+  IonBadge,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -11,8 +12,32 @@ import HomeTab from './HomeTab';
 import MyListTab from './MyListTab';
 import BasketTab from './BasketTab';
 import ProfileTab from './ProfileTab';
+import styled from '@emotion/styled/macro';
+import { useSnapshot } from 'valtio';
+import { vstore } from '../store/store';
+
+const Badge = styled(IonBadge)`
+  width: 10px;
+  border-radius: 50%;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 5px;
+  right: -3px;
+`;
+
+const BasketContainer = styled.div`
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  position: relative;
+`;
 
 const MainPage = () => {
+  const data = useSnapshot(vstore);
+
   return (
     <IonTabs>
       <IonRouterOutlet>
@@ -34,7 +59,10 @@ const MainPage = () => {
           <IcnMyList />
         </IonTabButton>
         <IonTabButton tab="basket" href="/tabs/basket">
-          <IoBasketOutline size={30} />
+          <BasketContainer>
+            {data.basket.items.length > 0 && <Badge />}
+            <IoBasketOutline size={30} />
+          </BasketContainer>
         </IonTabButton>
         <IonTabButton tab="profile" href="/tabs/profile">
           <IcnProfile />
