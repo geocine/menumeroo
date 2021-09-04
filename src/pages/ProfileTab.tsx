@@ -5,6 +5,7 @@ import { Button } from '../components';
 import { useHistory } from 'react-router';
 
 const ProfileHeader = styled.div`
+
   img {
     display: flex;
     width: 150px;
@@ -17,14 +18,14 @@ const ProfileHeader = styled.div`
     font-size: 20px;
     font-weight: 600;
     text-align: center;
-    color: #2a3b56;
+    color: #2A3B56;
   }
 
   .number {
     display: block;
     font-family: 'AvenirLTStd';
     text-align: center;
-    color: #8a94a3;
+    color: #8A94A3;
   }
 `;
 
@@ -47,7 +48,10 @@ const ProfileLink = styled.div`
 const ProfileTab = () => {
   let history = useHistory();
   const openProfile = () => {
-    history.push(`/tabs/profile/edit`);
+    history.push(`/profile/edit`);
+  };
+  const openAddresses = () => {
+    history.push(`/profile/addresses`);
   };
   return (
     <IonPage>
@@ -69,6 +73,18 @@ const ProfileTab = () => {
             </span>
           </p>
         </ProfileLink>
+        <ProfileLink
+          onClick={() => {
+            openAddresses();
+          }}
+        >
+          <p>
+            My Addresses
+            <span className='icon'>
+              <IcnNext />
+            </span>
+          </p>
+        </ProfileLink>
         <ProfileLink>
           <p>
             Change Password
@@ -80,38 +96,6 @@ const ProfileTab = () => {
         <ProfileLink>
           <p>
             Payment Settings
-            <span className='icon'>
-              <IcnNext />
-            </span>
-          </p>
-        </ProfileLink>
-        <ProfileLink>
-          <p>
-            My Vouchers
-            <span className='icon'>
-              <IcnNext />
-            </span>
-          </p>
-        </ProfileLink>
-        <ProfileLink>
-          <p>
-            Notification
-            <span className='icon'>
-              <IcnNext />
-            </span>
-          </p>
-        </ProfileLink>
-        <ProfileLink>
-          <p>
-            About Us
-            <span className='icon'>
-              <IcnNext />
-            </span>
-          </p>
-        </ProfileLink>
-        <ProfileLink>
-          <p>
-            Contact Us
             <span className='icon'>
               <IcnNext />
             </span>

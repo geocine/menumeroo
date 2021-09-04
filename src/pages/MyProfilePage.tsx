@@ -1,5 +1,5 @@
 import styled from '@emotion/styled/macro';
-import { IonContent, IonPage } from '@ionic/react';
+import { IonContent, IonPage, IonFooter } from '@ionic/react';
 import { Button, Header, Input } from '../components';
 import { useEffect, useState } from 'react';
 
@@ -41,19 +41,25 @@ const ProfileInput = styled.div`
   margin-left: 30px;
   color: #8A94A3;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 
   .data-holder {
     float: right;
     margin-right: 30px;
   }
-  
+
   .data-holder input {
     margin: 0 !important;
-    background: none !important;
-    height: auto !important;
     max-width: 100% !important;
-    padding: 0 !important;
+    text-align: right;
+    color: #2A3B56;
+    background: var(--ion-color-light) !important;
+  }
+  
+  .data-holder input:read-only {
+    margin: 0 !important;
+    background: none !important;
+    max-width: 100% !important;
     text-align: right;
     color: #2A3B56;
   }
@@ -66,7 +72,18 @@ const saveProfile = (data: any) => {
 
 const MyProfilePage = () => {
   const [data, setData] = useState<any | null>();
+  const [readOnly = true, setReadOnly] = useState<boolean | undefined>();
+  const [buttonText  = "Edit", setButtonText] = useState<string>();
   let inputData = [];
+  const editMode = () => {
+    if (readOnly === true) {
+      setReadOnly(false);
+      setButtonText("Save");
+    } else {
+      setReadOnly(true);
+      setButtonText("Edit");
+    }
+  }
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -90,6 +107,7 @@ const MyProfilePage = () => {
                 className='profile-input'
                 placeholder='name'
                 value='Jack Sparrow'
+                readOnly={readOnly}
               />
             </span>
             </p>
@@ -102,6 +120,7 @@ const MyProfilePage = () => {
                 className='profile-input'
                 placeholder='number'
                 value='+63 905 123 4567'
+                readOnly={readOnly}
               />
             </span>
             </p>
@@ -114,13 +133,17 @@ const MyProfilePage = () => {
                 className='profile-input'
                 placeholder='number'
                 value='jack@foodorder.com'
+                readOnly={readOnly}
               />
             </span>
             </p>
           </ProfileInput>
-          <Button type='primary' onClick={() => saveProfile('data')}>
-            Save
-          </Button>
+          
+          <IonFooter>
+            <Button type='primary' onClick={() => editMode()}>
+              {buttonText}
+            </Button>
+          </IonFooter>
         </StyledMyProfilePage>
       </IonContent>
     </IonPage>

@@ -10,6 +10,7 @@ import StorePage from './pages/StorePage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import CheckEmailPage from './pages/CheckEmailPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import MyProfilePage from './pages/MyProfilePage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -66,6 +67,16 @@ const App = () => (
         <Route exact path="/">
           <Redirect to="/tabs" />
         </Route>
+        <Route
+          path="/profile/edit"
+          render={() => <MyProfilePage />}
+          exact={true}
+        />
+        <Route
+          path="/profile/addresses"
+          render={() => <MyProfilePage />}
+          exact={true}
+        />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

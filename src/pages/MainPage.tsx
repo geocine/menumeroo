@@ -12,7 +12,6 @@ import HomeTab from './HomeTab';
 import MyListTab from './MyListTab';
 import BasketTab from './BasketTab';
 import ProfileTab from './ProfileTab';
-import MyProfilePage from './MyProfilePage';
 import styled from '@emotion/styled/macro';
 import { useSnapshot } from 'valtio';
 import { vstore } from '../store/store';
@@ -49,11 +48,6 @@ const MainPage = () => {
         <Route
           path="/tabs/profile"
           render={() => <ProfileTab />}
-          exact={true}
-        />
-        <Route
-          path="/tabs/profile/edit"
-          render={() => <MyProfilePage />}
           exact={true}
         />
       </IonRouterOutlet>
