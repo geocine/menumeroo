@@ -35,6 +35,7 @@ export interface VStore {
   addUpdateBasket: (storeBasketItem: StoreBasketItem) => void;
   updateMenu: () => void;
   removeFromBasket: (storeBasketItem: StoreBasketItem) => void;
+  removeStoreBasket: (id: number) => void;
 }
 
 const loadStores = async () => {
@@ -204,6 +205,10 @@ const removeFromBasket = (storeBasketItem: StoreBasketItem) => {
   }
 };
 
+const removeStoreBasket = (id: number) => {
+  vstore.basket.items = vstore.basket.items.filter((item) => item.id !== id);
+};
+
 export const vstore = proxy<VStore>({
   stores: [],
   categories: [],
@@ -223,7 +228,8 @@ export const vstore = proxy<VStore>({
   setSelectedVariation,
   addUpdateBasket,
   updateMenu,
-  removeFromBasket
+  removeFromBasket,
+  removeStoreBasket
 });
 
 // Derived totalPrice on currentStoreBasket slice

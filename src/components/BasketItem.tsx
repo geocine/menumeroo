@@ -1,5 +1,7 @@
 import styled from '@emotion/styled/macro';
 import { StoreBasket } from '../store/types';
+import { RiCloseCircleFill } from 'react-icons/ri';
+import { MouseEvent } from 'react';
 
 const StoreImage = styled.div<{ size: number; borderRadius: number }>`
   width: ${(props) => `${props.size}px`};
@@ -53,16 +55,42 @@ interface CartItemProps {
   margin?: number;
   borderRadius?: number;
   onClick?: (id: number) => void;
+  onRemoveClick?: (id: number) => void;
 }
+
+const RemoveButton = styled.a`
+  margin-left: auto;
+  font-size: 25px;
+  color: var(--ion-color-primary);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  svg {
+    margin: 0 auto;
+    align-self: center;
+  }
+  &:visited,
+  &:focus,
+  &:hover {
+    color: var(--ion-color-primary);
+  }
+`;
 
 const CartItem = ({
   store,
   size = 100,
   margin = 20,
   borderRadius = 20,
-  onClick = () => {}
+  onClick = () => {},
+  onRemoveClick = () => {}
 }: CartItemProps) => {
   const { src, name, time, distance, id, orders = [] } = store;
+
+  const removeItem = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.stopPropagation();
+    onRemoveClick(id);
+  };
+
   return (
     <StoreCard onClick={() => onClick(id)}>
       <StoreImage size={size} borderRadius={borderRadius}>
@@ -74,6 +102,9 @@ const CartItem = ({
           {orders.length} items - {time} - {distance}
         </h2>
       </StoreDetails>
+      <RemoveButton onClick={removeItem}>
+        <RiCloseCircleFill />
+      </RemoveButton>
     </StoreCard>
   );
 };

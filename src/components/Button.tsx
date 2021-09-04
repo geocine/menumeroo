@@ -16,6 +16,13 @@ const StyledButton = styled(AntButton)`
     border: none;
     background: var(--ion-color-light);
     color: var(--ion-color-secondary);
+    &:hover,
+    &:focus,
+    &:active {
+      border: none;
+      background: var(--ion-color-light);
+      color: var(--ion-color-secondary);
+    }
   }
 
   &.ant-btn-primary {
@@ -34,7 +41,7 @@ const StyledButton = styled(AntButton)`
     &[disabled]:focus,
     &[disabled]:active {
       opacity: 0.8;
-      background-color: var(--ion-color-primary);
+      background: var(--ion-color-primary);
       color: #fff;
       border: none;
     }
