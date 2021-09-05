@@ -33,7 +33,7 @@ const App = () => (
         <Route path="/store/:id">
           <StorePage />
         </Route>
-        <Route path="/food/:id">
+        <Route path="/food/:id/:itemId?">
           <FoodPage />
         </Route>
         <Route path="/tabs">

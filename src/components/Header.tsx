@@ -55,6 +55,7 @@ interface HeaderProps {
   title?: string;
   showButton?: boolean;
   type?: ButtonType;
+  onDismiss?: () => void;
 }
 
 const Header = ({
@@ -62,7 +63,8 @@ const Header = ({
   showButton = true,
   type = 'back',
   children,
-  style
+  style,
+  onDismiss
 }: HeaderProps &
   React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
@@ -73,9 +75,13 @@ const Header = ({
   const getButton = (type: ButtonType) => {
     switch (type) {
       case 'back':
-        return <IcnBack className="button" onClick={history.goBack} />;
+        return (
+          <IcnBack className="button" onClick={onDismiss || history.goBack} />
+        );
       case 'close':
-        return <IcnClose className="button" onClick={history.goBack} />;
+        return (
+          <IcnClose className="button" onClick={onDismiss || history.goBack} />
+        );
     }
     return null;
   };

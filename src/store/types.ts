@@ -21,11 +21,11 @@ export interface StoreBasket {
 }
 
 export interface StoreBasketItem {
+  id: number;
   food?: Food;
   variations?: Menu[];
   multiplier?: number;
   totalPrice?: number; // derived
-  inBasket?: boolean; // derived
 }
 
 export interface Menu {
@@ -44,7 +44,7 @@ export interface Food {
   price?: number;
   featured?: boolean;
   type?: FoodType;
-  chosen?: boolean;
+  chosen?: boolean; // kinda confusing chosen variation is here
   multiplier?: number; // there is another multipler on top level for viewing
   storeId?: number; // property coming from API
   variations?: FoodVariation[]; // property coming from API

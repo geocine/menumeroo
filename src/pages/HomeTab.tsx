@@ -13,6 +13,7 @@ import { vstore } from '../store/store';
 
 const HomePage = () => {
   const data = useSnapshot(vstore);
+  const home = data.home;
   const history = useHistory();
 
   const openStore = (id: number) => {
@@ -21,14 +22,14 @@ const HomePage = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      await vstore.loadStores();
-      await vstore.loadCategories();
+      await vstore.home.loadStores();
+      await vstore.home.loadCategories();
     };
     loadData();
   }, []);
 
   const onSelectCategory = (id: number) => {
-    data.setSelectedCategory(id);
+    home.setSelectedCategory(id);
   };
 
   return (
@@ -36,10 +37,10 @@ const HomePage = () => {
       <SearchHeader showBack={false} />
       <IonContent fullscreen>
         <CategorySlider
-          categories={data.categories}
+          categories={home.categories}
           onSelect={(id) => onSelectCategory(id)}
         />
-        {data.stores.map((store) => (
+        {home.stores.map((store) => (
           <StoreCardSlider key={store.id}>
             <StoreCard
               store={store}

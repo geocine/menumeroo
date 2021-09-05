@@ -1,5 +1,6 @@
 import styled from '@emotion/styled/macro';
 import { IonBadge } from '@ionic/react';
+import { vstore } from '../store/store';
 import { Food as FoodType } from '../store/types';
 
 const FoodImage = styled.div<{ size: number; borderRadius: number }>`
@@ -82,12 +83,13 @@ const FoodMenuItem = ({
   compact = true,
   onClick = () => {}
 }: FoodMenuItemProps) => {
-  const { src, name, description, price, id, multiplier } = food;
+  const { src, name, description, price, id } = food;
+  const multiplier = vstore.currentStoreBasket.ordersInBasket(id);
   return (
     <Food onClick={() => onClick(id)} compact={compact}>
       <FoodImage size={size} borderRadius={borderRadius}>
         <img src={src} alt={name}></img>
-        {multiplier && <Badge color="primary">{multiplier}</Badge>}
+        {multiplier > 0 && <Badge color="primary">{multiplier}</Badge>}
       </FoodImage>
       <FoodDetails margin={margin} compact={compact}>
         <h1>{name}</h1>
