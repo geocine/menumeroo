@@ -7,7 +7,8 @@ import {
   Menu,
   Store,
   StoreBasket,
-  StoreBasketItem
+  StoreBasketItem,
+  UserProfile
 } from './types';
 
 export interface VStore {
@@ -38,6 +39,10 @@ export interface VStore {
     totalPrice?: number; // derived
     removeStoreBasket: (id: number) => void;
     ordersInBasket: (foodId: number) => number;
+  };
+  user: {
+    profile?: UserProfile;
+    loadProfile: (id: number) => Promise<void>;
   };
 }
 
@@ -211,6 +216,13 @@ const ordersInBasket = (foodId: number): number => {
   );
 };
 
+// Users
+
+const loadProfile = async () => {
+  const response = await axios.get('/api/users/1');
+  vstore.user.profile = response.data;
+};
+
 // Helpers
 
 const groupByType = (current: Menu[], item: Food) => {
@@ -273,6 +285,10 @@ export const vstore = proxy<VStore>({
     orders: [],
     removeStoreBasket,
     ordersInBasket
+  },
+  user: {
+    profile: undefined,
+    loadProfile
   }
 });
 

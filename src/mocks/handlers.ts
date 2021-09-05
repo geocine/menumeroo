@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import { Food, Store } from '../store/types';
-import { categories, stores } from './data';
+import { categories, stores, user } from './data';
 
 export const handlers = [
   rest.get('/api/stores', (req, res, ctx) => {
@@ -28,5 +28,8 @@ export const handlers = [
   }),
   rest.get('/api/categories', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(categories));
+  }),
+  rest.get('/api/users/:id', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(user));
   })
 ];

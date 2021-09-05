@@ -69,3 +69,10 @@ export interface Category {
   icon: string;
   selected?: boolean;
 }
+
+export interface UserProfile {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  [key: string]: string; // need this to be able to dynamically address string properties
+}

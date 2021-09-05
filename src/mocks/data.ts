@@ -1,5 +1,5 @@
 // Home Data
-import { Category, Store } from '../store/types';
+import { Category, Store, UserProfile } from '../store/types';
 
 export const stores: Store[] = [
   {
@@ -107,3 +107,9 @@ export const categories: Category[] = [
     icon: 'food'
   }
 ];
+
+export const user: UserProfile = {
+  name: 'Jack Sparrow',
+  phoneNumber: '905 123 4567',
+  email: 'jack@menumeroo.com'
+};
