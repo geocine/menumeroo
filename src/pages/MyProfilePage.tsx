@@ -73,6 +73,9 @@ const saveProfile = (data: any) => {
 const MyProfilePage = () => {
   const [data, setData] = useState<any | null>();
   const [readOnly = true, setReadOnly] = useState<boolean | undefined>();
+  const [name, setName] = useState<string>("Jack Sparrow");
+  const [phone, setPhone] = useState<string>("+63 905 123 4567");
+  const [email, setEmail] = useState<string>("jack@menumeroo.com");
   const [buttonText  = "Edit", setButtonText] = useState<string>();
   let inputData = [];
   const editMode = () => {
@@ -103,10 +106,10 @@ const MyProfilePage = () => {
             <p>My Name
             <span className='data-holder'>
               <Input
-                onChange={e => inputData.push(e.target.value)}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className='profile-input'
                 placeholder='name'
-                value='Jack Sparrow'
                 readOnly={readOnly}
               />
             </span>
@@ -116,10 +119,10 @@ const MyProfilePage = () => {
             <p>Phone Number
             <span className='data-holder'>
               <Input
-                onChange={e => inputData.push(e.target.value)}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className='profile-input'
                 placeholder='number'
-                value='+63 905 123 4567'
                 readOnly={readOnly}
               />
             </span>
@@ -129,23 +132,24 @@ const MyProfilePage = () => {
             <p>Email
             <span className='data-holder'>
               <Input
-                onChange={e => inputData.push(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className='profile-input'
                 placeholder='number'
-                value='jack@foodorder.com'
                 readOnly={readOnly}
               />
             </span>
             </p>
           </ProfileInput>
           
-          <IonFooter>
-            <Button type='primary' onClick={() => editMode()}>
-              {buttonText}
-            </Button>
-          </IonFooter>
+          
         </StyledMyProfilePage>
       </IonContent>
+      <IonFooter>
+        <Button type='primary' onClick={() => editMode()}>
+          {buttonText}
+        </Button>
+      </IonFooter>
     </IonPage>
   );
 };

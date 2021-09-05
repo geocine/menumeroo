@@ -37,7 +37,7 @@ const ProfileLink = styled.div`
   margin-left: 30px;
   color: #2a3b56;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 
   .icon {
     float: right;
