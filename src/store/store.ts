@@ -10,38 +10,208 @@ import {
   StoreBasketItem
 } from './types';
 
-// TODO: separate slices properly
 export interface VStore {
-  stores: Store[];
-  categories: Category[];
+  home: {
+    stores: Store[];
+    categories: Category[];
+    setSelectedCategory: (id: number) => void;
+    loadStores: () => Promise<void>;
+    loadCategories: () => Promise<void>;
+  };
   currentStore: {
     store?: Store;
     menu?: Menu[];
+    loadStore: (id: number) => Promise<void>;
+    getFoodDetails: (id: number) => Food | null;
   };
-  currentFood: StoreBasketItem;
+  currentFood: StoreBasketItem & {
+    loadFood: (id: number, itemId?: number) => Promise<void>;
+    setSelectedVariation: (id: number, select: boolean) => void;
+  };
   basket: {
     items: StoreBasket[];
+    addUpdateBasket: (storeBasketItem: StoreBasketItem) => void;
+    removeFromBasket: (storeBasketItem: StoreBasketItem) => void;
   };
   currentStoreBasket: {
     orders: StoreBasketItem[];
     totalPrice?: number; // derived
+    removeStoreBasket: (id: number) => void;
+    ordersInBasket: (foodId: number) => number;
   };
-  loadStores: () => Promise<void>;
-  loadStore: (id: number) => Promise<void>;
-  loadCategories: () => Promise<void>;
-  loadFood: (id: number) => Promise<void>;
-  setSelectedCategory: (id: number) => void;
-  setSelectedVariation: (id: number, select: boolean) => void;
-  addUpdateBasket: (storeBasketItem: StoreBasketItem) => void;
-  updateMenu: () => void;
-  removeFromBasket: (storeBasketItem: StoreBasketItem) => void;
-  removeStoreBasket: (id: number) => void;
 }
+
+// Home
+
+const setSelectedCategory = (id: number) => {
+  vstore.home.categories = vstore.home.categories.map((category: Category) => {
+    category.selected = false;
+    if (category.id === id) {
+      category.selected = true;
+    }
+    return category;
+  });
+};
 
 const loadStores = async () => {
   const response = await axios.get('/api/stores');
-  vstore.stores = response.data;
+  vstore.home.stores = response.data;
 };
+
+const loadCategories = async () => {
+  const response = await axios.get('/api/categories');
+  vstore.home.categories = response.data;
+};
+
+// Store
+
+const loadStore = async (id: number) => {
+  const response = await axios.get(`/api/stores/${id}`);
+  const store: Store = response.data;
+  vstore.currentStore.store = store;
+  const menu: Menu[] = store.menu?.reduce(groupByType, []) || [];
+  const basket = vstore.basket.items.find((item) => item.id === id);
+  vstore.currentStoreBasket.orders = basket?.orders || [];
+  vstore.currentStore.menu = menu;
+};
+
+const getFoodDetails = (id: number): Food | null => {
+  for (let menu of vstore.currentStore.menu || []) {
+    for (let food of menu.foodItems) {
+      if (food.id === id) {
+        return food;
+      }
+    }
+  }
+  return null;
+};
+
+// Food
+
+const loadFood = async (id: number, itemId?: number) => {
+  const response = await axios.get(`/api/foods/${id}`);
+  const { variations = [], ...food } = response.data;
+  // vstore.currentFood.id = itemId || 0;
+  vstore.currentFood.food = food;
+
+  const foodInBasket = vstore.currentStoreBasket.orders.find(
+    (basketItem) => basketItem.id === itemId && basketItem.food?.id === id
+  );
+
+  const menuVariations: Menu[] = variations.reduce(groupByType, []) || [];
+
+  if (!foodInBasket) {
+    vstore.currentFood.id = 0;
+    vstore.currentFood.multiplier = 1;
+    vstore.currentFood.variations = menuVariations;
+  } else {
+    vstore.currentFood.id = itemId || 0;
+    vstore.currentFood.multiplier = foodInBasket.multiplier;
+    // TODO: variation data outdated
+    vstore.currentFood.variations = foodInBasket.variations;
+  }
+
+  // TODO: if food page is refreshed , currentStore will be blank
+  if (!vstore.currentStore.store?.id && food) {
+    await loadStore(food.storeId);
+  }
+};
+
+const setSelectedVariation = (id: number, selected: boolean) => {
+  vstore.currentFood.variations = vstore.currentFood.variations?.map(
+    (currentMenu: Menu) => {
+      currentMenu.foodItems = currentMenu.foodItems?.map((foodItem) => {
+        if (foodItem.id === id) {
+          foodItem.chosen = selected;
+        }
+        return foodItem;
+      });
+      return currentMenu;
+    }
+  );
+};
+
+// Basket
+
+const addUpdateBasket = (storeBasketItem: StoreBasketItem) => {
+  const currentStoreBasketItem = { ...storeBasketItem };
+  const store = vstore.currentStore.store;
+  if (store) {
+    let storeBasket = vstore.basket.items.find(
+      (sBasket) => sBasket.id === store.id
+    );
+    if (!storeBasket) {
+      currentStoreBasketItem.id = 1;
+      // creates a storeBasket to store the basket of the store
+      storeBasket = {
+        id: store?.id,
+        location: store?.location,
+        name: store?.name,
+        src: store?.src,
+        distance: store?.distance,
+        time: store?.time,
+        orders: [currentStoreBasketItem]
+      };
+      vstore.basket.items.push(storeBasket);
+    } else {
+      // TODO: possible bug here on undefined value
+      storeBasket.orders = storeBasket.orders || [];
+      const order = storeBasket.orders.findIndex(
+        (order) => order.id === currentStoreBasketItem.id
+      );
+      if (~order) {
+        storeBasket.orders[order] = currentStoreBasketItem;
+      } else {
+        currentStoreBasketItem.id = generateId(storeBasket.orders);
+        storeBasket.orders = [
+          ...(storeBasket.orders || []),
+          currentStoreBasketItem
+        ];
+      }
+    }
+    vstore.currentStoreBasket.orders = storeBasket?.orders || [];
+  }
+};
+
+const removeFromBasket = (storeBasketItem: StoreBasketItem) => {
+  const store = vstore.currentStore.store;
+  if (store) {
+    let storeBasket = vstore.basket.items.find(
+      (sBasket) => sBasket.id === store.id
+    );
+    if (storeBasket) {
+      storeBasket.orders = storeBasket.orders?.filter(
+        (order) => order.id !== storeBasketItem.id
+      );
+      if ((storeBasket.orders?.length || 0) < 1) {
+        vstore.basket.items = vstore.basket.items.filter(
+          (sBasket) => sBasket.id !== store.id
+        );
+      }
+    }
+    vstore.currentStoreBasket.orders = storeBasket?.orders || [];
+  }
+};
+
+// Store Basket
+
+const removeStoreBasket = (id: number) => {
+  vstore.basket.items = vstore.basket.items.filter((item) => item.id !== id);
+};
+
+const ordersInBasket = (foodId: number): number => {
+  return vstore.currentStoreBasket.orders.reduce<number>(
+    (ordersTotal: number, item: StoreBasketItem) => {
+      if (item.food?.id === foodId) {
+        ordersTotal += item.multiplier || 0;
+      }
+      return ordersTotal;
+    },
+    0
+  );
+};
+
+// Helpers
 
 const groupByType = (current: Menu[], item: Food) => {
   const typeId = item.type?.id || 0;
@@ -68,168 +238,42 @@ const groupByType = (current: Menu[], item: Food) => {
   return current;
 };
 
-const loadStore = async (id: number) => {
-  const response = await axios.get(`/api/stores/${id}`);
-  const store: Store = response.data;
-  vstore.currentStore.store = store;
-  const menu: Menu[] = store.menu?.reduce(groupByType, []) || [];
-  const basket = vstore.basket.items.find((item) => item.id === id);
-  vstore.currentStoreBasket.orders = basket?.orders || [];
-  vstore.currentStore.menu = menu;
-  updateMenu();
+const generateId = (items: any[]) => {
+  // this is a dummy id generator
+  return items[items.length - 1].id + 1;
 };
 
-const loadCategories = async () => {
-  const response = await axios.get('/api/categories');
-  vstore.categories = response.data;
-};
-
-const loadFood = async (id: number) => {
-  const response = await axios.get(`/api/foods/${id}`);
-  const { variations = [], ...food } = response.data;
-  vstore.currentFood.food = food;
-  const foodInBasket = vstore.currentStoreBasket.orders.find(
-    (basketItem) => basketItem.food?.id === id
-  );
-
-  const menuVariations: Menu[] = variations.reduce(groupByType, []) || [];
-
-  if (!foodInBasket) {
-    vstore.currentFood.multiplier = 1;
-    vstore.currentFood.variations = menuVariations;
-  } else {
-    vstore.currentFood.multiplier = foodInBasket.multiplier;
-    // TODO: variation data outdated
-    vstore.currentFood.variations = foodInBasket.variations;
-  }
-
-  // TODO: if food page is refreshed , currentStore will be blank
-  if (!vstore.currentStore.store?.id && food) {
-    await loadStore(food.storeId);
-  }
-};
-
-const setSelectedCategory = (id: number) => {
-  vstore.categories = vstore.categories.map((category: Category) => {
-    category.selected = false;
-    if (category.id === id) {
-      category.selected = true;
-    }
-    return category;
-  });
-};
-
-const setSelectedVariation = (id: number, selected: boolean) => {
-  vstore.currentFood.variations = vstore.currentFood.variations?.map(
-    (currentMenu: Menu) => {
-      currentMenu.foodItems = currentMenu.foodItems?.map((foodItem) => {
-        if (foodItem.id === id) {
-          foodItem.chosen = selected;
-        }
-        return foodItem;
-      });
-      return currentMenu;
-    }
-  );
-};
-
-const addUpdateBasket = (storeBasketItem: StoreBasketItem) => {
-  const store = vstore.currentStore.store;
-  if (store) {
-    let storeBasket = vstore.basket.items.find(
-      (sBasket) => sBasket.id === store.id
-    );
-    if (!storeBasket) {
-      storeBasket = {
-        id: store?.id,
-        location: store?.location,
-        name: store?.name,
-        src: store?.src,
-        distance: store?.distance,
-        time: store?.time,
-        orders: [storeBasketItem]
-      };
-      vstore.basket.items.push(storeBasket);
-    } else {
-      // TODO: possible bug here on undefined value
-      storeBasket.orders = storeBasket.orders || [];
-      const order = storeBasket.orders.findIndex(
-        (order) => order.food?.id === storeBasketItem.food?.id
-      );
-      if (~order) {
-        storeBasket.orders[order] = storeBasketItem;
-      } else {
-        storeBasket.orders = [...(storeBasket.orders || []), storeBasketItem];
-      }
-    }
-    vstore.currentStoreBasket.orders = storeBasket?.orders || [];
-    updateMenu();
-  }
-};
-
-const updateMenu = () => {
-  vstore.currentStore.menu = vstore.currentStore.menu?.map((storeMenu) => {
-    storeMenu.foodItems = storeMenu.foodItems.map((food) => {
-      const foodInBasket = vstore.currentStoreBasket.orders.find(
-        (basketItem) => basketItem.food?.id === food.id
-      );
-      if (foodInBasket) {
-        food.multiplier = foodInBasket.multiplier;
-      } else {
-        food.multiplier = undefined;
-      }
-      return food;
-    });
-    return storeMenu;
-  });
-};
-
-const removeFromBasket = (storeBasketItem: StoreBasketItem) => {
-  const store = vstore.currentStore.store;
-  if (store) {
-    let storeBasket = vstore.basket.items.find(
-      (sBasket) => sBasket.id === store.id
-    );
-    if (storeBasket) {
-      storeBasket.orders = storeBasket.orders?.filter(
-        (order) => order.food?.id !== storeBasketItem.food?.id
-      );
-      if ((storeBasket.orders?.length || 0) < 1) {
-        vstore.basket.items = vstore.basket.items.filter(
-          (sBasket) => sBasket.id !== store.id
-        );
-      }
-    }
-    vstore.currentStoreBasket.orders = storeBasket?.orders || [];
-    updateMenu();
-  }
-};
-
-const removeStoreBasket = (id: number) => {
-  vstore.basket.items = vstore.basket.items.filter((item) => item.id !== id);
-};
+// Exports
 
 export const vstore = proxy<VStore>({
-  stores: [],
-  categories: [],
-  currentStore: {},
-  currentFood: {},
+  home: {
+    stores: [],
+    categories: [],
+    setSelectedCategory,
+    loadStores,
+    loadCategories
+  },
+  currentStore: {
+    store: undefined,
+    menu: [],
+    loadStore,
+    getFoodDetails
+  },
+  currentFood: {
+    id: 0,
+    loadFood,
+    setSelectedVariation
+  },
   basket: {
-    items: []
+    items: [],
+    addUpdateBasket,
+    removeFromBasket
   },
   currentStoreBasket: {
-    orders: []
-  },
-  loadStores,
-  loadStore,
-  loadCategories,
-  loadFood,
-  setSelectedCategory,
-  setSelectedVariation,
-  addUpdateBasket,
-  updateMenu,
-  removeFromBasket,
-  removeStoreBasket
+    orders: [],
+    removeStoreBasket,
+    ordersInBasket
+  }
 });
 
 // Derived totalPrice on currentStoreBasket slice
@@ -273,13 +317,6 @@ derive(
       return (
         ((currentFood.food?.price || 0) + variationTotal) *
         (currentFood.multiplier || 1)
-      );
-    },
-    inBasket: (get) => {
-      const currentFood = get(vstore.currentFood);
-      const currentStoreBasket = get(vstore.currentStoreBasket);
-      return ~currentStoreBasket.orders.findIndex(
-        (order) => order.food?.id === currentFood.food?.id
       );
     }
   },

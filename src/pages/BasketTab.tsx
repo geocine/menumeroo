@@ -81,7 +81,7 @@ const BasketTab = () => {
               key="submit"
               type="primary"
               onClick={() => {
-                vstore.removeStoreBasket(storeId);
+                vstore.currentStoreBasket.removeStoreBasket(storeId);
                 setShowModal(false);
                 setStoreId(0);
               }}

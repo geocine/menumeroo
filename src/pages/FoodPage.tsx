@@ -92,12 +92,14 @@ const AddToCart = styled(IonFooter)`
 
 interface FoodParams {
   id: string;
+  itemId?: string;
 }
 
 const FoodPage = () => {
-  const { id = '0' } = useParams<FoodParams>();
+  const { id = '0', itemId = '0' } = useParams<FoodParams>();
   const history = useHistory();
   const data = useSnapshot(vstore);
+  const currentFood = data.currentFood;
   const [buttonState, setButtonState] = useState(1);
 
   const buttonStates = {
@@ -107,18 +109,18 @@ const FoodPage = () => {
   };
 
   useEffect(() => {
-    if ((data.currentFood.multiplier || 0) > 0 && !data.currentFood.inBasket) {
+    if ((currentFood.multiplier || 0) > 0 && !parseInt(itemId)) {
       setButtonState(buttonStates.ADD);
     }
-    if ((data.currentFood.multiplier || 0) > 0 && data.currentFood.inBasket) {
+    if ((currentFood.multiplier || 0) > 0 && parseInt(itemId)) {
       setButtonState(buttonStates.UPDATE);
     }
-    if ((data.currentFood.multiplier || 0) === 0) {
+    if ((currentFood.multiplier || 0) === 0) {
       setButtonState(buttonStates.REMOVE);
     }
   }, [
-    data.currentFood.multiplier,
-    data.currentFood.inBasket,
+    itemId,
+    currentFood.multiplier,
     buttonStates.ADD,
     buttonStates.UPDATE,
     buttonStates.REMOVE
@@ -126,22 +128,22 @@ const FoodPage = () => {
 
   useEffect(() => {
     const loadFood = async () => {
-      await vstore.loadFood(parseInt(id));
+      await vstore.currentFood.loadFood(parseInt(id), parseInt(itemId));
     };
     loadFood();
-  }, [id]);
+  }, [id, itemId]);
 
   const multiplyPrice = (multiplier: number = 1) => {
     vstore.currentFood.multiplier = multiplier;
   };
 
   const updateBasket = () => {
-    vstore.addUpdateBasket(data.currentFood);
+    vstore.basket.addUpdateBasket(currentFood);
     history.goBack();
   };
 
   const removeFromBasket = () => {
-    vstore.removeFromBasket(data.currentFood);
+    vstore.basket.removeFromBasket(currentFood);
     history.goBack();
   };
 
@@ -150,22 +152,19 @@ const FoodPage = () => {
       <Header showButton={true} type="close" />
       <IonContent fullscreen>
         <HeaderImage>
-          <img
-            src={data.currentFood?.food?.src}
-            alt={data.currentFood?.food?.name}
-          ></img>
+          <img src={currentFood.food?.src} alt={currentFood.food?.name}></img>
         </HeaderImage>
         <FoodHeader>
           <header>
-            <h1>{data.currentFood?.food?.name}</h1>
+            <h1>{currentFood.food?.name}</h1>
             <div className="price">
-              <h1>{data.currentFood?.food?.price?.toFixed(2)}</h1>
+              <h1>{currentFood.food?.price?.toFixed(2)}</h1>
               <label>Base price</label>
             </div>
           </header>
-          <h3>{data.currentFood?.food?.description}</h3>
+          <h3>{currentFood?.food?.description}</h3>
         </FoodHeader>
-        {data.currentFood?.variations?.map((variation) => (
+        {currentFood?.variations?.map((variation) => (
           <FoodVariationCard
             key={variation.id}
             title={variation.name}
@@ -188,19 +187,19 @@ const FoodPage = () => {
         </FoodVariationCard>
         <Counter
           onChange={multiplyPrice}
-          value={data.currentFood.multiplier || 1}
-          min={data.currentFood.inBasket ? 0 : 1}
+          value={currentFood.multiplier || 1}
+          min={parseInt(itemId) ? 0 : 1}
         />
       </IonContent>
       <AddToCart>
         {buttonState === buttonStates.ADD && (
           <Button type="primary" onClick={updateBasket}>
-            Add to Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
+            Add to Basket - {(currentFood.totalPrice || 0).toFixed(2)}
           </Button>
         )}
         {buttonState === buttonStates.UPDATE && (
           <Button type="primary" onClick={updateBasket}>
-            Update Basket - {(data.currentFood.totalPrice || 0).toFixed(2)}
+            Update Basket - {(currentFood.totalPrice || 0).toFixed(2)}
           </Button>
         )}
         {buttonState === buttonStates.REMOVE && (

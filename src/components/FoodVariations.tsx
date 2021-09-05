@@ -10,7 +10,6 @@ const VariationList = styled(IonList)`
   background: #f5f5f561;
 `;
 const VariationItem = styled(IonItem)`
-  /* font-family: 'AvenirLTStd'; */
   --padding-start: 0;
   --inner-padding-end: 0;
   --ripple-color: transparent;
@@ -46,13 +45,15 @@ const FoodVariations = ({
   return (
     <VariationList lines="none">
       {variations.map((variation) => (
-        // <StyledFoodVariationItem>
         <VariationItem key={variation.id}>
           <IonCheckbox
             slot="start"
             value={variation.id.toString()}
             onIonChange={(event: CustomEvent<CheckboxChangeEventDetail>) => {
-              vstore.setSelectedVariation(variation.id, event.detail.checked);
+              vstore.currentFood.setSelectedVariation(
+                variation.id,
+                event.detail.checked
+              );
             }}
             checked={variation.chosen}
           />
@@ -61,7 +62,6 @@ const FoodVariations = ({
             {variation.price?.toFixed(2)}
           </span>
         </VariationItem>
-        // </StyledFoodVariationItem>
       ))}
     </VariationList>
   );
