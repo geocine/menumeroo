@@ -67,11 +67,6 @@ const ProfileInput = styled.div`
   }
 `;
 
-const saveProfile = (data: any) => {
-  // login process
-  console.log(data);
-};
-
 const MyProfilePage = () => {
   const data = useSnapshot(vstore);
   const [readOnly = true, setReadOnly] = useState<boolean | undefined>();
@@ -83,6 +78,7 @@ const MyProfilePage = () => {
     } else {
       setReadOnly(true);
       setButtonText('Edit');
+      vstore.user.saveProfile();
     }
   };
 

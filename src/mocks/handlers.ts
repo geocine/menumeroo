@@ -1,6 +1,10 @@
 import { rest } from 'msw';
-import { Food, Store } from '../store/types';
+import { Food, Store, UserProfile } from '../store/types';
 import { categories, stores, user } from './data';
+
+const userData = {
+  profile: user
+};
 
 export const handlers = [
   rest.get('/api/stores', (req, res, ctx) => {
@@ -29,7 +33,12 @@ export const handlers = [
   rest.get('/api/categories', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(categories));
   }),
+  // :id is userId: number
   rest.get('/api/users/:id', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(user));
+    return res(ctx.status(200), ctx.json(userData.profile));
+  }),
+  rest.post<UserProfile>('/api/users/:id', (req, res, ctx) => {
+    userData.profile = req.body;
+    return res(ctx.status(200), ctx.json(userData.profile));
   })
 ];

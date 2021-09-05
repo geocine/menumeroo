@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import './assets/styles/index.scss';
 
 import { worker } from './mocks/browser';
+import axios from 'axios';
 worker.start();
 
 ReactDOM.render(
@@ -14,6 +15,8 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+(window as any).axios = axios;
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

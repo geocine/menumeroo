@@ -43,6 +43,7 @@ export interface VStore {
   user: {
     profile?: UserProfile;
     loadProfile: (id: number) => Promise<void>;
+    saveProfile: () => Promise<void>;
   };
 }
 
@@ -223,6 +224,10 @@ const loadProfile = async () => {
   vstore.user.profile = response.data;
 };
 
+const saveProfile = async () => {
+  await axios.post('/api/users/1', vstore.user.profile);
+};
+
 // Helpers
 
 const groupByType = (current: Menu[], item: Food) => {
@@ -288,7 +293,8 @@ export const vstore = proxy<VStore>({
   },
   user: {
     profile: undefined,
-    loadProfile
+    loadProfile,
+    saveProfile
   }
 });
 
