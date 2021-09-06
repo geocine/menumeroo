@@ -94,15 +94,14 @@ const MyAddressesPage = () => {
           style={{ background: 'transparent' }}
         />
         <StyledMyAddressesPage>
-          
-          
-          <IonFooter>
-            <Button type='primary' onClick={() => editMode()}>
-              {buttonText}
-            </Button>
-          </IonFooter>
+          <p>Address 1</p>
         </StyledMyAddressesPage>
       </IonContent>
+      <IonFooter>
+        <Button type='primary' onClick={() => editMode()}>
+          {buttonText}
+        </Button>
+      </IonFooter>
     </IonPage>
   );
 };

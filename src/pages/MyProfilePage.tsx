@@ -38,16 +38,33 @@ const ProfileHeader = styled.div`
 const ProfileInput = styled.div`
   display: block;
   font-family: 'AvenirLTStd';
-  font-size: 18px;
+  font-size: 14px;
   text-align: left;
   margin-left: 30px;
   color: var(--ion-color-medium);
   margin-top: 20px;
   margin-bottom: 30px;
 
+  label {
+    max-width: 30%;
+    margin-top: 15px;
+    display: inline-block;
+  }
+
   .data-holder {
     float: right;
     margin-right: 30px;
+    max-width: 60%;
+    font-size: 14px;
+  }
+
+  .ant-input-affix-wrapper{
+    max-width: 100% !important;
+    background: var(--ion-color-light) !important;
+  }
+
+  .ant-input-affix-wrapper-readonly{
+    background: none !important;
   }
 
   .data-holder input {
@@ -111,50 +128,47 @@ const MyProfilePage = () => {
             <span className="number">change photo</span>
           </ProfileHeader>
           <ProfileInput>
-            <p>
-              My Name
-              <span className="data-holder">
-                <Input
-                  name="name"
-                  value={data.user.profile?.name}
-                  onChange={updateProfile}
-                  className="profile-input"
-                  placeholder="Fullname"
-                  readOnly={readOnly}
-                />
-              </span>
-            </p>
+            <label>My Name</label>
+            <span className="data-holder">
+              <Input
+                name="name"
+                value={data.user.profile?.name}
+                onChange={updateProfile}
+                className="profile-input"
+                placeholder="Fullname"
+                readOnly={readOnly}
+                autoComplete="off"
+              />
+            </span>
           </ProfileInput>
           <ProfileInput>
-            <p>
-              Phone Number
-              <span className="data-holder">
-                <Input
-                  prefix="+63"
-                  name="phoneNumber"
-                  value={data.user.profile?.phoneNumber}
-                  onChange={updateProfile}
-                  className="profile-input"
-                  placeholder="Phone Number"
-                  readOnly={readOnly}
-                />
-              </span>
-            </p>
+            <label>Phone Number</label>
+            <span className="data-holder">
+              <Input
+                prefix="+63"
+                name="phoneNumber"
+                value={data.user.profile?.phoneNumber}
+                onChange={updateProfile}
+                className="profile-input"
+                placeholder="Phone Number"
+                readOnly={readOnly}
+                autoComplete="off"
+              />
+            </span>
           </ProfileInput>
           <ProfileInput>
-            <p>
-              Email
-              <span className="data-holder">
-                <Input
-                  name="email"
-                  value={data.user.profile?.email}
-                  onChange={updateProfile}
-                  className="profile-input"
-                  placeholder="Email"
-                  readOnly={readOnly}
-                />
-              </span>
-            </p>
+            <label>Email</label>
+            <span className="data-holder">
+              <Input
+                name="email"
+                value={data.user.profile?.email}
+                onChange={updateProfile}
+                className="profile-input"
+                placeholder="Email"
+                readOnly={readOnly}
+                autoComplete="off"
+              />
+            </span>
           </ProfileInput>
         </StyledMyProfilePage>
       </IonContent>
