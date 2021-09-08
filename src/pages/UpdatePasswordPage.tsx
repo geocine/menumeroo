@@ -3,7 +3,6 @@ import { IonContent, IonFooter, IonPage } from '@ionic/react';
 import { Header, Button, Input, Subtitle } from '../components';
 import { IcnLock } from '../components/Icon/Icon';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 
 const StyledUpdatePasswordPage = styled.div`
   .ant-input-affix-wrapper { 
@@ -42,13 +41,7 @@ const submit = (password: any) => {
   console.log(password);
 }
 
-interface UpdatePasswordPageParams {
-  code? : string
-}
-
 const UpdatePasswordPage = () => {
-
-  const { code } = useParams<UpdatePasswordPageParams>();
 
   const [password, setPassword] = useState<string>();
   const [password2, setPassword2] = useState<string>();

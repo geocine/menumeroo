@@ -17,6 +17,8 @@ import { ReactComponent as IcnLock } from './svg/Lock.svg';
 import { ReactComponent as IcnPhone } from './svg/Phone.svg';
 import { ReactComponent as IcnEmail } from './svg/Email.svg';  
 import { ReactComponent as IcnNext } from './svg/Next.svg';
+import { ReactComponent as IcnPayment } from './svg/Payment.svg';
+import { ReactComponent as IcnAdd } from './svg/Add.svg';
 export {
   IcnBack,
   IcnSearch,
@@ -36,5 +38,7 @@ export {
   IcnLock,
   IcnPhone,
   IcnEmail,
-  IcnNext
+  IcnNext,
+  IcnPayment,
+  IcnAdd
 };

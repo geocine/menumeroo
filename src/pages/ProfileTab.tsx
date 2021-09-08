@@ -65,6 +65,10 @@ const ProfileTab = () => {
     history.push(`/profile/password`);
   };
 
+  const openPaymentSettings = () => {
+    history.push(`/profile/payment`);
+  };
+
   useEffect(() => {
     const load = async () => {
       await vstore.user.loadProfile(1);
@@ -115,7 +119,11 @@ const ProfileTab = () => {
             </span>
           </p>
         </ProfileLink>
-        <ProfileLink>
+        <ProfileLink
+          onClick={() => {
+            openPaymentSettings();
+          }}
+        >
           <p>
             Payment Settings
             <span className='icon'>

@@ -13,6 +13,8 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import MyProfilePage from './pages/MyProfilePage';
 import MyAddressesPage from './pages/MyAddressesPage';
 import UpdatePasswordPage from './pages/UpdatePasswordPage';
+import PaymentSettingsPage from './pages/PaymentSettingsPage';
+import PaymentMethodsPage from './pages/PaymentMethodsPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -82,6 +84,16 @@ const App = () => (
         <Route
           path="/profile/password"
           render={() => <UpdatePasswordPage />}
+          exact={true}
+        />
+        <Route
+          path="/profile/payment"
+          render={() => <PaymentSettingsPage />}
+          exact={true}
+        />
+        <Route
+          path="/profile/payment-methods"
+          render={() => <PaymentMethodsPage />}
           exact={true}
         />
       </IonRouterOutlet>
