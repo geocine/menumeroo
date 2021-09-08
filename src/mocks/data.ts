@@ -110,6 +110,6 @@ export const categories: Category[] = [
 
 export const user: UserProfile = {
   name: 'Jack Sparrow',
-  phoneNumber: '905 123 4567',
+  phoneNumber: '9051234567',
   email: 'jack@menumeroo.com'
 };

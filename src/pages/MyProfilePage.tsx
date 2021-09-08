@@ -38,7 +38,7 @@ const ProfileHeader = styled.div`
 const ProfileInput = styled.div`
   display: block;
   font-family: 'AvenirLTStd';
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
   margin-left: 30px;
   color: var(--ion-color-medium);
@@ -46,7 +46,7 @@ const ProfileInput = styled.div`
   margin-bottom: 30px;
 
   label {
-    max-width: 30%;
+    max-width: 35%;
     margin-top: 15px;
     display: inline-block;
   }
@@ -54,7 +54,7 @@ const ProfileInput = styled.div`
   .data-holder {
     float: right;
     margin-right: 30px;
-    max-width: 60%;
+    max-width: 55%;
     font-size: 14px;
   }
 
@@ -88,6 +88,7 @@ const MyProfilePage = () => {
   const data = useSnapshot(vstore);
   const [readOnly = true, setReadOnly] = useState<boolean | undefined>();
   const [buttonText = 'Edit', setButtonText] = useState<string>();
+  const [maxLength] = useState<number>(10);
   const editMode = () => {
     if (readOnly === true) {
       setReadOnly(false);
@@ -153,6 +154,7 @@ const MyProfilePage = () => {
                 placeholder="Phone Number"
                 readOnly={readOnly}
                 autoComplete="off"
+                maxLength={maxLength}
               />
             </span>
           </ProfileInput>

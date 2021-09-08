@@ -3,6 +3,10 @@ import styled from '@emotion/styled/macro';
 import { IcnNext } from '../components/Icon/Icon';
 import { Button } from '../components';
 import { useHistory } from 'react-router';
+import { useSnapshot } from 'valtio';
+import { vstore } from '../store/store';
+import { useEffect } from 'react';
+
 
 const ProfileHeader = styled.div`
 
@@ -46,20 +50,34 @@ const ProfileLink = styled.div`
 `;
 
 const ProfileTab = () => {
+  const data = useSnapshot(vstore);
   let history = useHistory();
+  
   const openProfile = () => {
     history.push(`/profile/edit`);
   };
+
   const openAddresses = () => {
     history.push(`/profile/addresses`);
   };
+
+  const openPasswordUpdate = () => {
+    history.push(`/profile/password`);
+  };
+
+  useEffect(() => {
+    const load = async () => {
+      await vstore.user.loadProfile(1);
+    };
+    load();
+  }, []);
   return (
     <IonPage>
       <IonContent fullscreen>
         <ProfileHeader>
           <img src='/assets/images/avatar.png' alt='avatar'></img>
-          <span className='fullname'>Jack Sparrow</span>
-          <span className='number'>+63 905 123 4567</span>
+          <span className='fullname'>{data.user.profile?.name}</span>
+          <span className='number'>+63{data.user.profile?.phoneNumber}</span>
         </ProfileHeader>
         <ProfileLink
           onClick={() => {
@@ -85,7 +103,11 @@ const ProfileTab = () => {
             </span>
           </p>
         </ProfileLink>
-        <ProfileLink>
+        <ProfileLink
+          onClick={() => {
+            openPasswordUpdate();
+          }}
+        >
           <p>
             Change Password
             <span className='icon'>
