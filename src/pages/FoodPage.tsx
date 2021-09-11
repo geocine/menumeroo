@@ -12,6 +12,7 @@ import {
 
 import styled from '@emotion/styled/macro';
 import { vstore } from '../store/store';
+import { TextareaChangeEventDetail } from '@ionic/core';
 
 const HeaderImage = styled.div`
   background-color: #eae8e8;
@@ -95,6 +96,7 @@ interface FoodParams {
   itemId?: string;
 }
 
+// TODO: think about cleanly separating food and basketItem details
 const FoodPage = () => {
   const { id = '0', itemId = '0' } = useParams<FoodParams>();
   const history = useHistory();
@@ -147,6 +149,10 @@ const FoodPage = () => {
     history.goBack();
   };
 
+  const updateNote = (e: CustomEvent<TextareaChangeEventDetail>) => {
+    vstore.basket.setNote(currentFood, e.detail.value || '');
+  };
+
   return (
     <IonPage>
       <Header showButton={true} type="close" />
@@ -179,10 +185,14 @@ const FoodPage = () => {
         <FoodVariationCard title="Special Instructions" sideNote="Optional">
           <Instructions>
             <p>
-              For self pick-ups, you won't be able to add special instructions
-              after placing your order.
+              You won't be able to add special instructions after placing your
+              order.
             </p>
-            <TextArea placeholder="eg. No onions"></TextArea>
+            <TextArea
+              placeholder="eg. No onions"
+              value={currentFood.note}
+              onIonChange={updateNote}
+            ></TextArea>
           </Instructions>
         </FoodVariationCard>
         <Counter

@@ -23,6 +23,7 @@ export interface StoreBasket {
 export interface StoreBasketItem {
   id: number;
   food?: Food;
+  note?: string;
   variations?: Menu[];
   multiplier?: number;
   totalPrice?: number; // derived

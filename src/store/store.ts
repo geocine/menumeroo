@@ -33,6 +33,7 @@ export interface VStore {
     items: StoreBasket[];
     addUpdateBasket: (storeBasketItem: StoreBasketItem) => void;
     removeFromBasket: (storeBasketItem: StoreBasketItem) => void;
+    setNote: (storeBasketItem: StoreBasketItem, note: string) => void;
   };
   currentStoreBasket: {
     orders: StoreBasketItem[];
@@ -110,11 +111,13 @@ const loadFood = async (id: number, itemId?: number) => {
     vstore.currentFood.id = 0;
     vstore.currentFood.multiplier = 1;
     vstore.currentFood.variations = menuVariations;
+    vstore.currentFood.note = '';
   } else {
     vstore.currentFood.id = itemId || 0;
     vstore.currentFood.multiplier = foodInBasket.multiplier;
     // TODO: variation data outdated
     vstore.currentFood.variations = foodInBasket.variations;
+    vstore.currentFood.note = foodInBasket.note;
   }
 
   // TODO: if food page is refreshed , currentStore will be blank
@@ -148,6 +151,7 @@ const addUpdateBasket = (storeBasketItem: StoreBasketItem) => {
     );
     if (!storeBasket) {
       currentStoreBasketItem.id = 1;
+      vstore.currentFood.id = 1;
       // creates a storeBasket to store the basket of the store
       storeBasket = {
         id: store?.id,
@@ -196,6 +200,32 @@ const removeFromBasket = (storeBasketItem: StoreBasketItem) => {
       }
     }
     vstore.currentStoreBasket.orders = storeBasket?.orders || [];
+  }
+};
+
+const setNote = (storeBasketItem: StoreBasketItem, note: string) => {
+  if (!note) {
+    return;
+  }
+  const store = vstore.currentStore.store;
+  if (store) {
+    let storeBasket = vstore.basket.items.find(
+      (sBasket) => sBasket.id === store.id
+    );
+    if (storeBasket) {
+      const item = storeBasket.orders?.find(
+        (order) => order.id === storeBasketItem.id
+      );
+      if (item) {
+        item.note = note;
+      }
+    }
+  }
+  if (
+    storeBasketItem.id === vstore.currentFood.id &&
+    storeBasketItem.food?.id === vstore.currentFood.food?.id
+  ) {
+    vstore.currentFood.note = note;
   }
 };
 
@@ -284,7 +314,8 @@ export const vstore = proxy<VStore>({
   basket: {
     items: [],
     addUpdateBasket,
-    removeFromBasket
+    removeFromBasket,
+    setNote
   },
   currentStoreBasket: {
     orders: [],
