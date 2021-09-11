@@ -71,9 +71,10 @@ export interface Category {
   selected?: boolean;
 }
 
-export interface UserProfile {
+export interface User {
+  id: number;
   name: string;
   email: string;
   phoneNumber: string;
-  [key: string]: string; // need this to be able to dynamically address string properties
+  [key: string]: any; // need this to be able to dynamically address string properties
 }

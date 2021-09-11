@@ -8,7 +8,7 @@ import {
   Store,
   StoreBasket,
   StoreBasketItem,
-  UserProfile
+  User
 } from './types';
 
 export interface VStore {
@@ -42,7 +42,7 @@ export interface VStore {
     ordersInBasket: (foodId: number) => number;
   };
   user: {
-    profile?: UserProfile;
+    profile?: User;
     loadProfile: (id: number) => Promise<void>;
     saveProfile: () => Promise<void>;
   };
@@ -61,8 +61,15 @@ const setSelectedCategory = (id: number) => {
 };
 
 const loadStores = async () => {
-  const response = await axios.get('/api/stores');
-  vstore.home.stores = response.data;
+  const response = await axios.get<Store[]>('/api/stores');
+  const stores = response.data;
+  for (let store of stores) {
+    const menuResponse = await axios.get<Food[]>(
+      `/api/stores/${store.id}/foods`
+    );
+    store.menu = menuResponse.data;
+  }
+  vstore.home.stores = stores;
 };
 
 const loadCategories = async () => {
@@ -73,8 +80,10 @@ const loadCategories = async () => {
 // Store
 
 const loadStore = async (id: number) => {
-  const response = await axios.get(`/api/stores/${id}`);
+  const response = await axios.get<Store>(`/api/stores/${id}`);
   const store: Store = response.data;
+  const menuResponse = await axios.get<Food[]>(`/api/stores/${id}/foods`);
+  store.menu = menuResponse.data;
   vstore.currentStore.store = store;
   const menu: Menu[] = store.menu?.reduce(groupByType, []) || [];
   const basket = vstore.basket.items.find((item) => item.id === id);
@@ -255,7 +264,7 @@ const loadProfile = async () => {
 };
 
 const saveProfile = async () => {
-  await axios.post('/api/users/1', vstore.user.profile);
+  await axios.put('/api/users/1', vstore.user.profile);
 };
 
 // Helpers

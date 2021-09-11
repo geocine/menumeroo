@@ -1,5 +1,5 @@
 // Home Data
-import { Category, Store, UserProfile } from '../store/types';
+import { Category, Store, User } from '../store/types';
 
 export const stores: Store[] = [
   {
@@ -13,6 +13,7 @@ export const stores: Store[] = [
     menu: [
       {
         id: 1,
+        storeId: 1,
         name: 'Pork',
         description: 'Pork fried in oil',
         src: '/assets/images/foods/Food1.jpeg',
@@ -25,6 +26,7 @@ export const stores: Store[] = [
       },
       {
         id: 2,
+        storeId: 1,
         name: 'Pancit',
         description: 'Pancit for long life',
         src: '/assets/images/foods/Food4.jpeg',
@@ -59,6 +61,7 @@ export const stores: Store[] = [
       },
       {
         id: 3,
+        storeId: 1,
         name: 'Sisig Hooray',
         description: 'Sisig w/ egg',
         src: '/assets/images/foods/Food2.jpeg',
@@ -71,6 +74,7 @@ export const stores: Store[] = [
       },
       {
         id: 4,
+        storeId: 1,
         name: 'Halo-Halo',
         description: 'National dessert',
         src: '/assets/images/foods/Food3.jpeg',
@@ -108,7 +112,8 @@ export const categories: Category[] = [
   }
 ];
 
-export const user: UserProfile = {
+export const user: User = {
+  id: 1,
   name: 'Jack Sparrow',
   phoneNumber: '905 123 4567',
   email: 'jack@menumeroo.com'
