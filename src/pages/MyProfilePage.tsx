@@ -106,7 +106,7 @@ const MyProfilePage = () => {
         />
         <StyledMyProfilePage>
           <ProfileHeader>
-            <img src="/assets/images/avatar.png" alt="avatar"></img>
+            <img src={data.user.profile?.avatar} alt="avatar"></img>
             <span className="fullname">{data.user.profile?.name}</span>
             <span className="number">change photo</span>
           </ProfileHeader>

@@ -3,9 +3,11 @@ import styled from '@emotion/styled/macro';
 import { IcnNext } from '../components/Icon/Icon';
 import { Button } from '../components';
 import { useHistory } from 'react-router';
+import { useSnapshot } from 'valtio';
+import { vstore } from '../store/store';
+import { useEffect } from 'react';
 
 const ProfileHeader = styled.div`
-
   img {
     display: flex;
     width: 150px;
@@ -18,14 +20,14 @@ const ProfileHeader = styled.div`
     font-size: 20px;
     font-weight: 600;
     text-align: center;
-    color: #2A3B56;
+    color: #2a3b56;
   }
 
   .number {
     display: block;
     font-family: 'AvenirLTStd';
     text-align: center;
-    color: #8A94A3;
+    color: #8a94a3;
   }
 `;
 
@@ -47,19 +49,28 @@ const ProfileLink = styled.div`
 
 const ProfileTab = () => {
   let history = useHistory();
+  const data = useSnapshot(vstore);
   const openProfile = () => {
     history.push(`/profile/edit`);
   };
   const openAddresses = () => {
     history.push(`/profile/addresses`);
   };
+
+  useEffect(() => {
+    const load = async () => {
+      await vstore.user.loadProfile(1);
+    };
+    load();
+  }, []);
+
   return (
     <IonPage>
       <IonContent fullscreen>
         <ProfileHeader>
-          <img src='/assets/images/avatar.png' alt='avatar'></img>
-          <span className='fullname'>Jack Sparrow</span>
-          <span className='number'>+63 905 123 4567</span>
+          <img src={data.user.profile?.avatar} alt="avatar"></img>
+          <span className="fullname">{data.user.profile?.name}</span>
+          <span className="number">{data.user.profile?.phoneNumber}</span>
         </ProfileHeader>
         <ProfileLink
           onClick={() => {
@@ -68,7 +79,7 @@ const ProfileTab = () => {
         >
           <p>
             My Profile
-            <span className='icon'>
+            <span className="icon">
               <IcnNext />
             </span>
           </p>
@@ -80,7 +91,7 @@ const ProfileTab = () => {
         >
           <p>
             My Addresses
-            <span className='icon'>
+            <span className="icon">
               <IcnNext />
             </span>
           </p>
@@ -88,7 +99,7 @@ const ProfileTab = () => {
         <ProfileLink>
           <p>
             Change Password
-            <span className='icon'>
+            <span className="icon">
               <IcnNext />
             </span>
           </p>
@@ -96,13 +107,13 @@ const ProfileTab = () => {
         <ProfileLink>
           <p>
             Payment Settings
-            <span className='icon'>
+            <span className="icon">
               <IcnNext />
             </span>
           </p>
         </ProfileLink>
         <Button
-          type='secondary'
+          type="secondary"
           onClick={() => {
             console.log('logout');
           }}
