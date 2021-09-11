@@ -7,7 +7,7 @@ import {
 } from '@ionic/react';
 import { Redirect, Route } from 'react-router';
 import { IcnHome, IcnMyList, IcnProfile } from '../components/Icon/Icon';
-import { IoBasketOutline } from 'react-icons/io5';
+import { FiShoppingBag } from 'react-icons/fi';
 import HomeTab from './HomeTab';
 import MyListTab from './MyListTab';
 import BasketTab from './BasketTab';
@@ -24,8 +24,8 @@ const Badge = styled(IonBadge)`
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 5px;
-  right: -3px;
+  top: -5px;
+  right: -5px;
 `;
 
 const BasketContainer = styled.div`
@@ -61,7 +61,7 @@ const MainPage = () => {
         <IonTabButton tab="basket" href="/tabs/basket">
           <BasketContainer>
             {data.basket.items.length > 0 && <Badge />}
-            <IoBasketOutline size={30} />
+            <FiShoppingBag size={30} strokeWidth={1.5} />
           </BasketContainer>
         </IonTabButton>
         <IonTabButton tab="profile" href="/tabs/profile">

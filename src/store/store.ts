@@ -8,7 +8,7 @@ import {
   Store,
   StoreBasket,
   StoreBasketItem,
-  UserProfile
+  User
 } from './types';
 
 export interface VStore {
@@ -33,6 +33,7 @@ export interface VStore {
     items: StoreBasket[];
     addUpdateBasket: (storeBasketItem: StoreBasketItem) => void;
     removeFromBasket: (storeBasketItem: StoreBasketItem) => void;
+    setNote: (storeBasketItem: StoreBasketItem, note: string) => void;
   };
   currentStoreBasket: {
     orders: StoreBasketItem[];
@@ -41,7 +42,7 @@ export interface VStore {
     ordersInBasket: (foodId: number) => number;
   };
   user: {
-    profile?: UserProfile;
+    profile?: User;
     loadProfile: (id: number) => Promise<void>;
     saveProfile: () => Promise<void>;
   };
@@ -60,8 +61,15 @@ const setSelectedCategory = (id: number) => {
 };
 
 const loadStores = async () => {
-  const response = await axios.get('/api/stores');
-  vstore.home.stores = response.data;
+  const response = await axios.get<Store[]>('/api/stores');
+  const stores = response.data;
+  for (let store of stores) {
+    const menuResponse = await axios.get<Food[]>(
+      `/api/stores/${store.id}/foods`
+    );
+    store.menu = menuResponse.data;
+  }
+  vstore.home.stores = stores;
 };
 
 const loadCategories = async () => {
@@ -72,8 +80,10 @@ const loadCategories = async () => {
 // Store
 
 const loadStore = async (id: number) => {
-  const response = await axios.get(`/api/stores/${id}`);
+  const response = await axios.get<Store>(`/api/stores/${id}`);
   const store: Store = response.data;
+  const menuResponse = await axios.get<Food[]>(`/api/stores/${id}/foods`);
+  store.menu = menuResponse.data;
   vstore.currentStore.store = store;
   const menu: Menu[] = store.menu?.reduce(groupByType, []) || [];
   const basket = vstore.basket.items.find((item) => item.id === id);
@@ -110,11 +120,13 @@ const loadFood = async (id: number, itemId?: number) => {
     vstore.currentFood.id = 0;
     vstore.currentFood.multiplier = 1;
     vstore.currentFood.variations = menuVariations;
+    vstore.currentFood.note = '';
   } else {
     vstore.currentFood.id = itemId || 0;
     vstore.currentFood.multiplier = foodInBasket.multiplier;
     // TODO: variation data outdated
     vstore.currentFood.variations = foodInBasket.variations;
+    vstore.currentFood.note = foodInBasket.note;
   }
 
   // TODO: if food page is refreshed , currentStore will be blank
@@ -148,6 +160,7 @@ const addUpdateBasket = (storeBasketItem: StoreBasketItem) => {
     );
     if (!storeBasket) {
       currentStoreBasketItem.id = 1;
+      vstore.currentFood.id = 1;
       // creates a storeBasket to store the basket of the store
       storeBasket = {
         id: store?.id,
@@ -199,6 +212,32 @@ const removeFromBasket = (storeBasketItem: StoreBasketItem) => {
   }
 };
 
+const setNote = (storeBasketItem: StoreBasketItem, note: string) => {
+  if (!note) {
+    return;
+  }
+  const store = vstore.currentStore.store;
+  if (store) {
+    let storeBasket = vstore.basket.items.find(
+      (sBasket) => sBasket.id === store.id
+    );
+    if (storeBasket) {
+      const item = storeBasket.orders?.find(
+        (order) => order.id === storeBasketItem.id
+      );
+      if (item) {
+        item.note = note;
+      }
+    }
+  }
+  if (
+    storeBasketItem.id === vstore.currentFood.id &&
+    storeBasketItem.food?.id === vstore.currentFood.food?.id
+  ) {
+    vstore.currentFood.note = note;
+  }
+};
+
 // Store Basket
 
 const removeStoreBasket = (id: number) => {
@@ -225,7 +264,7 @@ const loadProfile = async () => {
 };
 
 const saveProfile = async () => {
-  await axios.post('/api/users/1', vstore.user.profile);
+  await axios.put('/api/users/1', vstore.user.profile);
 };
 
 // Helpers
@@ -284,7 +323,8 @@ export const vstore = proxy<VStore>({
   basket: {
     items: [],
     addUpdateBasket,
-    removeFromBasket
+    removeFromBasket,
+    setNote
   },
   currentStoreBasket: {
     orders: [],

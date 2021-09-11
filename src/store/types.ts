@@ -23,6 +23,7 @@ export interface StoreBasket {
 export interface StoreBasketItem {
   id: number;
   food?: Food;
+  note?: string;
   variations?: Menu[];
   multiplier?: number;
   totalPrice?: number; // derived
@@ -70,9 +71,10 @@ export interface Category {
   selected?: boolean;
 }
 
-export interface UserProfile {
+export interface User {
+  id: number;
   name: string;
   email: string;
   phoneNumber: string;
-  [key: string]: string; // need this to be able to dynamically address string properties
+  [key: string]: any; // need this to be able to dynamically address string properties
 }

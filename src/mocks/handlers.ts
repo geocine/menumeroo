@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { Food, Store, UserProfile } from '../store/types';
+import { Food, Store, User } from '../store/types';
 import { categories, stores, user } from './data';
 
 const userData = {
@@ -16,6 +16,11 @@ export const handlers = [
       ctx.status(200),
       ctx.json(stores.find((store) => store.id === parseInt(storeId)))
     );
+  }),
+  rest.get('/api/stores/:storeId/foods', (req, res, ctx) => {
+    const { storeId } = req.params;
+    const store = stores.find((store) => store.id === parseInt(storeId));
+    return res(ctx.status(200), ctx.json(store?.menu));
   }),
   rest.get('/api/foods/:foodId', (req, res, ctx) => {
     const { foodId } = req.params;
@@ -37,7 +42,7 @@ export const handlers = [
   rest.get('/api/users/:id', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(userData.profile));
   }),
-  rest.post<UserProfile>('/api/users/:id', (req, res, ctx) => {
+  rest.put<User>('/api/users/:id', (req, res, ctx) => {
     userData.profile = req.body;
     return res(ctx.status(200), ctx.json(userData.profile));
   })
