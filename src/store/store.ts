@@ -40,6 +40,7 @@ export interface VStore {
     totalPrice?: number; // derived
     removeStoreBasket: (id: number) => void;
     ordersInBasket: (foodId: number) => number;
+    loadStoreBasket: (id: number) => void;
   };
   user: {
     profile?: User;
@@ -86,8 +87,6 @@ const loadStore = async (id: number) => {
   store.menu = menuResponse.data;
   vstore.currentStore.store = store;
   const menu: Menu[] = store.menu?.reduce(groupByType, []) || [];
-  const basket = vstore.basket.items.find((item) => item.id === id);
-  vstore.currentStoreBasket.orders = basket?.orders || [];
   vstore.currentStore.menu = menu;
 };
 
@@ -256,6 +255,11 @@ const ordersInBasket = (foodId: number): number => {
   );
 };
 
+const loadStoreBasket = (id: number) => {
+  const basket = vstore.basket.items.find((item) => item.id === id);
+  vstore.currentStoreBasket.orders = basket?.orders || [];
+};
+
 // Users
 
 const loadProfile = async () => {
@@ -329,7 +333,8 @@ export const vstore = proxy<VStore>({
   currentStoreBasket: {
     orders: [],
     removeStoreBasket,
-    ordersInBasket
+    ordersInBasket,
+    loadStoreBasket
   },
   user: {
     profile: undefined,

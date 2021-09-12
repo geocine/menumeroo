@@ -48,7 +48,7 @@ const HomePage = () => {
               onClick={(id) => openStore(id)}
             />
             <FoodSlider
-              foods={store.menu || []}
+              foods={store.menu?.filter((menu) => menu.featured) || []}
               size={100}
               storeId={store.id}
               onClick={(id) => openStore(id)}
