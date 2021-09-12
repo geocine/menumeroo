@@ -14,6 +14,9 @@ const VariationItem = styled(IonItem)`
   --inner-padding-end: 0;
   --ripple-color: transparent;
   border-bottom: 1px solid #efefef;
+  &:last-of-type {
+    border-bottom: 0;
+  }
   ion-checkbox {
     --size: 14px;
     margin-right: 15px;

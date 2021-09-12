@@ -82,10 +82,10 @@ const StoreBasketPage = () => {
         <StoreBasketSection>
           <h1>Order summary</h1>
           <div className="items">
-            {data.currentStoreBasket.orders.map((order) => (
+            {data.currentStoreBasket.orders.map((order, index) => (
               <OrderItem
                 noPadding={true}
-                key={order.id}
+                key={index}
                 item={order}
                 onClick={(id, itemId) => {
                   openFood(id, itemId);
