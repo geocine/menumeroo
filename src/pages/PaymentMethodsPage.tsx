@@ -1,7 +1,7 @@
 import styled from '@emotion/styled/macro';
 import { IonContent, IonFooter, IonPage } from '@ionic/react';
-import { Header, Button, Input, Subtitle } from '../components';
-import { IcnNext, IcnPayment, IcnAdd } from '../components/Icon/Icon';
+import { Header, Button, Input, Subtitle, Check } from '../components';
+import { IcnNext, IcnPayment, IcnAdd, IcnPaypal, IcnGrabPay } from '../components/Icon/Icon';
 import { useHistory } from 'react-router';
 
 const PaymentMethodLink = styled.div`
@@ -9,10 +9,8 @@ const PaymentMethodLink = styled.div`
   font-family: 'AvenirLTStd';
   font-size: 16px;
   text-align: left;
-  margin-left: 30px;
   color: #2a3b56;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin: 20px 30px 30px 30px;
 
   label {
     margin-left: 10px;
@@ -21,6 +19,10 @@ const PaymentMethodLink = styled.div`
   .icon {
     float: right;
     margin-right: 30px;
+  }
+
+  .check-mark {
+    float: right;
   }
 `;
 
@@ -47,12 +49,25 @@ const PaymentMethodsPage = () => {
         <StyleTitleSection>
           <Subtitle text="Choose payment method to add"/>
         </StyleTitleSection>
-        <PaymentMethodLink onClick={() => {addPayment();}}>
-          <IcnPayment />
-            <label>Add new payment method</label>
-            <span className='icon'>
-              <IcnAdd />
-            </span>
+        <PaymentMethodLink>
+          <IcnPaypal/> 
+          <label>Paypal</label>
+          <span className="check-mark"><Check status="On"/></span>
+        </PaymentMethodLink>
+        <PaymentMethodLink>
+          <img src="/assets/images/gcash.png" alt="avatar"></img> 
+          <label>GCash</label>
+          <span className="check-mark"><Check status="Off"/></span>
+        </PaymentMethodLink>
+        <PaymentMethodLink>
+          <img src="/assets/images/grabpay.png" alt="avatar"></img> 
+          <label>GrabPay</label>
+          <span className="check-mark"><Check status="Off"/></span>
+        </PaymentMethodLink>
+        <PaymentMethodLink>
+          <img src="/assets/images/paymaya.png" alt="avatar"></img> 
+          <label>PayMaya</label>
+          <span className="check-mark"><Check status="Off"/></span>
         </PaymentMethodLink>
       </IonContent>
     </IonPage>

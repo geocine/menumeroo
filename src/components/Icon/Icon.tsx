@@ -19,6 +19,10 @@ import { ReactComponent as IcnEmail } from './svg/Email.svg';
 import { ReactComponent as IcnNext } from './svg/Next.svg';
 import { ReactComponent as IcnPayment } from './svg/Payment.svg';
 import { ReactComponent as IcnAdd } from './svg/Add.svg';
+import { ReactComponent as IcnMastercard } from './svg/Mastercard.svg';
+import { ReactComponent as IcnPaypal } from './svg/Paypal.svg';
+import { ReactComponent as IcnOn } from './svg/On.svg';
+import { ReactComponent as IcnOff } from './svg/Off.svg';
 export {
   IcnBack,
   IcnSearch,
@@ -40,5 +44,9 @@ export {
   IcnEmail,
   IcnNext,
   IcnPayment,
-  IcnAdd
+  IcnAdd,
+  IcnMastercard,
+  IcnPaypal,
+  IcnOn,
+  IcnOff
 };
