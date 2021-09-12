@@ -69,8 +69,8 @@ const OrderItem = ({
       <div className="details">
         <span className="title">{item.food?.name}</span>
         <ul>
-          {variations?.map((variation) => (
-            <li>{variation.name}</li>
+          {variations?.map((variation, index) => (
+            <li key={index}>{variation.name}</li>
           ))}
         </ul>
         <ButtonLink>Edit</ButtonLink>
