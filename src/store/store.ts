@@ -1,4 +1,4 @@
-import { proxy } from 'valtio';
+import { proxy, subscribe } from 'valtio';
 import { derive, devtools } from 'valtio/utils';
 import axios from 'axios';
 import {
@@ -304,8 +304,8 @@ const generateId = (items: any[]) => {
 };
 
 // Exports
-
-export const vstore = proxy<VStore>({
+const basketItems = localStorage.getItem('basketItems');
+const initialState: VStore = {
   home: {
     stores: [],
     categories: [],
@@ -325,7 +325,7 @@ export const vstore = proxy<VStore>({
     setSelectedVariation
   },
   basket: {
-    items: [],
+    items: JSON.parse(basketItems || '[]'),
     addUpdateBasket,
     removeFromBasket,
     setNote
@@ -341,7 +341,9 @@ export const vstore = proxy<VStore>({
     loadProfile,
     saveProfile
   }
-});
+};
+
+export const vstore = proxy<VStore>(initialState);
 
 // Derived totalPrice on currentStoreBasket slice
 derive(
@@ -393,3 +395,7 @@ derive(
 );
 
 devtools(vstore, 'vstore');
+
+subscribe(vstore, () => {
+  localStorage.setItem('basketItems', JSON.stringify(vstore.basket.items));
+});
