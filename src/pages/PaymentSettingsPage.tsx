@@ -1,7 +1,7 @@
 import styled from '@emotion/styled/macro';
-import { IonContent, IonFooter, IonPage } from '@ionic/react';
-import { Header, Button, Input, Subtitle } from '../components';
-import { IcnNext, IcnPayment, IcnAdd } from '../components/Icon/Icon';
+import { IonContent, IonPage } from '@ionic/react';
+import { Header } from '../components';
+import { IcnPayment, IcnAdd } from '../components/Icon/Icon';
 import { useHistory } from 'react-router';
 
 const PaymentMethodLink = styled.div`

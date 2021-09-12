@@ -1,49 +1,69 @@
+import axios from 'axios';
 import { rest } from 'msw';
 import { Food, Store, User } from '../store/types';
-import { categories, stores, user } from './data';
 
-const userData = {
-  profile: user
-};
+const baseUrl = 'https://mmcdn.netlify.app';
 
 export const handlers = [
-  rest.get('/api/stores', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(stores));
+  rest.get('/api/stores', async (req, res, ctx) => {
+    const stores = await axios.get(`${baseUrl}/data/stores.json`);
+    stores.data = stores.data.map((store: Store) => {
+      store.src = `${baseUrl}${store.src}`;
+      return store;
+    });
+    return res(ctx.status(200), ctx.json(stores.data));
   }),
-  rest.get('/api/stores/:storeId', (req, res, ctx) => {
+  rest.get('/api/stores/:storeId', async (req, res, ctx) => {
     const { storeId } = req.params;
+    const stores = await axios.get(`${baseUrl}/data/stores.json`);
+    stores.data = stores.data.map((store: Store) => {
+      store.src = `${baseUrl}${store.src}`;
+      return store;
+    });
     return res(
       ctx.status(200),
-      ctx.json(stores.find((store) => store.id === parseInt(storeId)))
+      ctx.json(
+        stores.data.find((store: Store) => store.id === parseInt(storeId))
+      )
     );
   }),
-  rest.get('/api/stores/:storeId/foods', (req, res, ctx) => {
+  rest.get('/api/stores/:storeId/foods', async (req, res, ctx) => {
     const { storeId } = req.params;
-    const store = stores.find((store) => store.id === parseInt(storeId));
-    return res(ctx.status(200), ctx.json(store?.menu));
+    const foods = await axios.get(`${baseUrl}/data/foods.json`);
+    let menu: Food[] = foods.data.filter(
+      (food: Food) => food.storeId === parseInt(storeId)
+    );
+    menu = menu.map((food: Food) => {
+      food.src = `${baseUrl}${food.src}`;
+      return food;
+    });
+    return res(ctx.status(200), ctx.json(menu));
   }),
-  rest.get('/api/foods/:foodId', (req, res, ctx) => {
+  rest.get('/api/foods/:foodId', async (req, res, ctx) => {
     const { foodId } = req.params;
-    const foods: Food[] = stores.reduce((foodList: Food[], store: Store) => {
-      let storeMenu = store.menu || [];
-      storeMenu = storeMenu.map((menu) => {
-        menu.storeId = store.id;
-        return menu;
-      });
-      return [...foodList, ...storeMenu];
-    }, []);
-    const result = foods.find((food) => food.id === parseInt(foodId));
+    const foods = await axios.get(`${baseUrl}/data/foods.json`);
+    const result = foods.data.find(
+      (food: Food) => food.id === parseInt(foodId)
+    );
+    result.src = `${baseUrl}${result.src}`;
     return res(ctx.status(200), ctx.json(result));
   }),
-  rest.get('/api/categories', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(categories));
+  rest.get('/api/categories', async (req, res, ctx) => {
+    const categories = await axios.get(`${baseUrl}/data/categories.json`);
+    return res(ctx.status(200), ctx.json(categories.data));
   }),
   // :id is userId: number
-  rest.get('/api/users/:id', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(userData.profile));
+  rest.get('/api/users/:userId', async (req, res, ctx) => {
+    const { userId } = req.params;
+    const users = await axios.get(`${baseUrl}/data/users.json`);
+    const user: User = users.data.find(
+      (user: User) => user.id === parseInt(userId)
+    );
+    user.avatar = `${baseUrl}${user.avatar}`;
+    return res(ctx.status(200), ctx.json(user));
   }),
-  rest.put<User>('/api/users/:id', (req, res, ctx) => {
-    userData.profile = req.body;
-    return res(ctx.status(200), ctx.json(userData.profile));
+  rest.put<User>('/api/users/:userId', (req, res, ctx) => {
+    // TODO: utitlize local storage because cannot do anything on post, data is mock data
+    return res(ctx.status(200), ctx.json({}));
   })
 ];

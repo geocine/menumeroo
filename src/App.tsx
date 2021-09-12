@@ -34,6 +34,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import StoreBasketPage from './pages/StoreBasketPage';
 
 setupConfig({ mode: 'md' });
 
@@ -59,8 +60,11 @@ const App = () => (
         <Route path="/resetpassword/:code?">
           <ResetPasswordPage />
         </Route>
-        <Route path="/store/:id">
+        <Route path="/store/:id" exact>
           <StorePage />
+        </Route>
+        <Route path="/store/:id/basket">
+          <StoreBasketPage />
         </Route>
         <Route path="/food/:id/:itemId?">
           <FoodPage />

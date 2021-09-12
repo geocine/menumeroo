@@ -7,9 +7,7 @@ import { useSnapshot } from 'valtio';
 import { vstore } from '../store/store';
 import { useEffect } from 'react';
 
-
 const ProfileHeader = styled.div`
-
   img {
     display: flex;
     width: 150px;
@@ -36,10 +34,10 @@ const ProfileHeader = styled.div`
 const ProfileLink = styled.div`
   display: block;
   font-family: 'AvenirLTStd';
-  font-size: 16px;
+  font-size: 18px;
   text-align: left;
   margin-left: 30px;
-  color: #2a3b56;
+  color: #2A3B56;
   margin-top: 20px;
   margin-bottom: 30px;
 
@@ -50,9 +48,8 @@ const ProfileLink = styled.div`
 `;
 
 const ProfileTab = () => {
-  const data = useSnapshot(vstore);
   let history = useHistory();
-  
+  const data = useSnapshot(vstore);
   const openProfile = () => {
     history.push(`/profile/edit`);
   };
@@ -75,13 +72,14 @@ const ProfileTab = () => {
     };
     load();
   }, []);
+
   return (
     <IonPage>
       <IonContent fullscreen>
         <ProfileHeader>
-          <img src='/assets/images/avatar.png' alt='avatar'></img>
+          <img src={data.user.profile?.avatar} alt='avatar'></img>
           <span className='fullname'>{data.user.profile?.name}</span>
-          <span className='number'>+63{data.user.profile?.phoneNumber}</span>
+          <span className='number'>{data.user.profile?.phoneNumber}</span>
         </ProfileHeader>
         <ProfileLink
           onClick={() => {

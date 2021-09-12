@@ -38,7 +38,7 @@ const BasketTab = () => {
   const [storeId, setStoreId] = useState(0);
   const history = useHistory();
   const openStore = (id: number) => {
-    history.push(`/store/${id}`);
+    history.push(`/store/${id}/basket`);
   };
 
   return (

@@ -18,10 +18,12 @@ const HeaderImage = styled.div`
   background-color: #eae8e8;
   height: 300px;
   margin-top: -82px;
+  overflow: hidden;
 
   img {
     object-fit: cover;
-    height: 300px;
+    width: 100%;
+    height: 100%;
   }
 `;
 

@@ -34,7 +34,7 @@ const FoodDetails = styled.div<{ margin: number; compact: boolean }>`
     line-height: 21px;
     font-weight: 800;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

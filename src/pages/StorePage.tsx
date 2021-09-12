@@ -115,6 +115,7 @@ const StorePage = () => {
     const loadStore = async () => {
       if (id) {
         await vstore.currentStore.loadStore(parseInt(id));
+        await vstore.currentStoreBasket.loadStoreBasket(parseInt(id));
       }
     };
     loadStore();
@@ -149,10 +150,14 @@ const StorePage = () => {
     }
   };
 
+  const openStoreBasket = () => {
+    history.push(`/store/${id}/basket`);
+  };
+
   return (
     <IonPage>
       <Header
-        title={`Store ${id}`}
+        title={data.currentStore.store?.name}
         showButton={true}
         type="back"
         style={{ background: 'transparent' }}
@@ -192,6 +197,7 @@ const StorePage = () => {
           <FoodContent>
             {orders.map((order) => (
               <OrderItem
+                key={order.id}
                 item={order}
                 onClick={(id, itemId) => {
                   openFood(id, itemId);
@@ -214,7 +220,7 @@ const StorePage = () => {
       </IonContent>
       {data.currentStoreBasket.orders.length > 0 && (
         <Basket>
-          <Button type="primary">
+          <Button type="primary" onClick={openStoreBasket}>
             Basket - {data.currentStoreBasket.orders.length} items -{' '}
             {data.currentStoreBasket.totalPrice?.toFixed(2)}
           </Button>

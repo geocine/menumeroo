@@ -1,4 +1,4 @@
-import { proxy } from 'valtio';
+import { proxy, subscribe } from 'valtio';
 import { derive, devtools } from 'valtio/utils';
 import axios from 'axios';
 import {
@@ -40,6 +40,7 @@ export interface VStore {
     totalPrice?: number; // derived
     removeStoreBasket: (id: number) => void;
     ordersInBasket: (foodId: number) => number;
+    loadStoreBasket: (id: number) => void;
   };
   user: {
     profile?: User;
@@ -86,8 +87,6 @@ const loadStore = async (id: number) => {
   store.menu = menuResponse.data;
   vstore.currentStore.store = store;
   const menu: Menu[] = store.menu?.reduce(groupByType, []) || [];
-  const basket = vstore.basket.items.find((item) => item.id === id);
-  vstore.currentStoreBasket.orders = basket?.orders || [];
   vstore.currentStore.menu = menu;
 };
 
@@ -256,6 +255,11 @@ const ordersInBasket = (foodId: number): number => {
   );
 };
 
+const loadStoreBasket = (id: number) => {
+  const basket = vstore.basket.items.find((item) => item.id === id);
+  vstore.currentStoreBasket.orders = basket?.orders || [];
+};
+
 // Users
 
 const loadProfile = async () => {
@@ -300,8 +304,8 @@ const generateId = (items: any[]) => {
 };
 
 // Exports
-
-export const vstore = proxy<VStore>({
+const basketItems = localStorage.getItem('basketItems');
+const initialState: VStore = {
   home: {
     stores: [],
     categories: [],
@@ -321,7 +325,7 @@ export const vstore = proxy<VStore>({
     setSelectedVariation
   },
   basket: {
-    items: [],
+    items: JSON.parse(basketItems || '[]'),
     addUpdateBasket,
     removeFromBasket,
     setNote
@@ -329,14 +333,17 @@ export const vstore = proxy<VStore>({
   currentStoreBasket: {
     orders: [],
     removeStoreBasket,
-    ordersInBasket
+    ordersInBasket,
+    loadStoreBasket
   },
   user: {
     profile: undefined,
     loadProfile,
     saveProfile
   }
-});
+};
+
+export const vstore = proxy<VStore>(initialState);
 
 // Derived totalPrice on currentStoreBasket slice
 derive(
@@ -388,3 +395,7 @@ derive(
 );
 
 devtools(vstore, 'vstore');
+
+subscribe(vstore, () => {
+  localStorage.setItem('basketItems', JSON.stringify(vstore.basket.items));
+});

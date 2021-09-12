@@ -2,9 +2,10 @@ import styled from '@emotion/styled/macro';
 import { useCallback, useEffect, useState } from 'react';
 import { Food, Menu, StoreBasketItem } from '../store/types';
 
-const OrderItemContainer = styled.div`
+const OrderItemContainer = styled.div<{ noPadding: boolean }>`
   display: flex;
-  padding: 5px 30px;
+  padding: ${(props) => (props.noPadding ? '5px 0px' : '5px 30px')};
+
   .quantity {
     width: 30px;
     font-weight: bold;
@@ -26,13 +27,22 @@ const OrderItemContainer = styled.div`
 const ButtonLink = styled.a`
   font-size: 12px;
   color: var(--ion-color-primary);
+  &:visited,
+  &:hover {
+    color: var(--ion-color-primary);
+  }
 `;
 
 interface OrderItemProps {
   item: StoreBasketItem;
+  noPadding?: boolean;
   onClick: (id: number, itemId: number) => void;
 }
-const OrderItem = ({ item, onClick = () => {} }: OrderItemProps) => {
+const OrderItem = ({
+  item,
+  onClick = () => {},
+  noPadding = false
+}: OrderItemProps) => {
   const [variations, setVariations] = useState<Food[]>();
   const getSelectedVariation = useCallback(() => {
     return item.variations?.reduce<Food[]>(
@@ -51,13 +61,16 @@ const OrderItem = ({ item, onClick = () => {} }: OrderItemProps) => {
   }, [getSelectedVariation]);
 
   return (
-    <OrderItemContainer onClick={() => onClick(item.food?.id || 0, item.id)}>
+    <OrderItemContainer
+      onClick={() => onClick(item.food?.id || 0, item.id)}
+      noPadding={noPadding}
+    >
       <div className="quantity">{item.multiplier}x</div>
       <div className="details">
         <span className="title">{item.food?.name}</span>
         <ul>
-          {variations?.map((variation) => (
-            <li>{variation.name}</li>
+          {variations?.map((variation, index) => (
+            <li key={index}>{variation.name}</li>
           ))}
         </ul>
         <ButtonLink>Edit</ButtonLink>
