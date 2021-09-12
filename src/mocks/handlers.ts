@@ -2,9 +2,7 @@ import axios from 'axios';
 import { rest } from 'msw';
 import { Food, Store, User } from '../store/types';
 
-const baseUrl = 'https://cdn.statically.io/gh/geocine/mock-data/master';
-// const getImageUrl = (width: string, path: string) =>
-//   `https://cdn.statically.io/img/cdn.statically.io/${width}/gh/geocine/mock-data/master/${path}`;
+const baseUrl = 'https://mmcdn.netlify.app';
 
 export const handlers = [
   rest.get('/api/stores', async (req, res, ctx) => {
