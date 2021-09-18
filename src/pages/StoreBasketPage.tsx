@@ -18,6 +18,18 @@ const StoreBasketSection = styled.div`
     font-family: 'AvenirLTStd';
     color: var(--ion-color-medium);
   }
+
+  .payment-items {
+    display: flex;
+    .payment-item {
+    }
+    .payment-total {
+      margin-left: auto;
+    }
+    .payment-voucher {
+      margin-left: auto;
+    }
+  }
 `;
 
 const PlaceOrder = styled(IonFooter)`
@@ -84,6 +96,10 @@ const StoreBasketPage = () => {
       />
       <IonContent fullscreen>
         <StoreBasketSection>
+          <h1>Deliver to</h1>
+          San Juan
+        </StoreBasketSection>
+        <StoreBasketSection>
           <h1>Order summary</h1>
           <div className="items">
             {data.currentStoreBasket.orders.map((order) => (
@@ -99,14 +115,31 @@ const StoreBasketPage = () => {
           </div>
         </StoreBasketSection>
         <StoreBasketSection>
+          <div className="payment-items">
+            <div className="payment-item">Subtotal</div>
+            <div className="payment-total">
+              {data.currentStoreBasket.totalPrice?.toFixed(2)}
+            </div>
+          </div>
+          <div className="payment-items">
+            <div className="payment-item">Service fees</div>
+            <div className="payment-total">0.00</div>
+          </div>
+        </StoreBasketSection>
+        <StoreBasketSection>
           <h1>Payment details</h1>
-          <div className="payment-items"></div>
+          <div className="payment-items">
+            <div className="payment-method">Paypal</div>
+            <div className="payment-voucher">Voucher Code</div>
+          </div>
         </StoreBasketSection>
       </IonContent>
       <PlaceOrder>
         <div className="total">
           <h1>Total</h1>
-          <span className="price">{data.currentStoreBasket.totalPrice}</span>
+          <span className="price">
+            {data.currentStoreBasket.totalPrice?.toFixed(2)}
+          </span>
         </div>
         <Button type="primary" onClick={() => {}}>
           Place Order

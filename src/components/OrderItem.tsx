@@ -75,7 +75,7 @@ const OrderItem = ({
         </ul>
         <ButtonLink>Edit</ButtonLink>
       </div>
-      <div className="price">{item.totalPrice}</div>
+      <div className="price">{item.totalPrice?.toFixed(2)}</div>
     </OrderItemContainer>
   );
 };
