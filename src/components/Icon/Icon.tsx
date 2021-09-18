@@ -21,6 +21,9 @@ import { ReactComponent as IcnPayment } from './svg/Payment.svg';
 import { ReactComponent as IcnAdd } from './svg/Add.svg';
 import { ReactComponent as IcnMastercard } from './svg/Mastercard.svg';
 import { ReactComponent as IcnPaypal } from './svg/Paypal.svg';
+import { ReactComponent as IcnGCash } from './svg/GCash.svg';
+import { ReactComponent as IcnGrabPay } from './svg/GrabPay.svg';
+import { ReactComponent as IcnPayMaya } from './svg/PayMaya.svg';
 import { ReactComponent as IcnOn } from './svg/On.svg';
 import { ReactComponent as IcnOff } from './svg/Off.svg';
 export {
@@ -47,6 +50,9 @@ export {
   IcnAdd,
   IcnMastercard,
   IcnPaypal,
+  IcnGCash,
+  IcnGrabPay,
+  IcnPayMaya,
   IcnOn,
   IcnOff
 };

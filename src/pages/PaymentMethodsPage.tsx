@@ -1,28 +1,24 @@
 import styled from '@emotion/styled/macro';
-import { IonContent, IonFooter, IonPage } from '@ionic/react';
-import { Header, Button, Input, Subtitle, Check } from '../components';
-import { IcnNext, IcnPayment, IcnAdd, IcnPaypal, IcnGrabPay } from '../components/Icon/Icon';
+import { IonContent, IonPage } from '@ionic/react';
+import { Header, Subtitle, Check } from '../components';
+import { IcnPaypal, IcnGCash, IcnGrabPay, IcnPayMaya } from '../components/Icon/Icon';
 import { useHistory } from 'react-router';
 
 const PaymentMethodLink = styled.div`
-  display: block;
+  display: flex;
   font-family: 'AvenirLTStd';
   font-size: 16px;
   text-align: left;
   color: #2a3b56;
   margin: 20px 30px 30px 30px;
+  align-items: center;
 
   label {
     margin-left: 10px;
   }
-  
-  .icon {
-    float: right;
-    margin-right: 30px;
-  }
 
   .check-mark {
-    float: right;
+    margin-left: auto;
   }
 `;
 
@@ -55,17 +51,17 @@ const PaymentMethodsPage = () => {
           <span className="check-mark"><Check status="On"/></span>
         </PaymentMethodLink>
         <PaymentMethodLink>
-          <img src="/assets/images/gcash.png" alt="avatar"></img> 
+          <IcnGCash/> 
           <label>GCash</label>
           <span className="check-mark"><Check status="Off"/></span>
         </PaymentMethodLink>
         <PaymentMethodLink>
-          <img src="/assets/images/grabpay.png" alt="avatar"></img> 
+          <IcnGrabPay/>  
           <label>GrabPay</label>
           <span className="check-mark"><Check status="Off"/></span>
         </PaymentMethodLink>
         <PaymentMethodLink>
-          <img src="/assets/images/paymaya.png" alt="avatar"></img> 
+          <IcnPayMaya/>
           <label>PayMaya</label>
           <span className="check-mark"><Check status="Off"/></span>
         </PaymentMethodLink>
