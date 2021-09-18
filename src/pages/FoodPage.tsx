@@ -160,7 +160,11 @@ const FoodPage = () => {
 
   return (
     <IonPage>
-      <Header showButton={true} type="close" />
+      <Header
+        showButton={true}
+        type="close"
+        style={{ background: '#ffededb5' }}
+      />
       <IonContent fullscreen>
         <HeaderImage>
           <img src={currentFood.food?.src} alt={currentFood.food?.name}></img>

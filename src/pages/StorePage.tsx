@@ -17,6 +17,13 @@ const HeaderImage = styled.div`
   background-color: #eae8e8;
   height: 300px;
   margin-top: -82px;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 interface StorePageParams {
@@ -164,10 +171,15 @@ const StorePage = () => {
         title={data.currentStore.store?.name}
         showButton={true}
         type="back"
-        style={{ background: 'transparent' }}
+        style={{ background: '#ffededb5' }}
       />
       <IonContent fullscreen>
-        <HeaderImage />
+        <HeaderImage>
+          <img
+            src={data.currentStore.store?.src}
+            alt={data.currentStore.store?.name}
+          ></img>
+        </HeaderImage>
         {data.currentStore.menu?.map((menu) => (
           <FoodMenuCard key={menu.id} title={menu.name}>
             {menu.foodItems.map((food) => (
