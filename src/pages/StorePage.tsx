@@ -119,6 +119,9 @@ const StorePage = () => {
       }
     };
     loadStore();
+    return () => {
+      vstore.currentStore.clearStore();
+    };
   }, [id]);
 
   const closeOrders = () => {

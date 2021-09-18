@@ -24,6 +24,7 @@ export interface VStore {
     menu?: Menu[];
     loadStore: (id: number) => Promise<void>;
     getFoodDetails: (id: number) => Food | null;
+    clearStore: () => void;
   };
   currentFood: StoreBasketItem & {
     loadFood: (id: number, itemId?: number) => Promise<void>;
@@ -42,6 +43,7 @@ export interface VStore {
     removeStoreBasket: (id: number) => void;
     ordersInBasket: (foodId: number) => number;
     loadStoreBasket: (id: number) => void;
+    clearStoreBasket: () => void;
   };
   user: {
     profile?: User;
@@ -100,6 +102,16 @@ const getFoodDetails = (id: number): Food | null => {
     }
   }
   return null;
+};
+
+const clearStore = () => {
+  vstore.currentStore.menu = [];
+  vstore.currentStore.store = {
+    id: 0,
+    name: '',
+    location: '',
+    src: ''
+  };
 };
 
 // Food
@@ -269,6 +281,10 @@ const loadStoreBasket = (id: number) => {
   vstore.currentStoreBasket.orders = basket?.orders || [];
 };
 
+const clearStoreBasket = () => {
+  vstore.currentStoreBasket.orders = [];
+};
+
 // Users
 
 const loadProfile = async () => {
@@ -326,7 +342,8 @@ const initialState: VStore = {
     store: undefined,
     menu: [],
     loadStore,
-    getFoodDetails
+    getFoodDetails,
+    clearStore
   },
   currentFood: {
     id: 0,
@@ -344,7 +361,8 @@ const initialState: VStore = {
     orders: [],
     removeStoreBasket,
     ordersInBasket,
-    loadStoreBasket
+    loadStoreBasket,
+    clearStoreBasket
   },
   user: {
     profile: undefined,

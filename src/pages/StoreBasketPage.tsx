@@ -63,6 +63,10 @@ const StoreBasketPage = () => {
       }
     };
     loadStoreBasket();
+    return () => {
+      vstore.currentStore.clearStore();
+      vstore.currentStoreBasket.clearStoreBasket();
+    };
   }, [id]);
 
   const openFood = async (id: number, item?: number) => {
