@@ -135,6 +135,9 @@ const FoodPage = () => {
       await vstore.currentFood.loadFood(parseInt(id), parseInt(itemId));
     };
     loadFood();
+    return () => {
+      vstore.currentFood.clearFood();
+    };
   }, [id, itemId]);
 
   const multiplyPrice = (multiplier: number = 1) => {
@@ -215,7 +218,7 @@ const FoodPage = () => {
           </Button>
         )}
         {buttonState === buttonStates.REMOVE && (
-          <Button type="primary" onClick={removeFromBasket}>
+          <Button type="secondary" onClick={removeFromBasket}>
             Remove From Basket
           </Button>
         )}

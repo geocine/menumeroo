@@ -28,6 +28,7 @@ export interface VStore {
   currentFood: StoreBasketItem & {
     loadFood: (id: number, itemId?: number) => Promise<void>;
     setSelectedVariation: (id: number, select: boolean) => void;
+    clearFood: () => void;
   };
   basket: {
     items: StoreBasket[];
@@ -146,6 +147,14 @@ const setSelectedVariation = (id: number, selected: boolean) => {
       return currentMenu;
     }
   );
+};
+
+const clearFood = () => {
+  vstore.currentFood.food = {
+    id: 0,
+    name: '',
+    src: ''
+  };
 };
 
 // Basket
@@ -322,7 +331,8 @@ const initialState: VStore = {
   currentFood: {
     id: 0,
     loadFood,
-    setSelectedVariation
+    setSelectedVariation,
+    clearFood
   },
   basket: {
     items: JSON.parse(basketItems || '[]'),
