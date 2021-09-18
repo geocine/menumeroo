@@ -36,7 +36,7 @@ const PlaceOrder = styled(IonFooter)`
 
     span.price {
       margin-left: auto;
-      font-size: 20px;
+      font-size: 24px;
       color: var(--ion-color-primary);
     }
   }
