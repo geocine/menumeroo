@@ -3,6 +3,8 @@ http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
 :root {
+  --ion-font-family: 'AvenirLTStd';
+
   --ion-color-primary: #f55b02;
   --ion-color-primary-rgb: 245, 91, 2;
   --ion-color-primary-contrast: #ffffff;
