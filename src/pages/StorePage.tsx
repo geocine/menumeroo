@@ -121,6 +121,7 @@ const StorePage = () => {
     loadStore();
     return () => {
       vstore.currentStore.clearStore();
+      vstore.currentStoreBasket.clearStoreBasket();
     };
   }, [id]);
 
