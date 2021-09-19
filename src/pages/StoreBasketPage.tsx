@@ -76,8 +76,10 @@ const StoreBasketPage = () => {
     };
     loadStoreBasket();
     return () => {
-      vstore.currentStore.clearStore();
-      vstore.currentStoreBasket.clearStoreBasket();
+      if (!vstore.currentStore.inStore) {
+        vstore.currentStore.clearStore();
+        vstore.currentStoreBasket.clearStoreBasket();
+      }
     };
   }, [id]);
 

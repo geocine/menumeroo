@@ -22,6 +22,7 @@ export interface VStore {
   currentStore: {
     store?: Store;
     menu?: Menu[];
+    inStore: boolean;
     loadStore: (id: number) => Promise<void>;
     getFoodDetails: (id: number) => Food | null;
     clearStore: () => void;
@@ -341,6 +342,7 @@ const initialState: VStore = {
   currentStore: {
     store: undefined,
     menu: [],
+    inStore: false,
     loadStore,
     getFoodDetails,
     clearStore
