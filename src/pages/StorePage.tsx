@@ -26,6 +26,17 @@ const HeaderImage = styled.div`
   }
 `;
 
+const BasketIndicator = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0 20px;
+  .indicator {
+  }
+  .price {
+    margin-left: auto;
+  }
+`;
+
 interface StorePageParams {
   id?: string;
 }
@@ -139,6 +150,24 @@ const StorePage = () => {
     setOrders([]);
   };
 
+  useEffect(() => {
+    if (!food?.id) {
+      return;
+    }
+    const storeOrders = data.currentStoreBasket.orders.filter(
+      (order) => order.food?.id === food?.id
+    );
+    if (storeOrders.length < 1) {
+      closeOrders();
+    } else {
+      setOrders(storeOrders);
+    }
+  }, [data.currentStoreBasket.orders, food?.id]);
+
+  const removeFromBasket = (item: StoreBasketItem) => {
+    vstore.basket.removeFromBasket(item);
+  };
+
   // TODO: do not await setStates check onDidDismiss or any means to do a smoother transition to another page
   const openFood = async (id: number, item?: number) => {
     if (item) {
@@ -220,6 +249,7 @@ const StorePage = () => {
                 onClick={(id, itemId) => {
                   openFood(id, itemId);
                 }}
+                onRemoveClick={removeFromBasket}
               />
             ))}
           </FoodContent>
@@ -239,8 +269,12 @@ const StorePage = () => {
       {data.currentStoreBasket.orders.length > 0 && (
         <Basket>
           <Button type="primary" onClick={openStoreBasket}>
-            Basket - {data.currentStoreBasket.orders.length} items -{' '}
-            {data.currentStoreBasket.totalPrice?.toFixed(2)}
+            <BasketIndicator>
+              Basket &middot; {data.currentStoreBasket.orders.length} items
+              <span className="price">
+                {data.currentStoreBasket.totalPrice?.toFixed(2)}
+              </span>
+            </BasketIndicator>
           </Button>
         </Basket>
       )}

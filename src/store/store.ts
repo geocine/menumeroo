@@ -163,6 +163,9 @@ const setSelectedVariation = (id: number, selected: boolean) => {
 };
 
 const clearFood = () => {
+  vstore.currentFood.multiplier = 1;
+  vstore.currentFood.variations = [];
+  vstore.currentFood.note = '';
   vstore.currentFood.food = {
     id: 0,
     name: '',

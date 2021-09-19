@@ -109,7 +109,8 @@ const FoodPage = () => {
   const buttonStates = {
     ADD: 1,
     REMOVE: 2,
-    UPDATE: 3
+    UPDATE: 3,
+    BACK: 4
   };
 
   useEffect(() => {
@@ -119,15 +120,19 @@ const FoodPage = () => {
     if ((currentFood.multiplier || 0) > 0 && parseInt(itemId)) {
       setButtonState(buttonStates.UPDATE);
     }
-    if ((currentFood.multiplier || 0) === 0) {
+    if ((currentFood.multiplier || 0) === 0 && parseInt(itemId)) {
       setButtonState(buttonStates.REMOVE);
+    }
+    if ((currentFood.multiplier || 0) === 0 && !parseInt(itemId)) {
+      setButtonState(buttonStates.BACK);
     }
   }, [
     itemId,
     currentFood.multiplier,
     buttonStates.ADD,
     buttonStates.UPDATE,
-    buttonStates.REMOVE
+    buttonStates.REMOVE,
+    buttonStates.BACK
   ]);
 
   useEffect(() => {
@@ -146,11 +151,15 @@ const FoodPage = () => {
 
   const updateBasket = () => {
     vstore.basket.addUpdateBasket(currentFood);
-    history.goBack();
+    backToMenu();
   };
 
   const removeFromBasket = () => {
     vstore.basket.removeFromBasket(currentFood);
+    backToMenu();
+  };
+
+  const backToMenu = () => {
     history.goBack();
   };
 
@@ -207,13 +216,18 @@ const FoodPage = () => {
         <Counter
           onChange={multiplyPrice}
           value={currentFood.multiplier || 1}
-          min={parseInt(itemId) ? 0 : 1}
+          min={0}
         />
       </IonContent>
       <AddToCart>
         {buttonState === buttonStates.ADD && (
           <Button type="primary" onClick={updateBasket}>
             Add to Basket - {(currentFood.totalPrice || 0).toFixed(2)}
+          </Button>
+        )}
+        {buttonState === buttonStates.BACK && (
+          <Button type="secondary" onClick={backToMenu}>
+            Back to menu
           </Button>
         )}
         {buttonState === buttonStates.UPDATE && (
@@ -223,7 +237,7 @@ const FoodPage = () => {
         )}
         {buttonState === buttonStates.REMOVE && (
           <Button type="secondary" onClick={removeFromBasket}>
-            Remove From Basket
+            Remove
           </Button>
         )}
       </AddToCart>

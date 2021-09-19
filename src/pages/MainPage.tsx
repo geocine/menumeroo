@@ -6,10 +6,10 @@ import {
   IonTabs
 } from '@ionic/react';
 import { Redirect, Route } from 'react-router';
-import { IcnHome, IcnMyList, IcnProfile } from '../components/Icon/Icon';
+import { IcnHome, IcnOrder, IcnProfile } from '../components/Icon/Icon';
 import { FiShoppingBag } from 'react-icons/fi';
 import HomeTab from './HomeTab';
-import MyListTab from './MyListTab';
+import OrdersTab from './OrdersTab';
 import BasketTab from './BasketTab';
 import ProfileTab from './ProfileTab';
 import styled from '@emotion/styled/macro';
@@ -43,7 +43,7 @@ const MainPage = () => {
       <IonRouterOutlet>
         <Redirect exact path="/tabs" to="/tabs/home" />
         <Route path="/tabs/home" render={() => <HomeTab />} exact />
-        <Route path="/tabs/mylist" render={() => <MyListTab />} exact />
+        <Route path="/tabs/orders" render={() => <OrdersTab />} exact />
         <Route path="/tabs/basket" render={() => <BasketTab />} exact />
         <Route
           path="/tabs/profile"
@@ -55,13 +55,13 @@ const MainPage = () => {
         <IonTabButton tab="home" href="/tabs/home">
           <IcnHome />
         </IonTabButton>
-        <IonTabButton tab="order" href="/tabs/mylist">
-          <IcnMyList />
+        <IonTabButton tab="order" href="/tabs/orders">
+          <IcnOrder />
         </IonTabButton>
         <IonTabButton tab="basket" href="/tabs/basket">
           <BasketContainer>
             {data.basket.items.length > 0 && <Badge />}
-            <FiShoppingBag size={30} strokeWidth={1.5} />
+            <FiShoppingBag size={28} strokeWidth={1.5} />
           </BasketContainer>
         </IonTabButton>
         <IonTabButton tab="profile" href="/tabs/profile">

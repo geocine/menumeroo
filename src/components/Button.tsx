@@ -10,7 +10,6 @@ const StyledButton = styled(AntButton)`
   width: calc(100% - 60px);
   margin: 15px auto;
   display: block;
-  text-transform: capitalize;
 
   &.ant-btn-secondary {
     border: none;
