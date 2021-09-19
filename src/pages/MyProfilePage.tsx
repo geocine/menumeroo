@@ -38,6 +38,11 @@ const ProfileHeader = styled.div`
     text-align: center;
     color: var(--ion-color-medium);
   }
+
+  .avatar {
+    display: block;
+    text-align: center;
+  }
 `;
 
 const ProfileInput = styled.div`
@@ -91,6 +96,7 @@ const ProfileInput = styled.div`
 
 const MyProfilePage = () => {
   const data = useSnapshot(vstore);
+  const [avatarImage, setAvatarImage] = useState<string>();
   const [readOnly = true, setReadOnly] = useState<boolean | undefined>();
   const [buttonText = 'Edit', setButtonText] = useState<string>();
   const [maxLength] = useState<number>(10);
@@ -116,12 +122,30 @@ const MyProfilePage = () => {
       await vstore.user.loadProfile(1);
     };
     load();
+    setAvatarImage(data.user.profile?.avatar);
   }, []);
 
   const props = {
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
     multiple: false,
   };
+
+  const getBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        console.log(e);
+      }
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  const handleChange = async ({ file, fileList } : {file: any, fileList: any}) => {
+    file.preview = await getBase64(file);
+    setAvatarImage(file.preview)
+  }
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -133,15 +157,14 @@ const MyProfilePage = () => {
         />
         <StyledMyProfilePage>
           <ProfileHeader>
-            <img src={data.user.profile?.avatar} alt="avatar"></img>
-            <span className="fullname">{data.user.profile?.name}</span>
-            <span className="number">
+            <span className="avatar">
               <ImgCrop shape="round" grid>
-                <Upload {...props} accept="image/*" itemRender={()=> <></>}>
-                  change photo
+                <Upload accept="image/*" itemRender={()=> <></>} showUploadList={false} onChange={handleChange} beforeUpload={() => false}>
+                  <img src={avatarImage} alt="avatar"></img>
                 </Upload>
               </ImgCrop>
             </span>
+            <span className="fullname">{data.user.profile?.name}</span>
           </ProfileHeader>
           <ProfileInput>
             <label>My Name</label>
