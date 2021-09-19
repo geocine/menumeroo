@@ -123,12 +123,14 @@ const StorePage = () => {
       if (id) {
         await vstore.currentStore.loadStore(parseInt(id));
         await vstore.currentStoreBasket.loadStoreBasket(parseInt(id));
+        vstore.currentStore.inStore = true;
       }
     };
     loadStore();
     return () => {
       vstore.currentStore.clearStore();
       vstore.currentStoreBasket.clearStoreBasket();
+      vstore.currentStore.inStore = false;
     };
   }, [id]);
 
