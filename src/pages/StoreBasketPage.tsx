@@ -106,6 +106,7 @@ interface StoreBasketPageParams {
 }
 const StoreBasketPage = () => {
   const { id } = useParams<StoreBasketPageParams>();
+  const [isLoading, setIsloading] = useState(true);
   const data = useSnapshot(vstore);
   const history = useHistory();
 
@@ -114,6 +115,7 @@ const StoreBasketPage = () => {
       if (id) {
         await vstore.currentStore.loadStore(parseInt(id));
         await vstore.currentStoreBasket.loadStoreBasket(parseInt(id));
+        setIsloading(false);
       }
     };
     loadStoreBasket();
@@ -132,10 +134,10 @@ const StoreBasketPage = () => {
   };
 
   useEffect(() => {
-    if (data.currentStoreBasket.orders.length < 1) {
+    if (data.currentStoreBasket.orders.length < 1 && !isLoading) {
       history.goBack();
     }
-  }, [data.currentStoreBasket.orders, history]);
+  }, [data.currentStoreBasket.orders, history, isLoading]);
 
   const removeFromBasket = (item: StoreBasketItem) => {
     vstore.basket.removeFromBasket(item);
