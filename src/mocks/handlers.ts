@@ -52,6 +52,15 @@ export const handlers = [
     const categories = await axios.get(`${baseUrl}/data/categories.json`);
     return res(ctx.status(200), ctx.json(categories.data));
   }),
+  rest.get('/api/auth', async (req, res, ctx) => {
+    const { username, password } = req.params;
+    const users = await axios.get(`${baseUrl}/data/users.json`);
+    const user: User = users.data.find(
+      (user: User) => user.username === username && user.password === password
+    );
+    user.avatar = `${baseUrl}${user.avatar}`;
+    return res(ctx.status(200), ctx.json(user));
+  }),
   // :id is userId: number
   rest.get('/api/users/:userId', async (req, res, ctx) => {
     const { userId } = req.params;

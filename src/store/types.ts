@@ -75,6 +75,8 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  username: string;
+  password: string;
   phoneNumber: string;
   avatar: string;
   [key: string]: any; // need this to be able to dynamically address string properties

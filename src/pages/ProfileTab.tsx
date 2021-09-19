@@ -8,6 +8,12 @@ import { vstore } from '../store/store';
 import { useEffect } from 'react';
 
 const ProfileHeader = styled.div`
+  height: 220px;
+
+  .avatar {
+    min-height: 150px;
+  }
+
   img {
     display: flex;
     width: 150px;
@@ -15,6 +21,7 @@ const ProfileHeader = styled.div`
   }
 
   .fullname {
+    height: 25px;
     display: block;
     font-family: 'AvenirLTStd';
     font-size: 20px;
@@ -77,9 +84,9 @@ const ProfileTab = () => {
     <IonPage>
       <IonContent fullscreen>
         <ProfileHeader>
-          <img src={data.user.profile?.avatar} alt='avatar'></img>
+          <img className="avatar" src={data.user.profile?.avatar} alt='avatar'></img>
           <span className='fullname'>{data.user.profile?.name}</span>
-          <span className='number'>{data.user.profile?.phoneNumber}</span>
+          <span className='number'>+63{data.user.profile?.phoneNumber}</span>
         </ProfileHeader>
         <ProfileLink
           onClick={() => {

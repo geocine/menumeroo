@@ -4,6 +4,7 @@ import { Header, Button, Input, Title } from '../components';
 import { IcnLock, IcnProfile } from '../components/Icon/Icon';
 import { useHistory } from 'react-router';
 import { useEffect, useState } from 'react';
+import { vstore } from '../store/store';
 
 const StyledLoginPage = styled.div`
   .ant-input-affix-wrapper { 
@@ -72,8 +73,8 @@ const LoginPage = () => {
           <StyleTitleSection>
             <Title text="Sign in" />
           </StyleTitleSection>
-          <Input onChange={(e) => setUsername(e.target.value)} className="username" prefix={<IcnProfile />} placeholder="Username" />
-          <Input onChange={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock />} placeholder="Password" type="password" />
+          <Input name="username" onChange={(e) => setUsername(e.target.value)} className="username" prefix={<IcnProfile />} placeholder="Username" />
+          <Input name="password" onChange={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock />} placeholder="Password" type="password" />
           <Button type="primary" onClick={() => login(username)} disabled={disabled}>Sign In</Button>
           <span className="link" onClick={() => openForgotPassword()}>Forgot Password?</span>
         </StyledLoginPage>

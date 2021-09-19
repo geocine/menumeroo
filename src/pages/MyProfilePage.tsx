@@ -4,6 +4,8 @@ import { Button, Header, Input } from '../components';
 import { useEffect, useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { vstore } from '../store/store';
+import { Upload } from 'antd';
+import ImgCrop from 'antd-img-crop';
 
 const StyledMyProfilePage = styled.div`
   input {
@@ -12,6 +14,8 @@ const StyledMyProfilePage = styled.div`
 `;
 
 const ProfileHeader = styled.div`
+  height: 220px;
+
   img {
     display: flex;
     width: 150px;
@@ -19,6 +23,7 @@ const ProfileHeader = styled.div`
   }
 
   .fullname {
+    height: 25px;
     display: block;
     font-family: 'AvenirLTStd';
     font-size: 20px;
@@ -113,6 +118,10 @@ const MyProfilePage = () => {
     load();
   }, []);
 
+  const props = {
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    multiple: false,
+  };
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -126,7 +135,13 @@ const MyProfilePage = () => {
           <ProfileHeader>
             <img src={data.user.profile?.avatar} alt="avatar"></img>
             <span className="fullname">{data.user.profile?.name}</span>
-            <span className="number">change photo</span>
+            <span className="number">
+              <ImgCrop shape="round" grid>
+                <Upload {...props} accept="image/*" fileList={undefined}>
+                  change photo
+                </Upload>
+              </ImgCrop>
+            </span>
           </ProfileHeader>
           <ProfileInput>
             <label>My Name</label>
