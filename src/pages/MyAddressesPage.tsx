@@ -2,6 +2,8 @@ import styled from '@emotion/styled/macro';
 import { IonContent, IonPage, IonFooter } from '@ionic/react';
 import { Button, Header, Input } from '../components';
 import { useEffect, useState } from 'react';
+import { AiOutlinePlus, AiOutlineEdit } from "react-icons/ai";
+import { useHistory } from 'react-router';
 
 const StyledMyAddressesPage = styled.div`
   input {
@@ -9,81 +11,57 @@ const StyledMyAddressesPage = styled.div`
   }
 `;
 
-const ProfileHeader = styled.div`
-  img {
-    display: flex;
-    width: 150px;
-    margin: 20px auto 0 auto;
-  }
-
-  .fullname {
-    display: block;
-    font-family: 'AvenirLTStd';
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-    color: #2a3b56;
-  }
-
-  .number {
-    display: block;
-    font-family: 'AvenirLTStd';
-    text-align: center;
-    color: #8a94a3;
-  }
-`;
-
-const ProfileInput = styled.div`
+const AddressContainer = styled.div`
   display: block;
-  font-family: 'AvenirLTStd';
-  font-size: 18px;
-  text-align: left;
-  margin-left: 30px;
-  color: #8A94A3;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin: 0px 30px 20px 30px;
 
-  .data-holder {
-    float: right;
-    margin-right: 30px;
+  label {
+    font-family: 'AvenirLTStd-Heavy';
+    color: var(--ion-color-secondary);
+    font-size: 18px;
   }
 
-  .data-holder input {
-    margin: 0 !important;
-    max-width: 100% !important;
-    text-align: right;
-    color: #2A3B56;
-    background: var(--ion-color-light) !important;
+  .details {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    color: var(--ion-color-medium);
   }
-  
-  .data-holder input:read-only {
-    margin: 0 !important;
-    background: none !important;
-    max-width: 100% !important;
-    text-align: right;
-    color: #2A3B56;
+
+  .icon {
+    display: inline-flex;
+    margin-left: auto;
   }
 `;
 
-const saveProfile = (data: any) => {
-  // login process
-  console.log(data);
-};
+const NewAddress = styled.div`
+  display: flex;
+  font-weight: normal;
+  font-family: 'AvenirLTStd-Heavy';
+  color: var(--ion-color-secondary);
+  font-size: 16px;
+  text-align: left;
+  margin: 0px 30px;
+
+  .icon {
+    display: inline-flex;
+    margin-left: auto;
+  }
+`;
+
 
 const MyAddressesPage = () => {
-  const [data, setData] = useState<any | null>();
-  const [readOnly = true, setReadOnly] = useState<boolean | undefined>();
-  const [buttonText  = "Edit", setButtonText] = useState<string>();
-  let inputData = [];
-  const editMode = () => {
-    if (readOnly === true) {
-      setReadOnly(false);
-      setButtonText("Save");
-    } else {
-      setReadOnly(true);
-      setButtonText("Edit");
-    }
-  }
+
+  const [addressList, setAddressList] = useState([
+    { name: "House", address: "Lot 3 Blk 24 Kristina Homes Subd.", city: "Davao City", details: "red gate" },
+    { name: "Office", address: "3rd Flr Prestige Bldg", city: "Makati City", details: "" },
+    { name: "Residence", address: "12 Masipag St.", city: "Quezon City", details: "Door 3C" },
+  ]);
+
+  let history = useHistory();
+  const newAddress = () => {
+    history.push(`/profile/new-address`);
+  };
+  
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -93,15 +71,19 @@ const MyAddressesPage = () => {
           type='back'
           style={{ background: 'transparent' }}
         />
-        <StyledMyAddressesPage>
-          <p>Address 1</p>
-        </StyledMyAddressesPage>
+        {addressList.map((address, i) => (
+        <AddressContainer key={i}>
+          <label>{address.name}</label>
+          <span className="icon"><AiOutlineEdit/></span>
+          <p className="details">{address.address}</p>
+          <p className="details">{address.details}</p>
+        </AddressContainer>
+        ))}
+        <NewAddress onClick={() => {newAddress();}}>
+          <label>Add New Address</label>
+          <span className="icon"><AiOutlinePlus/></span>
+        </NewAddress>
       </IonContent>
-      <IonFooter>
-        <Button type='primary' onClick={() => editMode()}>
-          {buttonText}
-        </Button>
-      </IonFooter>
     </IonPage>
   );
 };

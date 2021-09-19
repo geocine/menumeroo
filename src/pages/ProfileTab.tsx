@@ -40,8 +40,8 @@ const ProfileHeader = styled.div`
 
 const ProfileLink = styled.div`
   display: block;
-  font-family: 'AvenirLTStd';
-  font-size: 18px;
+  font-family: 'AvenirLTStd-Heavy';
+  font-size: 16px;
   text-align: left;
   margin-left: 30px;
   color: #2a3b56;

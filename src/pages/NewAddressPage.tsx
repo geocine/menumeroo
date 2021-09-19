@@ -4,7 +4,12 @@ import { Header } from '../components';
 const NewAddressPage = () => {
   return (
     <IonPage>
-      <Header showButton={true} type="close" title="Page" />
+      <Header
+          title={`Add New Address`}
+          showButton={true}
+          type='back'
+          style={{ background: 'transparent' }}
+        />
       <IonContent fullscreen></IonContent>
     </IonPage>
   );
