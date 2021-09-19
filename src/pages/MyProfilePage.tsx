@@ -137,7 +137,7 @@ const MyProfilePage = () => {
             <span className="fullname">{data.user.profile?.name}</span>
             <span className="number">
               <ImgCrop shape="round" grid>
-                <Upload {...props} accept="image/*" fileList={undefined}>
+                <Upload {...props} accept="image/*" itemRender={()=> <></>}>
                   change photo
                 </Upload>
               </ImgCrop>

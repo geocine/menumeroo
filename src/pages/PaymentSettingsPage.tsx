@@ -1,54 +1,101 @@
 import styled from '@emotion/styled/macro';
-import { IonContent, IonPage } from '@ionic/react';
-import { Header } from '../components';
-import { IcnPayment, IcnAdd } from '../components/Icon/Icon';
+import { IonCheckbox, IonContent, IonFooter, IonPage } from '@ionic/react';
+import { Button, Header, Subtitle } from '../components';
+import {
+  IcnGCash,
+  IcnGrabPay,
+  IcnPayMaya,
+  IcnPaypal
+} from '../components/Icon/Icon';
 import { useHistory } from 'react-router';
+import { useEffect, useState } from 'react';
 
 const PaymentMethodLink = styled.div`
-  display: block;
+  display: flex;
   font-family: 'AvenirLTStd';
   font-size: 16px;
   text-align: left;
-  margin-left: 30px;
   color: #2a3b56;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin: 20px 30px 30px 30px;
+  align-items: center;
 
   label {
+    margin-top: 5px;
     margin-left: 10px;
   }
-  
-  .icon {
-    float: right;
-    margin-right: 30px;
+
+  .check-mark {
+    display: inline-flex;
+    margin-left: auto;
   }
 `;
 
-const PaymentSettingsPage = () => {
+const StyleTitleSection = styled.div`
+  margin: 30px auto;
+`;
+
+const PaymentMethodsPage = () => {
+  const [checked, setChecked] = useState<string>("paypal");
   let history = useHistory();
 
-  const addPayment = () => {
-    history.push(`/profile/payment-methods`);
+  const [paymentList, setPaymentList] = useState([
+    { label: 'PayPal', icon: <IcnPaypal />, val: 'paypal', isChecked: true },
+    { label: 'GCash', icon: <IcnGCash />, val: 'gcash', isChecked: false },
+    { label: 'GrabPay', icon: <IcnGrabPay />, val: 'grabpay', isChecked: false },
+    { label: 'PayMaya', icon: <IcnPayMaya />, val: 'paymaya', isChecked: false }
+  ] ); 
+
+  const setDefault = (value: string) => {
+    setPaymentList(paymentList.map(payment => {
+      payment.isChecked = payment.val === value
+      return payment;
+    })); 
+  }
+
+  useEffect(() => {}, [checked]);
+
+  const saveDefault = () => {
+    // paymentList.map(({ label, icon, val, isChecked }, i){
+    //   isChecked
+    // }
   };
   return (
     <IonPage>
       <Header
-        title="Payment Settings"
+        title='Payment Settings'
         showButton={true}
-        type="back"
+        type='back'
         style={{ background: 'transparent' }}
       />
       <IonContent fullscreen>
-        <PaymentMethodLink onClick={() => {addPayment();}}>
-          <IcnPayment />
-            <label>Add new payment method</label>
-            <span className='icon'>
-              <IcnAdd />
+        <StyleTitleSection>
+          <Subtitle text='Choose a default payment method' />
+        </StyleTitleSection>
+        {paymentList.map(({ label, icon, val, isChecked }, i) => (
+          <PaymentMethodLink key={i}>
+            {icon}
+            <label>{label}</label>
+            <span className='check-mark'>
+              <IonCheckbox
+                slot='end'
+                color='primary'
+                mode='ios'
+                name={label}
+                value={val}
+                checked={isChecked}
+                onIonChange={() => setDefault(val)}
+              />
             </span>
-        </PaymentMethodLink>
+          </PaymentMethodLink>
+        ))}
       </IonContent>
+      <IonFooter>
+        <Button type='primary' onClick={() => saveDefault()}>
+          Save
+        </Button>
+      </IonFooter>
     </IonPage>
   );
 };
 
-export default PaymentSettingsPage;
+export default PaymentMethodsPage;
