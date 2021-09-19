@@ -72,7 +72,7 @@ const PaymentMethodsPage = () => {
           <Subtitle text='Choose a default payment method' />
         </StyleTitleSection>
         {paymentList.map(({ label, icon, val, isChecked }, i) => (
-          <PaymentMethodLink key={i}>
+          <PaymentMethodLink key={i} onClick={() => setDefault(val)}>
             {icon}
             <label>{label}</label>
             <span className='check-mark'>
@@ -83,7 +83,6 @@ const PaymentMethodsPage = () => {
                 name={label}
                 value={val}
                 checked={isChecked}
-                onIonChange={() => setDefault(val)}
               />
             </span>
           </PaymentMethodLink>
