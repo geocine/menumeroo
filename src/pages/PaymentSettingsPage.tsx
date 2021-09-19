@@ -39,45 +39,60 @@ interface PaymentSettingsPageParam {
    * 0 = choose payment method on checkout
    * 1 = set default payment
    */
-  mode? : string; 
+  mode?: string;
 }
 
 const PaymentSettingsPage = () => {
   const { mode } = useParams<PaymentSettingsPageParam>();
-  const [headingSubtitle, setHeadingSubtitle] = useState<string>();
+  const [headingSubtitle, setHeadingSubtitle] = useState<string>(
+    'Choose payment method'
+  );
+  const [heading, setHeading] = useState<string>('Payment Methods');
 
   const [paymentList, setPaymentList] = useState([
     { label: 'PayPal', icon: <IcnPaypal />, val: 'paypal', isChecked: true },
     { label: 'GCash', icon: <IcnGCash />, val: 'gcash', isChecked: false },
-    { label: 'GrabPay', icon: <IcnGrabPay />, val: 'grabpay', isChecked: false },
+    {
+      label: 'GrabPay',
+      icon: <IcnGrabPay />,
+      val: 'grabpay',
+      isChecked: false
+    },
     { label: 'PayMaya', icon: <IcnPayMaya />, val: 'paymaya', isChecked: false }
-  ] ); 
+  ]);
+
+  const history = useHistory();
 
   const setDefault = (value: string) => {
-    setPaymentList(paymentList.map(payment => {
-      payment.isChecked = payment.val === value
-      return payment;
-    })); 
-  }
+    setPaymentList(
+      paymentList.map((payment) => {
+        payment.isChecked = payment.val === value;
+        return payment;
+      })
+    );
+  };
 
   useEffect(() => {
-    if(mode === "1"){
-      setHeadingSubtitle("Choose default payment method");
+    if (mode === '1') {
+      setHeading('Payment Settings');
+      setHeadingSubtitle('Choose default payment method');
     } else {
-      setHeadingSubtitle("Choose payment method");
+      setHeading('Payment Methods');
+      setHeadingSubtitle('Choose payment method');
     }
   }, [mode]);
 
   const saveDefault = () => {
     let defaultPayment = paymentList.find((payment) => payment.isChecked);
     //TODO: store default payment here
+    history.goBack();
   };
   return (
     <IonPage>
       <Header
-        title='Payment Settings'
+        title={heading}
         showButton={true}
-        type='back'
+        type="back"
         style={{ background: 'transparent' }}
       />
       <IonContent fullscreen>
@@ -88,11 +103,11 @@ const PaymentSettingsPage = () => {
           <PaymentMethodLink key={i} onClick={() => setDefault(val)}>
             {icon}
             <label>{label}</label>
-            <span className='check-mark'>
+            <span className="check-mark">
               <IonCheckbox
-                slot='end'
-                color='primary'
-                mode='ios'
+                slot="end"
+                color="primary"
+                mode="ios"
                 name={label}
                 value={val}
                 checked={isChecked}
@@ -102,7 +117,7 @@ const PaymentSettingsPage = () => {
         ))}
       </IonContent>
       <IonFooter>
-        <Button type='primary' onClick={() => saveDefault()}>
+        <Button type="primary" onClick={() => saveDefault()}>
           Save
         </Button>
       </IonFooter>

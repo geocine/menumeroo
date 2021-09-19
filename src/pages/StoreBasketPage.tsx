@@ -133,6 +133,10 @@ const StoreBasketPage = () => {
     }
   };
 
+  const placeOrder = () => {
+    history.push(`/store/${id}/checkout`);
+  };
+
   useEffect(() => {
     if (data.currentStoreBasket.orders.length < 1 && !isLoading) {
       history.goBack();
@@ -141,6 +145,10 @@ const StoreBasketPage = () => {
 
   const removeFromBasket = (item: StoreBasketItem) => {
     vstore.basket.removeFromBasket(item);
+  };
+
+  const openPaymentMethod = () => {
+    history.push('/profile/payment/');
   };
 
   return (
@@ -193,7 +201,7 @@ const StoreBasketPage = () => {
               <IcnNext className="indicator" />
             </div>
           </DetailItem>
-          <DetailItem>
+          <DetailItem onClick={openPaymentMethod}>
             <span>Payment Method</span>
             <div className="action">
               <div className="content">
@@ -212,7 +220,7 @@ const StoreBasketPage = () => {
             {data.currentStoreBasket.totalPrice?.toFixed(2)}
           </div>
         </div>
-        <Button type="primary" onClick={() => {}}>
+        <Button type="primary" onClick={placeOrder}>
           Place Order
         </Button>
       </PlaceOrder>

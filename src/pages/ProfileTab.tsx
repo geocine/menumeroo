@@ -27,14 +27,14 @@ const ProfileHeader = styled.div`
     font-size: 20px;
     font-weight: 600;
     text-align: center;
-    color: #2A3B56;
+    color: #2a3b56;
   }
 
   .number {
     display: block;
     font-family: 'AvenirLTStd';
     text-align: center;
-    color: #8A94A3;
+    color: #8a94a3;
   }
 `;
 
@@ -44,7 +44,7 @@ const ProfileLink = styled.div`
   font-size: 18px;
   text-align: left;
   margin-left: 30px;
-  color: #2A3B56;
+  color: #2a3b56;
   margin-top: 20px;
   margin-bottom: 30px;
 
@@ -70,7 +70,7 @@ const ProfileTab = () => {
   };
 
   const openPaymentSettings = () => {
-    history.push(`/profile/payment`);
+    history.push(`/profile/payment/1`);
   };
 
   useEffect(() => {
@@ -84,9 +84,13 @@ const ProfileTab = () => {
     <IonPage>
       <IonContent fullscreen>
         <ProfileHeader>
-          <img className="avatar" src={data.user.profile?.avatar} alt='avatar'></img>
-          <span className='fullname'>{data.user.profile?.name}</span>
-          <span className='number'>+63{data.user.profile?.phoneNumber}</span>
+          <img
+            className="avatar"
+            src={data.user.profile?.avatar}
+            alt="avatar"
+          ></img>
+          <span className="fullname">{data.user.profile?.name}</span>
+          <span className="number">+63{data.user.profile?.phoneNumber}</span>
         </ProfileHeader>
         <ProfileLink
           onClick={() => {
@@ -95,7 +99,7 @@ const ProfileTab = () => {
         >
           <p>
             My Profile
-            <span className='icon'>
+            <span className="icon">
               <IcnNext />
             </span>
           </p>
@@ -107,7 +111,7 @@ const ProfileTab = () => {
         >
           <p>
             My Addresses
-            <span className='icon'>
+            <span className="icon">
               <IcnNext />
             </span>
           </p>
@@ -119,7 +123,7 @@ const ProfileTab = () => {
         >
           <p>
             Change Password
-            <span className='icon'>
+            <span className="icon">
               <IcnNext />
             </span>
           </p>
@@ -131,13 +135,13 @@ const ProfileTab = () => {
         >
           <p>
             Payment Settings
-            <span className='icon'>
+            <span className="icon">
               <IcnNext />
             </span>
           </p>
         </ProfileLink>
         <Button
-          type='secondary'
+          type="secondary"
           onClick={() => {
             console.log('logout');
           }}
