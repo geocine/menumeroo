@@ -6,6 +6,10 @@ const OrderItemContainer = styled.div<{ noPadding: boolean }>`
   display: flex;
   padding: ${(props) => (props.noPadding ? '5px 0px' : '5px 30px')};
 
+  .details {
+    padding-right: 20px;
+  }
+
   .quantity {
     width: 30px;
     font-weight: bold;

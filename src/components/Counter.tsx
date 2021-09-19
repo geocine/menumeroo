@@ -24,7 +24,7 @@ const CounterButton = styled.button<{ count: number; min?: number }>`
 const CounterContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   align-items: center;
 `;
 

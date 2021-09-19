@@ -68,11 +68,11 @@ const Badge = styled(IonBadge)`
   border-radius: 50%;
   height: 22px;
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
   position: absolute;
-  top: -10px;
-  left: -10px;
+  top: -5px;
+  left: -5px;
 `;
 
 const FoodMenuItem = ({

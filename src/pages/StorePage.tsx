@@ -26,6 +26,17 @@ const HeaderImage = styled.div`
   }
 `;
 
+const BasketIndicator = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0 20px;
+  .indicator {
+  }
+  .price {
+    margin-left: auto;
+  }
+`;
+
 interface StorePageParams {
   id?: string;
 }
@@ -239,8 +250,12 @@ const StorePage = () => {
       {data.currentStoreBasket.orders.length > 0 && (
         <Basket>
           <Button type="primary" onClick={openStoreBasket}>
-            Basket - {data.currentStoreBasket.orders.length} items -{' '}
-            {data.currentStoreBasket.totalPrice?.toFixed(2)}
+            <BasketIndicator>
+              Basket &middot; {data.currentStoreBasket.orders.length} items
+              <span className="price">
+                {data.currentStoreBasket.totalPrice?.toFixed(2)}
+              </span>
+            </BasketIndicator>
           </Button>
         </Basket>
       )}
