@@ -150,6 +150,24 @@ const StorePage = () => {
     setOrders([]);
   };
 
+  useEffect(() => {
+    if (!food?.id) {
+      return;
+    }
+    const storeOrders = data.currentStoreBasket.orders.filter(
+      (order) => order.food?.id === food?.id
+    );
+    if (storeOrders.length < 1) {
+      closeOrders();
+    } else {
+      setOrders(storeOrders);
+    }
+  }, [data.currentStoreBasket.orders, food?.id]);
+
+  const removeFromBasket = (item: StoreBasketItem) => {
+    vstore.basket.removeFromBasket(item);
+  };
+
   // TODO: do not await setStates check onDidDismiss or any means to do a smoother transition to another page
   const openFood = async (id: number, item?: number) => {
     if (item) {
@@ -231,6 +249,7 @@ const StorePage = () => {
                 onClick={(id, itemId) => {
                   openFood(id, itemId);
                 }}
+                onRemoveClick={removeFromBasket}
               />
             ))}
           </FoodContent>

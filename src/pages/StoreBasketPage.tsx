@@ -6,18 +6,20 @@ import { useSnapshot } from 'valtio';
 import { Button, Header, OrderItem } from '../components';
 import { IcnNext, IcnPaypal } from '../components/Icon/Icon';
 import { vstore } from '../store/store';
+import { StoreBasketItem } from '../store/types';
 
-const StoreBasketSection = styled.div`
+const StoreBasketSection = styled.div<{ noPadding?: boolean }>`
   background: #f5f5f561;
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
-  padding: 15px 30px;
+  padding: ${(props) => (props.noPadding ? '15px 0px' : '15px 30px')};
   margin-bottom: 10px;
 
   & > h1 {
     font-size: 16px;
     font-family: 'AvenirLTStd';
     color: var(--ion-color-medium);
+    padding: ${(props) => (props.noPadding ? '0px 30px' : '0px')};
   }
 
   .payment-items {
@@ -129,6 +131,16 @@ const StoreBasketPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (data.currentStoreBasket.orders.length < 1) {
+      history.goBack();
+    }
+  }, [data.currentStoreBasket.orders, history]);
+
+  const removeFromBasket = (item: StoreBasketItem) => {
+    vstore.basket.removeFromBasket(item);
+  };
+
   return (
     <IonPage>
       <Header
@@ -141,17 +153,17 @@ const StoreBasketPage = () => {
           <h1>Deliver to</h1>
           San Juan
         </StoreBasketSection>
-        <StoreBasketSection>
+        <StoreBasketSection noPadding={true}>
           <h1>Order summary</h1>
           <div className="items">
             {data.currentStoreBasket.orders.map((order) => (
               <OrderItem
-                noPadding={true}
                 key={order.id}
                 item={order}
                 onClick={(id, itemId) => {
                   openFood(id, itemId);
                 }}
+                onRemoveClick={removeFromBasket}
               />
             ))}
           </div>
