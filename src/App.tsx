@@ -14,7 +14,6 @@ import MyProfilePage from './pages/MyProfilePage';
 import MyAddressesPage from './pages/MyAddressesPage';
 import UpdatePasswordPage from './pages/UpdatePasswordPage';
 import PaymentSettingsPage from './pages/PaymentSettingsPage';
-import PaymentMethodsPage from './pages/PaymentMethodsPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -75,31 +74,18 @@ const App = () => (
         <Route exact path="/">
           <Redirect to="/tabs" />
         </Route>
-        <Route
-          path="/profile/edit"
-          render={() => <MyProfilePage />}
-          exact={true}
-        />
-        <Route
-          path="/profile/addresses"
-          render={() => <MyAddressesPage />}
-          exact={true}
-        />
-        <Route
-          path="/profile/password"
-          render={() => <UpdatePasswordPage />}
-          exact={true}
-        />
-        <Route
-          path="/profile/payment"
-          render={() => <PaymentSettingsPage />}
-          exact={true}
-        />
-        <Route
-          path="/profile/payment-methods"
-          render={() => <PaymentMethodsPage />}
-          exact={true}
-        />
+        <Route path="/profile/edit">
+          <MyProfilePage />
+        </Route>
+        <Route path="/profile/addresses">
+          <MyAddressesPage />
+        </Route>
+        <Route path="/profile/password">
+          <UpdatePasswordPage />
+        </Route>
+        <Route path="/profile/payment/:mode?">
+          <PaymentSettingsPage />
+        </Route>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

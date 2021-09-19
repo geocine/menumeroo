@@ -7,7 +7,7 @@ import {
   IcnPayMaya,
   IcnPaypal
 } from '../components/Icon/Icon';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 
 const PaymentMethodLink = styled.div`
@@ -34,9 +34,17 @@ const StyleTitleSection = styled.div`
   margin: 30px auto;
 `;
 
-const PaymentMethodsPage = () => {
-  const [checked, setChecked] = useState<string>("paypal");
-  let history = useHistory();
+interface PaymentSettingsPageParam {
+  /**
+   * 0 = choose payment method on checkout
+   * 1 = set default payment
+   */
+  mode? : string; 
+}
+
+const PaymentSettingsPage = () => {
+  const { mode } = useParams<PaymentSettingsPageParam>();
+  const [headingSubtitle, setHeadingSubtitle] = useState<string>();
 
   const [paymentList, setPaymentList] = useState([
     { label: 'PayPal', icon: <IcnPaypal />, val: 'paypal', isChecked: true },
@@ -52,12 +60,17 @@ const PaymentMethodsPage = () => {
     })); 
   }
 
-  useEffect(() => {}, [checked]);
+  useEffect(() => {
+    if(mode === "1"){
+      setHeadingSubtitle("Choose default payment method");
+    } else {
+      setHeadingSubtitle("Choose payment method");
+    }
+  }, [mode]);
 
   const saveDefault = () => {
-    // paymentList.map(({ label, icon, val, isChecked }, i){
-    //   isChecked
-    // }
+    let defaultPayment = paymentList.find((payment) => payment.isChecked);
+    //TODO: store default payment here
   };
   return (
     <IonPage>
@@ -69,7 +82,7 @@ const PaymentMethodsPage = () => {
       />
       <IonContent fullscreen>
         <StyleTitleSection>
-          <Subtitle text='Choose a default payment method' />
+          <Subtitle text={headingSubtitle} />
         </StyleTitleSection>
         {paymentList.map(({ label, icon, val, isChecked }, i) => (
           <PaymentMethodLink key={i} onClick={() => setDefault(val)}>
@@ -97,4 +110,4 @@ const PaymentMethodsPage = () => {
   );
 };
 
-export default PaymentMethodsPage;
+export default PaymentSettingsPage;

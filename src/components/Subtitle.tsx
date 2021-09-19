@@ -10,7 +10,7 @@ const Container = styled.div`
   }
 `;
 
-const Subtitle = ({ text }: { text: string }) => (
+const Subtitle = ({ text }: { text: string | undefined }) => (
   <Container>
     <p>{text}</p>
   </Container>
