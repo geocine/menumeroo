@@ -38,7 +38,7 @@ const StyleTitleSection = styled.div`
   margin: 30px auto;
 `;
 
-const login = (username: any) => {
+const login = (username: any) => { 
   // login process
   console.log(username);
 }

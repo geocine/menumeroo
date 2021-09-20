@@ -36,6 +36,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import StoreBasketPage from './pages/StoreBasketPage';
 import StorePaymentPage from './pages/StorePaymentPage';
+import EditAddressPage from './pages/EditAddressPage';
 
 setupConfig({ mode: 'md' });
 
@@ -87,6 +88,9 @@ const App = () => (
         </Route>
         <Route path="/profile/new-address">
           <NewAddressPage />
+        </Route>
+        <Route path="/profile/edit-address/:id">
+          <EditAddressPage />
         </Route>
         <Route path="/profile/password">
           <UpdatePasswordPage />

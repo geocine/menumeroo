@@ -1,6 +1,8 @@
 import { IonPage, IonContent, IonFooter } from '@ionic/react';
 import styled from '@emotion/styled/macro';
 import { Button, Header, Input } from '../components';
+import { useState } from 'react';
+import { useParams } from 'react-router';
 
 const AddressLine = styled.div`
   display: block;
@@ -22,14 +24,25 @@ const AddressLine = styled.div`
   
 `;
 
-const NewAddressPage = () => {
+interface EditAddressPageParam {
+  id: string;
+}
+
+const EditAddressPage = () => {
+  const { id } = useParams<EditAddressPageParam>();
+  const [addressList, setAddressList] = useState([
+    { id: 1, name: "House", address: "Lot 3 Blk 24 Kristina Homes Subd.", city: "Davao City", details: "red gate" },
+    { id: 2, name: "Office", address: "3rd Flr Prestige Bldg", city: "Makati City", details: "" },
+    { id: 3, name: "Residence", address: "12 Masipag St.", city: "Quezon City", details: "Door 3C" },
+  ]);
+  const address = addressList.find((address) => address.id === Number(id));
   const saveAddress = () => {
     //
   }
   return (
     <IonPage>
       <Header
-          title={`Add New Address`}
+          title={`Edit Address`}
           showButton={true}
           type='back'
           style={{ background: 'transparent' }}
@@ -37,19 +50,19 @@ const NewAddressPage = () => {
       <IonContent fullscreen>
         <AddressLine>
           <label>Label</label>
-          <Input name="label" className="address-input" />
+          <Input name="label" className="address-input" value={address?.name}/>
         </AddressLine>
         <AddressLine>
           <label>House / Unit No. and Street</label>
-          <Input name="street" className="address-input" />
+          <Input name="street" className="address-input" value={address?.address}/>
         </AddressLine>
         <AddressLine>
           <label>City</label>
-          <Input name="city" className="address-input" />
+          <Input name="city" className="address-input" value={address?.city}/>
         </AddressLine>
         <AddressLine>
           <label>Notes to Driver</label>
-          <Input name="notes" className="address-input" />
+          <Input name="notes" className="address-input" value={address?.details}/>
         </AddressLine>
       </IonContent>
       <IonFooter>
@@ -61,4 +74,4 @@ const NewAddressPage = () => {
   );
 };
 
-export default NewAddressPage;
+export default EditAddressPage;
