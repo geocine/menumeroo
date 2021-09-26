@@ -74,5 +74,9 @@ export const handlers = [
   rest.put<User>('/api/users/:userId', (req, res, ctx) => {
     // TODO: utitlize local storage because cannot do anything on post, data is mock data
     return res(ctx.status(200), ctx.json({}));
+  }),
+  rest.post<User>('/api/users', (req, res, ctx) => {
+    // get data from req.body
+    return res(ctx.status(200), ctx.json({}));
   })
 ];
