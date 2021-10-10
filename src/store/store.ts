@@ -39,6 +39,7 @@ export interface VStore {
     setNote: (storeBasketItem: StoreBasketItem, note: string) => void;
   };
   currentStoreBasket: {
+    paymentMethod: string;
     orders: StoreBasketItem[];
     totalPrice?: number; // derived
     removeStoreBasket: (id: number) => void;
@@ -363,6 +364,7 @@ const initialState: VStore = {
     setNote
   },
   currentStoreBasket: {
+    paymentMethod: 'paypal',
     orders: [],
     removeStoreBasket,
     ordersInBasket,

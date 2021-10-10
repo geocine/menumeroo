@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useSnapshot } from 'valtio';
 import { Button, Header, OrderItem } from '../components';
-import { IcnNext, IcnPaypal } from '../components/Icon/Icon';
+import { IcnNext } from '../components/Icon/Icon';
+import { getPayment } from '../store/constants';
 import { vstore } from '../store/store';
 import { StoreBasketItem } from '../store/types';
 
@@ -109,6 +110,13 @@ const StoreBasketPage = () => {
   const [isLoading, setIsloading] = useState(true);
   const data = useSnapshot(vstore);
   const history = useHistory();
+  const [payment, setPayment] = useState(
+    getPayment(data.currentStoreBasket.paymentMethod)
+  );
+
+  useEffect(() => {
+    setPayment(getPayment(data.currentStoreBasket.paymentMethod));
+  }, [data.currentStoreBasket.paymentMethod]);
 
   useEffect(() => {
     const loadStoreBasket = async () => {
@@ -205,7 +213,7 @@ const StoreBasketPage = () => {
             <span>Payment Method</span>
             <div className="action">
               <div className="content">
-                <IcnPaypal /> <span>Paypal</span>
+                {payment?.icon} <span>{payment?.label}</span>
               </div>
               <IcnNext className="indicator" />
             </div>

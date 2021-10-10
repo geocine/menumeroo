@@ -1,7 +1,11 @@
 import styled from '@emotion/styled/macro';
 import { IonPage, IonContent } from '@ionic/react';
+import { useState } from 'react';
+import { useSnapshot } from 'valtio';
 import { Header } from '../components';
 import { IcnPaypal } from '../components/Icon/Icon';
+import { getPayment } from '../store/constants';
+import { vstore } from '../store/store';
 
 const Container = styled.div`
   text-align: center;
@@ -26,14 +30,18 @@ const Container = styled.div`
 `;
 
 const StorePaymentPage = () => {
+  const data = useSnapshot(vstore);
+  const [payment] = useState(getPayment(data.currentStoreBasket.paymentMethod));
+
   return (
     <IonPage>
       <Header showButton={true} type="close" title="Payment" />
       <IonContent fullscreen>
         <Container>
-          <IcnPaypal />
+          {payment?.icon}
           <p>
-            You will be redirected to Paypal to complete your purchase securely.
+            You will be redirected to {payment?.label} to complete your purchase
+            securely.
           </p>
         </Container>
       </IonContent>

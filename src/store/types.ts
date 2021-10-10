@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 // TODO: separate API types vs App types
 export interface Store {
   id: number;
@@ -62,6 +64,13 @@ export interface FoodVariation {
   name: string;
   price?: number;
   type?: FoodType;
+}
+
+export interface PaymentItem {
+  label: string;
+  icon: ReactElement;
+  val: string;
+  isChecked: boolean;
 }
 
 export interface Category {
