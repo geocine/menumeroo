@@ -5,6 +5,7 @@ import { IcnLock, IcnProfile } from '../components/Icon/Icon';
 import { useHistory } from 'react-router';
 import { useEffect, useState } from 'react';
 import { vstore } from '../store/store';
+import { useSnapshot } from 'valtio';
 
 const StyledLoginPage = styled.div`
   .ant-input-affix-wrapper { 
@@ -38,21 +39,28 @@ const StyleTitleSection = styled.div`
   margin: 30px auto;
 `;
 
-const login = (username: any) => { 
-  // login process
-  console.log(username);
-}
-
 const LoginPage = () => {
+  const data = useSnapshot(vstore);
+  
+  const bcrypt = require('bcryptjs');
   let history = useHistory();
   const openForgotPassword = () => {
     history.push(`/forgotpassword`);
   }
 
+  const login = async(username: any, password: any) => {
+    await vstore.local.authUser(username, password);
+  }
+
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [disabled = true, setDisabled] = useState<boolean | null>();
-
+  useEffect(() => {
+    const loadUsers = async() => {
+      await vstore.local.loadUsers();
+     }
+    loadUsers();
+  }, []);
   useEffect(() => {
     if (!username && !password) {
       setDisabled(true)
@@ -60,7 +68,11 @@ const LoginPage = () => {
       setDisabled(null)
     }
   }, [username, password]);
-
+  useEffect(() => {
+    if(data.local.user && data.local.user.id){
+      history.push(`/tabs/home`);
+    }
+  }, [data.local.user])
   return (
     <IonPage>
       <Header
@@ -73,9 +85,9 @@ const LoginPage = () => {
           <StyleTitleSection>
             <Title text="Sign in" />
           </StyleTitleSection>
-          <Input name="username" onChange={(e) => setUsername(e.target.value)} className="username" prefix={<IcnProfile />} placeholder="Username" />
-          <Input name="password" onChange={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock />} placeholder="Password" type="password" />
-          <Button type="primary" onClick={() => login(username)} disabled={disabled}>Sign In</Button>
+          <Input name="username" onBlur={(e) => setUsername(e.target.value)} className="username" prefix={<IcnProfile />} placeholder="Username" />
+          <Input name="password" onBlur={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock />} placeholder="Password" type="password" />
+          <Button type="primary" onClick={() => login(username, password)} disabled={disabled}>Sign In</Button>
           <span className="link" onClick={() => openForgotPassword()}>Forgot Password?</span>
         </StyledLoginPage>
       </IonContent>

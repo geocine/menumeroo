@@ -96,6 +96,7 @@ const ProfileInput = styled.div`
 
 const MyProfilePage = () => {
   const data = useSnapshot(vstore);
+  const user = data.local.user;
   const [avatarImage, setAvatarImage] = useState<string>();
   const [readOnly = true, setReadOnly] = useState<boolean | undefined>();
   const [buttonText = 'Edit', setButtonText] = useState<string>();
@@ -107,7 +108,7 @@ const MyProfilePage = () => {
     } else {
       setReadOnly(true);
       setButtonText('Edit');
-      vstore.user.saveProfile();
+      vstore.user.saveProfile(user.id);
     }
   };
 
@@ -116,10 +117,10 @@ const MyProfilePage = () => {
       vstore.user.profile[e.target.name] = e.target.value;
     }
   };
-
+  
   useEffect(() => {
     const load = async () => {
-      await vstore.user.loadProfile(1);
+      await vstore.user.loadProfile(user.id);
     };
     load();
     setAvatarImage(data.user.profile?.avatar);

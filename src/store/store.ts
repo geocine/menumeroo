@@ -50,8 +50,14 @@ export interface VStore {
   user: {
     profile?: User;
     loadProfile: (id: number) => Promise<void>;
-    saveProfile: () => Promise<void>;
+    saveProfile: (id: number) => Promise<void>;
   };
+  local: {
+    allUsers: User[];
+    loadUsers: () => Promise<void>;
+    user: User;
+    authUser: (username: string, password: string) => Promise<void>;
+  }
 }
 
 // Home
@@ -292,14 +298,24 @@ const clearStoreBasket = () => {
 
 // Users
 
-const loadProfile = async () => {
-  const response = await axios.get('/api/users/1');
+const loadProfile = async (userId: number) => {
+  const response = await axios.get(`/api/users/${userId}`);
   vstore.user.profile = response.data;
 };
 
-const saveProfile = async () => {
-  await axios.put('/api/users/1', vstore.user.profile);
+const saveProfile = async (userId: number) => {
+  await axios.put(`/api/users/${userId}`, vstore.user.profile);
 };
+
+const loadUsers = async () => {
+  const response = await axios.get('/api/users');
+  vstore.local.allUsers = response.data;
+};
+
+const authUser = async (username: string, password: string) => {
+  const response = await axios.post('/api/auth', {username: username, password: password});
+  vstore.local.user = response.data;
+}
 
 // Helpers
 
@@ -335,6 +351,8 @@ const generateId = (items: any[]) => {
 
 // Exports
 const basketItems = localStorage.getItem('basketItems');
+const allUsers = localStorage.getItem('users');
+const user = localStorage.getItem('user');
 const initialState: VStore = {
   home: {
     stores: [],
@@ -375,6 +393,12 @@ const initialState: VStore = {
     profile: undefined,
     loadProfile,
     saveProfile
+  },
+  local: {
+    allUsers: JSON.parse(allUsers || '[]'),
+    loadUsers,
+    user: JSON.parse(user || '[]'),
+    authUser
   }
 };
 
@@ -433,4 +457,6 @@ devtools(vstore, 'vstore');
 
 subscribe(vstore, () => {
   localStorage.setItem('basketItems', JSON.stringify(vstore.basket.items));
+  localStorage.setItem('users', JSON.stringify(vstore.local.allUsers));
+  localStorage.setItem('user', JSON.stringify(vstore.local.user));
 });

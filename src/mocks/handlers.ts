@@ -52,14 +52,25 @@ export const handlers = [
     const categories = await axios.get(`${baseUrl}/data/categories.json`);
     return res(ctx.status(200), ctx.json(categories.data));
   }),
-  rest.get('/api/auth', async (req, res, ctx) => {
-    const { username, password } = req.params;
-    const users = await axios.get(`${baseUrl}/data/users.json`);
-    const user: User = users.data.find(
-      (user: User) => user.username === username && user.password === password
+  rest.post('/api/auth', async (req, res, ctx) => {
+    const { username, password } = req.body as any;
+    const allUsers = localStorage.getItem('users');
+    const users = JSON.parse(allUsers || '[]');
+    const user: User = users.find(
+      (user: User) => user.username === username
     );
-    user.avatar = `${baseUrl}${user.avatar}`;
-    return res(ctx.status(200), ctx.json(user));
+    if(user){
+      const bcrypt = require('bcryptjs');
+      const doesPasswordMatch = bcrypt.compareSync(password, user.password);
+      if(doesPasswordMatch){
+        return res(ctx.status(200), ctx.json(user));
+      }
+    }
+    return res(ctx.status(401), ctx.json(user));
+  }),
+  rest.get('/api/users',  async (req, res, ctx) => { 
+    const users = await axios.get(`${baseUrl}/data/users.json`);
+    return res(ctx.status(200), ctx.json(users.data));
   }),
   // :id is userId: number
   rest.get('/api/users/:userId', async (req, res, ctx) => {

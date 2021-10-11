@@ -15,6 +15,7 @@ import MyAddressesPage from './pages/MyAddressesPage';
 import UpdatePasswordPage from './pages/UpdatePasswordPage';
 import PaymentSettingsPage from './pages/PaymentSettingsPage';
 import NewAddressPage from './pages/NewAddressPage';
+import EditAddressPage from './pages/EditAddressPage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,7 +37,6 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import StoreBasketPage from './pages/StoreBasketPage';
 import StorePaymentPage from './pages/StorePaymentPage';
-import EditAddressPage from './pages/EditAddressPage';
 
 setupConfig({ mode: 'md' });
 
