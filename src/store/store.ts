@@ -458,5 +458,10 @@ devtools(vstore, 'vstore');
 subscribe(vstore, () => {
   localStorage.setItem('basketItems', JSON.stringify(vstore.basket.items));
   localStorage.setItem('users', JSON.stringify(vstore.local.allUsers));
-  localStorage.setItem('user', JSON.stringify(vstore.local.user));
+  if(vstore.local.user){
+    localStorage.setItem('user', JSON.stringify(vstore.local.user));
+  } else {
+    localStorage.removeItem('user');
+  }
+  
 });

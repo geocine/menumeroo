@@ -60,6 +60,9 @@ const LoginPage = () => {
       await vstore.local.loadUsers();
      }
     loadUsers();
+    if(data.local.user?.id){
+      history.push(`/tabs/home`);
+    }
   }, []);
   useEffect(() => {
     if (!username && !password) {
@@ -69,7 +72,7 @@ const LoginPage = () => {
     }
   }, [username, password]);
   useEffect(() => {
-    if(data.local.user && data.local.user.id){
+    if(data.local.user?.id){
       history.push(`/tabs/home`);
     }
   }, [data.local.user])

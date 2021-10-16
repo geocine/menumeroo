@@ -80,7 +80,6 @@ const ProfileTab = () => {
   const logout = () => {
     vstore.local.user = undefined;
     vstore.user.profile = undefined;
-    localStorage.removeItem('user');
     history.push('/tabs/home');
   };
 
