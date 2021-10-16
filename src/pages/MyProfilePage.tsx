@@ -108,7 +108,8 @@ const MyProfilePage = () => {
     } else {
       setReadOnly(true);
       setButtonText('Edit');
-      vstore.user.saveProfile(user.id);
+      if(user)
+        vstore.user.saveProfile(user.id);
     }
   };
 
@@ -120,7 +121,8 @@ const MyProfilePage = () => {
   
   useEffect(() => {
     const load = async () => {
-      await vstore.user.loadProfile(user.id);
+      if(user)
+        await vstore.user.loadProfile(user.id);
     };
     load();
     setAvatarImage(data.user.profile?.avatar);

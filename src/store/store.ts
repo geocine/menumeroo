@@ -55,7 +55,7 @@ export interface VStore {
   local: {
     allUsers: User[];
     loadUsers: () => Promise<void>;
-    user: User;
+    user? : User;
     authUser: (username: string, password: string) => Promise<void>;
   }
 }
