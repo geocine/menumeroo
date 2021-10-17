@@ -17,6 +17,10 @@ import PaymentSettingsPage from './pages/PaymentSettingsPage';
 import NewAddressPage from './pages/NewAddressPage';
 import EditAddressPage from './pages/EditAddressPage';
 
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -37,8 +41,29 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import StoreBasketPage from './pages/StoreBasketPage';
 import StorePaymentPage from './pages/StorePaymentPage';
+import ChooseDiscountPage from './pages/ChooseDiscountPage';
 
 setupConfig({ mode: 'md' });
+
+dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
+dayjs.updateLocale('en', {
+  relativeTime: {
+    future: '%s left',
+    past: '%s ago',
+    s: '1 second',
+    m: '1 minute',
+    mm: '%d minutes',
+    h: '1 hour',
+    hh: '%d hours',
+    d: '1 day',
+    dd: '%d days',
+    M: '1 month',
+    MM: '%d months',
+    y: '1 year',
+    yy: '%d years'
+  }
+});
 
 const App = () => (
   <IonApp>
@@ -97,6 +122,9 @@ const App = () => (
         </Route>
         <Route path="/profile/payment/:mode?">
           <PaymentSettingsPage />
+        </Route>
+        <Route path="/profile/discount/:mode?">
+          <ChooseDiscountPage />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
