@@ -90,3 +90,11 @@ export interface User {
   avatar: string;
   [key: string]: any; // need this to be able to dynamically address string properties
 }
+
+export interface Discount {
+  id: number;
+  name: string;
+  src: string;
+  dateFrom: string; // Will come from json mm/dd/yyyy parse as Date
+  dateTo: string; // Will come from json mm/dd/yyyy parse as Date
+}
