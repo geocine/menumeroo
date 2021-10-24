@@ -1,4 +1,5 @@
 import styled from '@emotion/styled/macro';
+import { IonCheckbox } from '@ionic/react';
 import dayjs from 'dayjs';
 import { vstore } from '../store/store';
 import { Discount } from '../store/types';
@@ -72,12 +73,22 @@ const DiscountDetailIcon = styled.div`
   }
 `;
 
+const DiscountSelection = styled.div`
+  flex-grow: 1;
+  display: flex;
+  ion-checkbox {
+    margin-left: auto;
+    align-self: center;
+  }
+`;
+
 interface DiscountItemProps {
   discount: Discount;
   size?: number;
   margin?: number;
   borderRadius?: number;
   compact?: boolean;
+  isChecked?: boolean;
   onClick?: (id: number) => void;
 }
 
@@ -87,13 +98,14 @@ const DiscountItem = ({
   margin = 20,
   borderRadius = 20,
   compact = true,
+  isChecked = false,
   onClick = () => {}
 }: DiscountItemProps) => {
   const { id, name, src, dateFrom, dateTo } = discount;
   return (
     <Food onClick={() => onClick(id)} compact={compact}>
       <DiscountImage size={size} borderRadius={borderRadius}>
-        <img src={src} alt={name}></img>
+        {src && <img src={src} alt={name}></img>}
       </DiscountImage>
       <DiscountDetails margin={margin} compact={compact}>
         <h1>{name}</h1>
@@ -105,6 +117,14 @@ const DiscountItem = ({
         </DiscountDetailIcon>
         <span>{dayjs(dateTo).toNow()}</span>
       </DiscountDetails>
+      <DiscountSelection>
+        <IonCheckbox
+          slot="end"
+          color="primary"
+          mode="ios"
+          checked={isChecked}
+        />
+      </DiscountSelection>
     </Food>
   );
 };

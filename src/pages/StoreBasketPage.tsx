@@ -159,6 +159,10 @@ const StoreBasketPage = () => {
     history.push('/profile/payment/');
   };
 
+  const openChooseDiscount = () => {
+    history.push('/profile/discount');
+  };
+
   return (
     <IonPage>
       <Header
@@ -200,11 +204,15 @@ const StoreBasketPage = () => {
         </StoreBasketSection>
         <StoreBasketSection>
           <h1>Payment details</h1>
-          <DetailItem>
+          <DetailItem onClick={openChooseDiscount}>
             <span>Voucher Code</span>
             <div className="action">
               <div className="content">
-                <VoucherCode>Sale 0% Off</VoucherCode>
+                {data.currentStoreBasket.discount?.name && (
+                  <VoucherCode>
+                    {data.currentStoreBasket.discount?.name}
+                  </VoucherCode>
+                )}
               </div>
               <IcnNext className="indicator" />
             </div>
@@ -224,7 +232,11 @@ const StoreBasketPage = () => {
         <div className="total">
           <h1>Total</h1>
           <div className="price">
-            <DiscountedPrice>0%</DiscountedPrice>
+            {data.currentStoreBasket.discount?.discountString && (
+              <DiscountedPrice>
+                {data.currentStoreBasket.discount?.discountString}
+              </DiscountedPrice>
+            )}
             {data.currentStoreBasket.totalPrice?.toFixed(2)}
           </div>
         </div>

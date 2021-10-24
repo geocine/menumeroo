@@ -3,6 +3,7 @@ import { derive, devtools } from 'valtio/utils';
 import axios from 'axios';
 import {
   Category,
+  Discount,
   Food,
   Menu,
   Store,
@@ -41,6 +42,7 @@ export interface VStore {
   currentStoreBasket: {
     paymentMethod: string;
     orders: StoreBasketItem[];
+    discount?: Discount;
     totalPrice?: number; // derived
     removeStoreBasket: (id: number) => void;
     ordersInBasket: (foodId: number) => number;
@@ -55,9 +57,9 @@ export interface VStore {
   local: {
     allUsers: User[];
     loadUsers: () => Promise<void>;
-    user? : User;
+    user?: User;
     authUser: (username: string, password: string) => Promise<void>;
-  }
+  };
 }
 
 // Home
@@ -313,9 +315,12 @@ const loadUsers = async () => {
 };
 
 const authUser = async (username: string, password: string) => {
-  const response = await axios.post('/api/auth', {username: username, password: password});
+  const response = await axios.post('/api/auth', {
+    username: username,
+    password: password
+  });
   vstore.local.user = response.data;
-}
+};
 
 // Helpers
 
@@ -409,12 +414,17 @@ derive(
   {
     totalPrice: (get) => {
       const currentStoreBasket = get(vstore.currentStoreBasket);
-      return currentStoreBasket.orders.reduce<number>(
+      let price = currentStoreBasket.orders.reduce<number>(
         (ordersTotal: number, order: StoreBasketItem) => {
           return (ordersTotal += order?.totalPrice || 0);
         },
         0
       );
+      let getTotalPrice = currentStoreBasket.discount?.getTotalPrice;
+      if (getTotalPrice) {
+        price = getTotalPrice(currentStoreBasket.orders, price);
+      }
+      return price;
     }
   },
   {
@@ -458,10 +468,9 @@ devtools(vstore, 'vstore');
 subscribe(vstore, () => {
   localStorage.setItem('basketItems', JSON.stringify(vstore.basket.items));
   localStorage.setItem('users', JSON.stringify(vstore.local.allUsers));
-  if(vstore.local.user){
+  if (vstore.local.user) {
     localStorage.setItem('user', JSON.stringify(vstore.local.user));
   } else {
     localStorage.removeItem('user');
   }
-  
 });

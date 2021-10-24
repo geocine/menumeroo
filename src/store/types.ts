@@ -94,7 +94,10 @@ export interface User {
 export interface Discount {
   id: number;
   name: string;
+  discountString: string;
   src: string;
   dateFrom: string; // Will come from json mm/dd/yyyy parse as Date
   dateTo: string; // Will come from json mm/dd/yyyy parse as Date
+  checked: boolean;
+  getTotalPrice?: (orders: StoreBasketItem[], totalPrice: number) => number;
 }
