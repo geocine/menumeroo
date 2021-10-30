@@ -44,6 +44,7 @@ export interface VStore {
     orders: StoreBasketItem[];
     discount?: Discount;
     totalPrice?: number; // derived
+    storeBasketId: number;
     removeStoreBasket: (id: number) => void;
     ordersInBasket: (foodId: number) => number;
     loadStoreBasket: (id: number) => void;
@@ -291,6 +292,11 @@ const ordersInBasket = (foodId: number): number => {
 
 const loadStoreBasket = (id: number) => {
   const basket = vstore.basket.items.find((item) => item.id === id);
+  if (vstore.currentStoreBasket.storeBasketId !== id) {
+    vstore.currentStoreBasket.storeBasketId = id;
+    vstore.currentStoreBasket.paymentMethod = 'paypal';
+    vstore.currentStoreBasket.discount = undefined;
+  }
   vstore.currentStoreBasket.orders = basket?.orders || [];
 };
 
@@ -389,6 +395,7 @@ const initialState: VStore = {
   currentStoreBasket: {
     paymentMethod: 'paypal',
     orders: [],
+    storeBasketId: 0,
     removeStoreBasket,
     ordersInBasket,
     loadStoreBasket,
