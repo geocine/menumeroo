@@ -84,6 +84,7 @@ const ProfileTab = () => {
   };
 
   useEffect(() => {
+    console.log(user);
     if(user){
       const load = async (userId: number) => {
         await vstore.user.loadProfile(userId);
@@ -92,7 +93,7 @@ const ProfileTab = () => {
     }
   }, []);
 
-  return user === undefined ? <Redirect to="/login" /> : 
+  return (user === undefined || user.length === 0) ? <Redirect to="/login" /> : 
   (
     <IonPage>
       <IonContent fullscreen>

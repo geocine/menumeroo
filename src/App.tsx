@@ -16,6 +16,7 @@ import UpdatePasswordPage from './pages/UpdatePasswordPage';
 import PaymentSettingsPage from './pages/PaymentSettingsPage';
 import NewAddressPage from './pages/NewAddressPage';
 import EditAddressPage from './pages/EditAddressPage';
+import SetDefaultAddressPage from './pages/SetDefaultAddressPage';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -110,6 +111,9 @@ const App = () => (
         </Route>
         <Route path="/profile/addresses">
           <MyAddressesPage />
+        </Route>
+        <Route path="/profile/set-default-address">
+          <SetDefaultAddressPage />
         </Route>
         <Route path="/profile/new-address">
           <NewAddressPage />

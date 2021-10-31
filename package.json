@@ -23,7 +23,7 @@
     "@types/react-router-dom": "^5.1.7",
     "antd": "^4.16.10",
     "antd-img-crop": "^3.16.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.10.7",
     "ionicons": "^5.4.0",

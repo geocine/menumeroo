@@ -1,12 +1,12 @@
 import styled from '@emotion/styled/macro';
-import { IonContent, IonPage, IonFooter } from '@ionic/react';
+import { IonContent, IonPage, IonFooter, IonCheckbox } from '@ionic/react';
 import { Button, Header, Input } from '../components';
 import { useEffect, useState } from 'react';
 import { AiOutlinePlus, AiFillPushpin } from "react-icons/ai";
 import { FaPencilAlt, FaPlus } from "react-icons/fa";
 import { useHistory } from 'react-router';
 
-const StyledMyAddressesPage = styled.div`
+const StyledSetDefaultAddressPage = styled.div`
   input {
     margin-top: 20px !important;
   }
@@ -54,57 +54,66 @@ const NewAddress = styled.div`
 `;
 
 
-const MyAddressesPage = () => {
+const SetDefaultAddressPage = () => {
 
   const [addressList, setAddressList] = useState([
-    { id: 1, name: "House", address: "Lot 3 Blk 24 Kristina Homes Subd.", city: "Davao City", details: "red gate" },
-    { id: 2, name: "Office", address: "3rd Flr Prestige Bldg", city: "Makati City", details: "" },
-    { id: 3, name: "Residence", address: "12 Masipag St.", city: "Quezon City", details: "Door 3C" },
+    { id: 1, name: "House", address: "Lot 3 Blk 24 Kristina Homes Subd.", city: "Davao City", details: "red gate", isDefault: false },
+    { id: 2, name: "Office", address: "3rd Flr Prestige Bldg", city: "Makati City", details: "", isDefault: true },
+    { id: 3, name: "Residence", address: "12 Masipag St.", city: "Quezon City", details: "Door 3C", isDefault: false },
   ]);
 
   let history = useHistory();
-  const newAddress = () => {
-    history.push(`/profile/new-address`);
+  
+  const setDefault = (value: number) => {
+    setAddressList(
+      addressList?.map((address) => {
+        address.isDefault = address.id === value;
+        return address;
+      })
+    );
   };
-  const setDefaultAddress = () => {
-    history.push(`/profile/set-default-address`);
-  };
-  const editAddress = (i: any) => {
-    history.push(`/profile/edit-address/`+i);
-  };
+  const saveDefaultAddress = () => {
+    //
+  }
   
   return (
     <IonPage>
       <IonContent fullscreen>
         <Header
-          title={`My Addresses`}
+          title={`Set Default Address`}
           showButton={true}
           type='back'
           style={{ background: 'transparent' }}
         />
         {addressList.map((address) => (
-        <AddressContainer key={address.id} onClick={() => {editAddress(address.id);}}>
+        <AddressContainer key={address.id} onClick={() => {setDefault(address.id);}}>
           <div>
             <label>{address.name}</label>
             <p className="details">{address.address}</p>
             <p className="details">{address.city}</p>
             <p className="details">{address.details}</p>
           </div>
-          <span className="icon"><FaPencilAlt/></span>
+          <span className="icon">
+              <IonCheckbox
+                slot="end"
+                color="primary"
+                mode="ios"
+                name={address.name}
+                value={address.address}
+                checked={address.isDefault}
+              />
+            </span>
         </AddressContainer>
         ))}
-        <NewAddress onClick={() => {setDefaultAddress();}}>
-          <label>Set Default Address</label>
-          <span className="icon"><AiFillPushpin/></span>
-        </NewAddress>
-        <NewAddress onClick={() => {newAddress();}}>
-          <label>Add New Address</label>
-          <span className="icon"><AiOutlinePlus/></span>
-        </NewAddress>
         
       </IonContent>
+      <IonFooter>
+        <Button type="primary" onClick={() => saveDefaultAddress()}>
+          Save
+        </Button>
+      </IonFooter>
     </IonPage>
   );
 };
 
-export default MyAddressesPage;
+export default SetDefaultAddressPage;
