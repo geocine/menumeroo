@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import { AiOutlinePlus, AiFillPushpin } from "react-icons/ai";
 import { FaPencilAlt, FaPlus } from "react-icons/fa";
 import { useHistory } from 'react-router';
+import { vstore } from '../store/store';
+import { useSnapshot } from 'valtio';
+import { Address } from '../store/types';
 
 const StyledMyAddressesPage = styled.div`
   input {
@@ -56,18 +59,22 @@ const NewAddress = styled.div`
 
 const MyAddressesPage = () => {
 
-  const [addressList, setAddressList] = useState([
-    { id: 1, name: "House", address: "Lot 3 Blk 24 Kristina Homes Subd.", city: "Davao City", details: "red gate" },
-    { id: 2, name: "Office", address: "3rd Flr Prestige Bldg", city: "Makati City", details: "" },
-    { id: 3, name: "Residence", address: "12 Masipag St.", city: "Quezon City", details: "Door 3C" },
-  ]);
+  const data = useSnapshot(vstore);
+  const user = data.local.user;
+
+  const [addressList, setAddressList] = useState(data.local.user?.addresses);
+
+  // useEffect(() => {
+  //   console.log(user?.addresses);
+  //   console.log(addressList);
+  // }, []);
 
   let history = useHistory();
   const newAddress = () => {
     history.push(`/profile/new-address`);
   };
   const setDefaultAddress = () => {
-    history.push(`/profile/set-default-address`);
+    history.push(`/profile/address/1`);
   };
   const editAddress = (i: any) => {
     history.push(`/profile/edit-address/`+i);
@@ -82,13 +89,14 @@ const MyAddressesPage = () => {
           type='back'
           style={{ background: 'transparent' }}
         />
-        {addressList.map((address) => (
+        {addressList?.map((address: Address) => (
         <AddressContainer key={address.id} onClick={() => {editAddress(address.id);}}>
           <div>
             <label>{address.name}</label>
             <p className="details">{address.address}</p>
             <p className="details">{address.city}</p>
             <p className="details">{address.details}</p>
+            <p className="details">{address.isDefault ? "[default]" : ""}</p>
           </div>
           <span className="icon"><FaPencilAlt/></span>
         </AddressContainer>

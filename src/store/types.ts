@@ -88,7 +88,17 @@ export interface User {
   password: string;
   phoneNumber: string;
   avatar: string;
+  addresses?: Address[];
   [key: string]: any; // need this to be able to dynamically address string properties
+}
+
+export interface Address {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  details: string;
+  isDefault: boolean;
 }
 
 export interface Discount {

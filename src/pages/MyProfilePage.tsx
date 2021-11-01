@@ -108,14 +108,21 @@ const MyProfilePage = () => {
     } else {
       setReadOnly(true);
       setButtonText('Edit');
-      if(user)
+      if(user){
         vstore.user.saveProfile(user.id);
+      }
+      if(vstore.local.user){
+        vstore.local.user = vstore.user.profile;
+      }
     }
   };
 
   const updateProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (vstore.user.profile) {
       vstore.user.profile[e.target.name] = e.target.value;
+    }
+    if (vstore.local.user) {
+      vstore.local.user[e.target.name] = e.target.value;
     }
   };
   

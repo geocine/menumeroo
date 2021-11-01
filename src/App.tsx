@@ -16,7 +16,7 @@ import UpdatePasswordPage from './pages/UpdatePasswordPage';
 import PaymentSettingsPage from './pages/PaymentSettingsPage';
 import NewAddressPage from './pages/NewAddressPage';
 import EditAddressPage from './pages/EditAddressPage';
-import SetDefaultAddressPage from './pages/SetDefaultAddressPage';
+import AddressSettingsPage from './pages/AddressSettingsPage';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -43,6 +43,7 @@ import './theme/variables.css';
 import StoreBasketPage from './pages/StoreBasketPage';
 import StorePaymentPage from './pages/StorePaymentPage';
 import ChooseDiscountPage from './pages/ChooseDiscountPage';
+import { Address } from './store/types';
 
 setupConfig({ mode: 'md' });
 
@@ -112,8 +113,8 @@ const App = () => (
         <Route path="/profile/addresses">
           <MyAddressesPage />
         </Route>
-        <Route path="/profile/set-default-address">
-          <SetDefaultAddressPage />
+        <Route path="/profile/address/:mode?">
+          <AddressSettingsPage />
         </Route>
         <Route path="/profile/new-address">
           <NewAddressPage />
