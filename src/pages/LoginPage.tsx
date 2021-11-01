@@ -37,10 +37,16 @@ const StyledLoginPage = styled.div`
 
 const StyleTitleSection = styled.div`
   margin: 30px auto;
+  .error-message {
+    color: #ff0000;
+    max-width: calc(100% - 60px);
+    margin: 0 auto;
+  }
 `;
 
 const LoginPage = () => {
   const data = useSnapshot(vstore);
+  const [statusMessage, setStatusMessage] = useState<string>();
   
   const bcrypt = require('bcryptjs');
   let history = useHistory();
@@ -49,7 +55,12 @@ const LoginPage = () => {
   }
 
   const login = async(username: any, password: any) => {
-    await vstore.local.authUser(username, password);
+    try {
+      await vstore.local.authUser(username, password);
+    }
+    catch(error:any){
+      setStatusMessage(error.response.data.message);
+    }
   }
 
   const [username, setUsername] = useState<string>();
@@ -65,6 +76,7 @@ const LoginPage = () => {
     }
   }, []);
   useEffect(() => {
+    setStatusMessage('');
     if (!username && !password) {
       setDisabled(true)
     } else {
@@ -87,6 +99,7 @@ const LoginPage = () => {
         <StyledLoginPage>
           <StyleTitleSection>
             <Title text="Sign in" />
+            <p className="error-message">{statusMessage}</p>
           </StyleTitleSection>
           <Input name="username" onBlur={(e) => setUsername(e.target.value)} className="username" prefix={<IcnProfile />} placeholder="Username" />
           <Input name="password" onBlur={(e) => setPassword(e.target.value)} className="password" prefix={<IcnLock />} placeholder="Password" type="password" />

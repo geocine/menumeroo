@@ -66,7 +66,7 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(user));
       }
     }
-    return res(ctx.status(401), ctx.json(user));
+    return res(ctx.status(401), ctx.json({user,message:'Incorrect username or password'}));
   }),
   rest.get('/api/users',  async (req, res, ctx) => { 
     const users = await axios.get(`${baseUrl}/data/users.json`);
