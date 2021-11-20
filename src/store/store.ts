@@ -30,7 +30,7 @@ export interface VStore {
   };
   currentFood: StoreBasketItem & {
     loadFood: (id: number, itemId?: number) => Promise<void>;
-    setSelectedVariation: (id: number, select: boolean) => void;
+    setSelectedVariation: (id: number) => void;
     clearFood: () => void;
   };
   basket: {
@@ -158,15 +158,41 @@ const loadFood = async (id: number, itemId?: number) => {
   }
 };
 
-const setSelectedVariation = (id: number, selected: boolean) => {
+const setSelectedVariation = (id: number) => {
   vstore.currentFood.variations = vstore.currentFood.variations?.map(
     (currentMenu: Menu) => {
-      currentMenu.foodItems = currentMenu.foodItems?.map((foodItem) => {
-        if (foodItem.id === id) {
-          foodItem.chosen = selected;
-        }
-        return foodItem;
-      });
+      const numberSelected = currentMenu.foodItems.reduce(
+        (selected, currentFood) => {
+          return currentFood.chosen ? selected + 1 : selected;
+        },
+        0
+      );
+
+      if (currentMenu.choiceType === 'single') {
+        currentMenu.foodItems = currentMenu.foodItems?.map((foodItem) => {
+          if (foodItem.id === id) {
+            foodItem.chosen = !foodItem.chosen;
+          } else {
+            foodItem.chosen = false;
+          }
+          return foodItem;
+        });
+      } else {
+        currentMenu.foodItems = currentMenu.foodItems?.map((foodItem) => {
+          if (foodItem.id === id) {
+            if (
+              numberSelected + (foodItem.chosen ? 1 : -1) <=
+              (currentMenu?.max || 0)
+            ) {
+              foodItem.chosen = !foodItem.chosen;
+            } else {
+              foodItem.chosen = false;
+            }
+          }
+          return foodItem;
+        });
+      }
+
       return currentMenu;
     }
   );
@@ -334,9 +360,17 @@ const groupByType = (current: Menu[], item: Food) => {
   const typeId = item.type?.id || 0;
   const typeName = item.type?.name || '';
   const typeDescription = item.type?.description;
+  const min = item.type?.min;
+  const max = item.type?.max;
+  let choiceType: 'multi' | 'single' = 'multi';
   if (!typeId && !typeName) {
     return current;
   }
+
+  if (min === 1 && max === 1) {
+    choiceType = 'single';
+  }
+
   const exist = current.findIndex((currentItem) => currentItem.id === typeId);
   let currentIndex = exist;
   if (!~exist) {
@@ -345,6 +379,9 @@ const groupByType = (current: Menu[], item: Food) => {
       {
         id: typeId,
         name: typeName,
+        min: min,
+        max: max,
+        choiceType: choiceType,
         foodItems: [],
         description: typeDescription
       }
