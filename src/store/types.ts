@@ -37,6 +37,8 @@ export interface Menu {
   description?: string;
   choiceType?: 'multi' | 'single';
   foodItems: Food[];
+  min?: number;
+  max?: number;
 }
 
 export interface Food {
@@ -57,6 +59,8 @@ export interface FoodType {
   id: number;
   name: string;
   description?: string;
+  min?: number;
+  max?: number;
 }
 
 export interface FoodVariation {
