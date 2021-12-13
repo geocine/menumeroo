@@ -6,7 +6,6 @@ import { Redirect, useHistory } from 'react-router';
 import { useSnapshot } from 'valtio';
 import { vstore } from '../store/store';
 import { useEffect } from 'react';
-import { User } from '../store/types';
 
 const ProfileHeader = styled.div`
   height: 220px;
@@ -76,7 +75,7 @@ const ProfileTab = () => {
   const openPaymentSettings = () => {
     history.push(`/profile/payment/1`);
   };
-  
+
   const logout = () => {
     vstore.local.user = undefined;
     vstore.user.profile = undefined;
@@ -85,7 +84,7 @@ const ProfileTab = () => {
 
   useEffect(() => {
     console.log(user);
-    if(user){
+    if (user) {
       const load = async (userId: number) => {
         await vstore.user.loadProfile(userId);
       };
@@ -93,8 +92,9 @@ const ProfileTab = () => {
     }
   }, []);
 
-  return (user === undefined || user.length === 0) ? <Redirect to="/login" /> : 
-  (
+  return user === undefined || user.length === 0 ? (
+    <Redirect to="/login" />
+  ) : (
     <IonPage>
       <IonContent fullscreen>
         <ProfileHeader>

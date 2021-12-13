@@ -224,7 +224,7 @@ const StorePage = () => {
         ))}
         <FoodModal
           isOpen={showOrders}
-          cssClass="food-mdal"
+          className="food-mdal"
           onDidDismiss={closeOrders}
           full={orders.length > 3}
         >

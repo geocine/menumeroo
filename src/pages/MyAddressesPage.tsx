@@ -1,19 +1,13 @@
 import styled from '@emotion/styled/macro';
-import { IonContent, IonPage, IonFooter } from '@ionic/react';
-import { Button, Header, Input } from '../components';
-import { useEffect, useState } from 'react';
-import { AiOutlinePlus, AiFillPushpin } from "react-icons/ai";
-import { FaPencilAlt, FaPlus } from "react-icons/fa";
+import { IonContent, IonPage } from '@ionic/react';
+import { Header } from '../components';
+import { useState } from 'react';
+import { AiOutlinePlus, AiFillPushpin } from 'react-icons/ai';
+import { FaPencilAlt } from 'react-icons/fa';
 import { useHistory } from 'react-router';
 import { vstore } from '../store/store';
 import { useSnapshot } from 'valtio';
 import { Address } from '../store/types';
-
-const StyledMyAddressesPage = styled.div`
-  input {
-    margin-top: 20px !important;
-  }
-`;
 
 const AddressContainer = styled.div`
   display: flex;
@@ -56,9 +50,7 @@ const NewAddress = styled.div`
   }
 `;
 
-
 const MyAddressesPage = () => {
-
   const data = useSnapshot(vstore);
   const user = data.local.user;
 
@@ -77,39 +69,57 @@ const MyAddressesPage = () => {
     history.push(`/profile/address/1`);
   };
   const editAddress = (i: any) => {
-    history.push(`/profile/edit-address/`+i);
+    history.push(`/profile/edit-address/` + i);
   };
-  
+
   return (
     <IonPage>
       <IonContent fullscreen>
         <Header
           title={`My Addresses`}
           showButton={true}
-          type='back'
+          type="back"
           style={{ background: 'transparent' }}
         />
         {addressList?.map((address: Address) => (
-        <AddressContainer key={address.id} onClick={() => {editAddress(address.id);}}>
-          <div>
-            <label>{address.name}</label>
-            <p className="details">{address.address}</p>
-            <p className="details">{address.city}</p>
-            <p className="details">{address.details}</p>
-            <p className="details">{address.isDefault ? "[default]" : ""}</p>
-          </div>
-          <span className="icon"><FaPencilAlt/></span>
-        </AddressContainer>
+          <AddressContainer
+            key={address.id}
+            onClick={() => {
+              editAddress(address.id);
+            }}
+          >
+            <div>
+              <label>{address.name}</label>
+              <p className="details">{address.address}</p>
+              <p className="details">{address.city}</p>
+              <p className="details">{address.details}</p>
+              <p className="details">{address.isDefault ? '[default]' : ''}</p>
+            </div>
+            <span className="icon">
+              <FaPencilAlt />
+            </span>
+          </AddressContainer>
         ))}
-        <NewAddress onClick={() => {setDefaultAddress();}}>
+        <NewAddress
+          onClick={() => {
+            setDefaultAddress();
+          }}
+        >
           <label>Set Default Address</label>
-          <span className="icon"><AiFillPushpin/></span>
+          <span className="icon">
+            <AiFillPushpin />
+          </span>
         </NewAddress>
-        <NewAddress onClick={() => {newAddress();}}>
+        <NewAddress
+          onClick={() => {
+            newAddress();
+          }}
+        >
           <label>Add New Address</label>
-          <span className="icon"><AiOutlinePlus/></span>
+          <span className="icon">
+            <AiOutlinePlus />
+          </span>
         </NewAddress>
-        
       </IonContent>
     </IonPage>
   );

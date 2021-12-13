@@ -1,6 +1,6 @@
 import { IonSlides, IonSlide } from '@ionic/react';
 import styled from '@emotion/styled/macro';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Category } from '../store/types';
 import { IcnCoffee, IcnChicken, IcnMuffin, IcnFood } from './Icon/Icon';
 

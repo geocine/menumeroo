@@ -1,7 +1,6 @@
 import styled from '@emotion/styled/macro';
 import { IonCheckbox } from '@ionic/react';
 import dayjs from 'dayjs';
-import { vstore } from '../store/store';
 import { Discount } from '../store/types';
 import { IcnClock } from './Icon/Icon';
 

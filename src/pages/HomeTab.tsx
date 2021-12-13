@@ -1,5 +1,5 @@
 import { IonContent, IonPage } from '@ionic/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useSnapshot } from 'valtio';
 import {

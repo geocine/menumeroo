@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupConfig } from '@ionic/react';
+import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import WelcomePage from './pages/WelcomePage';
 import LoginPage from './pages/LoginPage';
@@ -43,9 +43,8 @@ import './theme/variables.css';
 import StoreBasketPage from './pages/StoreBasketPage';
 import StorePaymentPage from './pages/StorePaymentPage';
 import ChooseDiscountPage from './pages/ChooseDiscountPage';
-import { Address } from './store/types';
 
-setupConfig({ mode: 'md' });
+setupIonicReact({ mode: 'md' });
 
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);

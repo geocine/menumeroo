@@ -3,7 +3,6 @@ import { IonPage, IonContent } from '@ionic/react';
 import { useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { Header } from '../components';
-import { IcnPaypal } from '../components/Icon/Icon';
 import { getPayment } from '../store/constants';
 import { vstore } from '../store/store';
 
