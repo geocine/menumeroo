@@ -93,7 +93,6 @@ export interface User {
   phoneNumber: string;
   avatar: string;
   addresses?: Address[];
-  [key: string]: any; // need this to be able to dynamically address string properties
 }
 
 export interface Address {
@@ -114,4 +113,9 @@ export interface Discount {
   dateTo: string; // Will come from json mm/dd/yyyy parse as Date
   checked: boolean;
   getTotalPrice?: (orders: StoreBasketItem[], totalPrice: number) => number;
+}
+
+export interface AuthResponse {
+  userId: number;
+  accessToken: string;
 }

@@ -56,19 +56,30 @@ export const handlers = [
     const { username, password } = req.body as any;
     const allUsers = localStorage.getItem('users');
     const users = JSON.parse(allUsers || '[]');
-    const user: User = users.find(
-      (user: User) => user.username === username
-    );
-    if(user){
+    const user: User = users.find((user: User) => user.username === username);
+    if (user) {
       const bcrypt = require('bcryptjs');
       const doesPasswordMatch = bcrypt.compareSync(password, user.password);
-      if(doesPasswordMatch){
-        return res(ctx.status(200), ctx.json(user));
+      if (doesPasswordMatch) {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            userId: user.id,
+            accessToken: 'dummy-access-token'
+          })
+        );
       }
     }
-    return res(ctx.status(401), ctx.json({user,message:'Incorrect username or password'}));
+    return res(
+      ctx.status(401),
+      ctx.json({ user, message: 'Incorrect username or password' })
+    );
   }),
-  rest.get('/api/users',  async (req, res, ctx) => { 
+  rest.post('/api/logout', async (req, res, ctx) => {
+    // logout
+    return res(ctx.status(200), ctx.json({}));
+  }),
+  rest.get('/api/users', async (req, res, ctx) => {
     const users = await axios.get(`${baseUrl}/data/users.json`);
     return res(ctx.status(200), ctx.json(users.data));
   }),

@@ -1,7 +1,8 @@
 import { proxy, subscribe } from 'valtio';
 import { derive, devtools } from 'valtio/utils';
-import axios from 'axios';
+import { request } from '../helpers/request';
 import {
+  AuthResponse,
   Category,
   Discount,
   Food,
@@ -59,7 +60,8 @@ export interface VStore {
     allUsers: User[];
     loadUsers: () => Promise<void>;
     user?: User;
-    authUser: (username: string, password: string) => Promise<void>;
+    loginUser: (username: string, password: string) => Promise<void>;
+    logoutUser: () => Promise<void>;
   };
 }
 
@@ -76,28 +78,30 @@ const setSelectedCategory = (id: number) => {
 };
 
 const loadStores = async () => {
-  const response = await axios.get<Store[]>('/api/stores');
+  const response = await request.get<Store[]>('/api/stores').exec();
   const stores = response.data;
   for (let store of stores) {
-    const menuResponse = await axios.get<Food[]>(
-      `/api/stores/${store.id}/foods`
-    );
+    const menuResponse = await request
+      .get<Food[]>(`/api/stores/${store.id}/foods`)
+      .exec();
     store.menu = menuResponse.data;
   }
   vstore.home.stores = stores;
 };
 
 const loadCategories = async () => {
-  const response = await axios.get('/api/categories');
+  const response = await request.get<Category[]>('/api/categories').exec();
   vstore.home.categories = response.data;
 };
 
 // Store
 
 const loadStore = async (id: number) => {
-  const response = await axios.get<Store>(`/api/stores/${id}`);
+  const response = await request.get<Store>(`/api/stores/${id}`).exec();
   const store: Store = response.data;
-  const menuResponse = await axios.get<Food[]>(`/api/stores/${id}/foods`);
+  const menuResponse = await request
+    .get<Food[]>(`/api/stores/${id}/foods`)
+    .exec();
   store.menu = menuResponse.data;
   vstore.currentStore.store = store;
   const menu: Menu[] = store.menu?.reduce(groupByType, []) || [];
@@ -128,7 +132,8 @@ const clearStore = () => {
 // Food
 
 const loadFood = async (id: number, itemId?: number) => {
-  const response = await axios.get(`/api/foods/${id}`);
+  // TODO: check actual type of food
+  const response = await request.get<any>(`/api/foods/${id}`).exec();
   const { variations = [], ...food } = response.data;
   // vstore.currentFood.id = itemId || 0;
   vstore.currentFood.food = food;
@@ -333,25 +338,37 @@ const clearStoreBasket = () => {
 // Users
 
 const loadProfile = async (userId: number) => {
-  const response = await axios.get(`/api/users/${userId}`);
+  const response = await request.get<User>(`/api/users/${userId}`).exec();
   vstore.user.profile = response.data;
 };
 
 const saveProfile = async (userId: number) => {
-  await axios.put(`/api/users/${userId}`, vstore.user.profile);
+  await request.put(`/api/users/${userId}`, vstore.user.profile).exec();
 };
 
 const loadUsers = async () => {
-  const response = await axios.get('/api/users');
+  const response = await request.get<User[]>('/api/users').exec();
   vstore.local.allUsers = response.data;
 };
 
-const authUser = async (username: string, password: string) => {
-  const response = await axios.post('/api/auth', {
-    username: username,
-    password: password
-  });
-  vstore.local.user = response.data;
+const loginUser = async (username: string, password: string) => {
+  const response = await request
+    .post<AuthResponse>('/api/auth', {
+      username: username,
+      password: password
+    })
+    .exec();
+  const { userId, accessToken } = response.data;
+  localStorage.setItem('accessToken', accessToken);
+  const user = await request.get<User>(`/api/users/${userId}`).exec();
+  vstore.local.user = user.data;
+};
+
+const logoutUser = async () => {
+  vstore.local.user = undefined;
+  vstore.user.profile = undefined;
+  await request.post('/api/logout').exec();
+  localStorage.removeItem('accessToken');
 };
 
 // Helpers
@@ -447,7 +464,8 @@ const initialState: VStore = {
     allUsers: JSON.parse(allUsers || '[]'),
     loadUsers,
     user: JSON.parse(user || '[]'),
-    authUser
+    loginUser,
+    logoutUser
   }
 };
 

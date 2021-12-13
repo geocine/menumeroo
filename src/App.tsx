@@ -43,6 +43,7 @@ import './theme/variables.css';
 import StoreBasketPage from './pages/StoreBasketPage';
 import StorePaymentPage from './pages/StorePaymentPage';
 import ChooseDiscountPage from './pages/ChooseDiscountPage';
+import PrivateRoute from './components/router/PrivateRoute';
 
 setupIonicReact({ mode: 'md' });
 
@@ -88,48 +89,48 @@ const App = () => (
         <Route path="/resetpassword/:code?">
           <ResetPasswordPage />
         </Route>
-        <Route path="/store/:id" exact>
+        <PrivateRoute path="/store/:id" exact>
           <StorePage />
-        </Route>
-        <Route path="/store/:id/basket">
+        </PrivateRoute>
+        <PrivateRoute path="/store/:id/basket">
           <StoreBasketPage />
-        </Route>
-        <Route exact path="/store/:id/checkout">
+        </PrivateRoute>
+        <PrivateRoute exact path="/store/:id/checkout">
           <StorePaymentPage />
-        </Route>
-        <Route path="/food/:id/:itemId?">
+        </PrivateRoute>
+        <PrivateRoute path="/food/:id/:itemId?">
           <FoodPage />
-        </Route>
-        <Route path="/tabs">
+        </PrivateRoute>
+        <PrivateRoute path="/tabs">
           <MainPage />
-        </Route>
-        <Route exact path="/">
+        </PrivateRoute>
+        <PrivateRoute exact path="/">
           <Redirect to="/tabs" />
-        </Route>
-        <Route path="/profile/edit">
+        </PrivateRoute>
+        <PrivateRoute path="/profile/edit">
           <MyProfilePage />
-        </Route>
-        <Route path="/profile/addresses">
+        </PrivateRoute>
+        <PrivateRoute path="/profile/addresses">
           <MyAddressesPage />
-        </Route>
-        <Route path="/profile/address/:mode?">
+        </PrivateRoute>
+        <PrivateRoute path="/profile/address/:mode?">
           <AddressSettingsPage />
-        </Route>
-        <Route path="/profile/new-address">
+        </PrivateRoute>
+        <PrivateRoute path="/profile/new-address">
           <NewAddressPage />
-        </Route>
-        <Route path="/profile/edit-address/:id">
+        </PrivateRoute>
+        <PrivateRoute path="/profile/edit-address/:id">
           <EditAddressPage />
-        </Route>
-        <Route path="/profile/password">
+        </PrivateRoute>
+        <PrivateRoute path="/profile/password">
           <UpdatePasswordPage />
-        </Route>
-        <Route path="/profile/payment/:mode?">
+        </PrivateRoute>
+        <PrivateRoute path="/profile/payment/:mode?">
           <PaymentSettingsPage />
-        </Route>
-        <Route path="/profile/discount/:mode?">
+        </PrivateRoute>
+        <PrivateRoute path="/profile/discount/:mode?">
           <ChooseDiscountPage />
-        </Route>
+        </PrivateRoute>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

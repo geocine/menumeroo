@@ -6,6 +6,7 @@ import { useSnapshot } from 'valtio';
 import { vstore } from '../store/store';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
+import { User } from '../store/types';
 
 const StyledMyProfilePage = styled.div`
   input {
@@ -68,12 +69,12 @@ const ProfileInput = styled.div`
     font-size: 14px;
   }
 
-  .ant-input-affix-wrapper{
+  .ant-input-affix-wrapper {
     max-width: 100% !important;
     background: var(--ion-color-light) !important;
   }
 
-  .ant-input-affix-wrapper-readonly{
+  .ant-input-affix-wrapper-readonly {
     background: none !important;
   }
 
@@ -108,28 +109,36 @@ const MyProfilePage = () => {
     } else {
       setReadOnly(true);
       setButtonText('Edit');
-      if(user){
+      if (user) {
         vstore.user.saveProfile(user.id);
       }
-      if(vstore.local.user){
+      if (vstore.local.user) {
         vstore.local.user = vstore.user.profile;
       }
     }
   };
 
   const updateProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     if (vstore.user.profile) {
-      vstore.user.profile[e.target.name] = e.target.value;
+      updateProfileStore(vstore.user.profile, name as keyof User, value);
     }
     if (vstore.local.user) {
-      vstore.local.user[e.target.name] = e.target.value;
+      updateProfileStore(vstore.local.user, name as keyof User, value);
     }
   };
-  
+
+  const updateProfileStore = <TObj, TProp extends keyof TObj>(
+    obj: TObj,
+    property: TProp,
+    value: TObj[TProp]
+  ) => {
+    obj[property] = value;
+  };
+
   useEffect(() => {
     const load = async () => {
-      if(user)
-        await vstore.user.loadProfile(user.id);
+      if (user) await vstore.user.loadProfile(user.id);
     };
     load();
     setAvatarImage(data.user.profile?.avatar);
@@ -137,25 +146,31 @@ const MyProfilePage = () => {
 
   const props = {
     // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    multiple: false,
+    multiple: false
   };
 
   const getBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = e => {
+      reader.onload = (e) => {
         console.log(e);
-      }
+      };
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
+      reader.onerror = (error) => reject(error);
     });
-  }
+  };
 
-  const handleChange = async ({ file, fileList } : {file: any, fileList: any}) => {
+  const handleChange = async ({
+    file,
+    fileList
+  }: {
+    file: any;
+    fileList: any;
+  }) => {
     file.preview = await getBase64(file);
-    setAvatarImage(file.preview)
-  }
+    setAvatarImage(file.preview);
+  };
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -169,7 +184,13 @@ const MyProfilePage = () => {
           <ProfileHeader>
             <span className="avatar">
               <ImgCrop shape="round" grid>
-                <Upload accept="image/*" itemRender={()=> <></>} showUploadList={false} onChange={handleChange} beforeUpload={() => false}>
+                <Upload
+                  accept="image/*"
+                  itemRender={() => <></>}
+                  showUploadList={false}
+                  onChange={handleChange}
+                  beforeUpload={() => false}
+                >
                   <img src={avatarImage} alt="avatar"></img>
                 </Upload>
               </ImgCrop>

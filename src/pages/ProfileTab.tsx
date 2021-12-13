@@ -2,7 +2,7 @@ import { IonContent, IonPage } from '@ionic/react';
 import styled from '@emotion/styled/macro';
 import { IcnNext } from '../components/Icon/Icon';
 import { Button } from '../components';
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import { useSnapshot } from 'valtio';
 import { vstore } from '../store/store';
 import { useEffect } from 'react';
@@ -58,7 +58,6 @@ const ProfileTab = () => {
   let history = useHistory();
   const data = useSnapshot(vstore);
   const user = data.local.user;
-  // const user: User = JSON.parse(localStorage.getItem('user') || '[]');
 
   const openProfile = () => {
     history.push(`/profile/edit`);
@@ -76,14 +75,12 @@ const ProfileTab = () => {
     history.push(`/profile/payment/1`);
   };
 
-  const logout = () => {
-    vstore.local.user = undefined;
-    vstore.user.profile = undefined;
-    history.push('/tabs/home');
+  const logout = async () => {
+    await vstore.local.logoutUser();
+    history.push('/login');
   };
 
   useEffect(() => {
-    console.log(user);
     if (user) {
       const load = async (userId: number) => {
         await vstore.user.loadProfile(userId);
@@ -92,9 +89,8 @@ const ProfileTab = () => {
     }
   }, []);
 
-  return user === undefined || user.length === 0 ? (
-    <Redirect to="/login" />
-  ) : (
+  //
+  return (
     <IonPage>
       <IonContent fullscreen>
         <ProfileHeader>
