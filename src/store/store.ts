@@ -57,6 +57,7 @@ export interface VStore {
     saveProfile: (id: number) => Promise<void>;
   };
   local: {
+    // TODO: allUser/user is temporary because we don't have any database yet. It is used when mocking the API
     allUsers: User[];
     loadUsers: () => Promise<void>;
     user?: User;
@@ -456,14 +457,14 @@ const initialState: VStore = {
     clearStoreBasket
   },
   user: {
-    profile: undefined,
+    profile: JSON.parse(user || '{}'),
     loadProfile,
     saveProfile
   },
   local: {
     allUsers: JSON.parse(allUsers || '[]'),
     loadUsers,
-    user: JSON.parse(user || '[]'),
+    user: JSON.parse(user || '{}'),
     loginUser,
     logoutUser
   }
